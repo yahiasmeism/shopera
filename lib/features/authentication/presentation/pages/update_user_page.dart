@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
+import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 
 class UpdateUserPage extends StatefulWidget {
+  static const routeName = 'update_profile';
   const UpdateUserPage({super.key});
 
   @override
