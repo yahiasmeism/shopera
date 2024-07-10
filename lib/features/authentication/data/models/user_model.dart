@@ -1,7 +1,7 @@
-// ignore_for_file: must_be_immutable, annotate_overrides, overridden_fields
-
 import 'package:hive/hive.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
+// ignore_for_file: must_be_immutable, annotate_overrides, overridden_fields
+
 
 part 'user_model.g.dart';
 
@@ -156,8 +156,8 @@ class Coordinates extends HiveObject {
 
   factory Coordinates.fromJson(Map<String, dynamic> json) {
     return Coordinates(
-      lat: json['lat'] ??0,
-      lng: json['lng']??0,
+     lat: (json['lat'] as num).toDouble(), // Convert to num first, then to double
+      lng: (json['lng'] as num).toDouble(), // Convert to num first, then to double
     );
   }
 

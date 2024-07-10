@@ -1,10 +1,14 @@
+import 'dart:io';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
+import 'package:shopera/core/utils/image_cached_manager.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
+
 
 class UpdateUserPage extends StatefulWidget {
   static const routeName = 'update_profile';
@@ -25,12 +29,15 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
   final TextEditingController _postalCodeController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+  String? _userImage ;
 
   @override
   void initState() {
     super.initState();
     final user = context.read<UserCubit>().userEntite;
     if (user != null) {
+      _userImage = user.image;
+      print("imahe $_userImage");
       _firstNameController.text = user.firstName ?? '';
       _lastNameController.text = user.lastName ?? '';
       _usernameController.text = user.userName;
@@ -155,7 +162,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _emailController,
                                           label: 'Email',
-                                           type: TextInputType.text, 
+                                           type: TextInputType.emailAddress, 
                                            prefix: Icons.email,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
@@ -180,7 +187,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _phoneController,
                                           label: 'Phone Number',
-                                           type: TextInputType.text, 
+                                           type: TextInputType.phone, 
                                            prefix: Icons.phone,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
@@ -216,7 +223,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _postalCodeController,
                                            label: 'Postal Code',
-                                            type: TextInputType.text, 
+                                            type: TextInputType.number, 
                                            prefix: Icons.numbers,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
@@ -267,12 +274,37 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                           ),
                         ],
                       ),
-                      const CircleAvatar(
-                        // backgroundImage: profileImage == null
-                        //     ? NetworkImage("${.image}")
-                        //     : FileImage(profileImage) as ImageProvider,
-                        radius: 60,
+                      FutureBuilder<File>(
+                        future: ImageCacheManager.getImagePath(_userImage ?? ''),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
+                            return CircleAvatar(
+                              radius: 60,
+                              backgroundImage: FileImage(snapshot.data!),
+                            );
+                          } else {
+                            return const CircleAvatar(
+                              radius: 60,
+                              backgroundImage: AssetImage('assets/images/fallback.png'),
+                            );
+                          }
+                        },
                       ),
+                    //    CircleAvatar(
+                    // radius: 60,
+                    // child: FutureBuilder(
+                    //       future: ImageCacheManager.getImagePath(
+                    //        _userImage?? "https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"
+                    //       ),
+                    //       builder: (context, snapshot) {
+                    //         if (snapshot.data != null) {
+                    //           return Image.file(snapshot.data!);
+                    //         } else {
+                    //           return Image.asset(
+                    //               'assets/images/fallback.png');
+                    //         }
+                    //       }),
+                    //   ),
                     ],
                   ),
                   const SizedBox(height: 20),
