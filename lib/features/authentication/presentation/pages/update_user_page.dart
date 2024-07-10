@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/core/widgets/button_primary.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
@@ -282,7 +283,16 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                       }
                       return SizedBox(
                         width: MediaQuery.of(context).size.width / 1.5,
-                        child: ElevatedButton(
+                        child: PrimaryButton(
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.edit),
+                              SizedBox(width: 8.0),
+                              Text('Update'),
+                            ],
+                          ),
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
                               final user = context.read<UserCubit>().userEntite;
@@ -307,20 +317,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                   .updateUser(user: updatedUser);
                             }
                           },
-                          style: ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(color: Colors.white),
-                            backgroundColor: Colors.teal,
-                            // Text color
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(Icons.edit),
-                              SizedBox(width: 8.0),
-                              Text('Update'),
-                            ],
-                          ),
+
                         ),
                       );
                     },
