@@ -1,26 +1,33 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shopera/core/errors/failures.dart';
 import 'package:shopera/core/constants/strings.dart';
 import 'package:shopera/core/errors/exceptions.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/core/local/shared_preferences/cache_helper.dart';
 import 'package:shopera/core/network/network_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopera/features/authentication/domain/entities/user.dart';
+import 'package:shopera/features/authentication/data/models/user_model.dart';
+import 'package:shopera/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/domain/repositories/auth_repository.dart';
+
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final AuthLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
+  final SharedPreferences sharedPreferences;
+
 
   AuthRepositoryImpl(
       {required this.remoteDataSource,
       required this.localDataSource,
-      required this.networkInfo});
+      required this.networkInfo,
+      required this.sharedPreferences,
+      
+      });
+
+  
 
   @override
   Future<Either<Failure, User>> login(String userName, String password) async {
@@ -28,8 +35,11 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteLogin = await remoteDataSource.login(userName, password);
         // todo: cache login
-        CacheHelper.saveData(key: TOKEN, value: remoteLogin.token);
-        CacheHelper.saveData(key: U_ID, value: remoteLogin.id);
+        sharedPreferences.setString( TOKEN, remoteLogin.token ??"");
+        sharedPreferences.setInt( U_ID, remoteLogin.id);
+        // CacheHelper.saveData(key: TOKEN, value: remoteLogin.token);
+        // print("tokenis: ${ CacheHelper.getData(key: TOKEN)}");
+        // CacheHelper.saveData(key: U_ID, value: remoteLogin.id);
         localDataSource.cacheUser(remoteLogin);
         return Right(remoteLogin);
       } on ServerException catch (e) {
@@ -59,7 +69,9 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteRegister =
             await remoteDataSource.register(userName, email, password);
-        CacheHelper.saveData(key: U_ID, value: remoteRegister.id);
+            
+        sharedPreferences.setInt( U_ID, remoteRegister.id);
+        // CacheHelper.saveData(key: U_ID, value: remoteRegister.id);
         localDataSource.cacheUser(remoteRegister);
         return Right(remoteRegister);
       } on ServerException catch (e) {
@@ -76,7 +88,9 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteUpdatedUser =
             await remoteDataSource.updateUser(UserModel.fromEntity(user));
-        CacheHelper.saveData(key: U_ID, value: remoteUpdatedUser.id);
+         
+        sharedPreferences.setInt( U_ID, remoteUpdatedUser.id);
+        // CacheHelper.saveData(key: U_ID, value: remoteUpdatedUser.id);
         localDataSource.cacheUser(remoteUpdatedUser);
         return Right(remoteUpdatedUser);
       } on ServerException catch (e) {

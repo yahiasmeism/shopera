@@ -27,3 +27,10 @@ class UserFailure extends UserState {
   @override
   List<Object> get props => [error];
 }
+
+class ChangePasswordVisibilityState extends UserState {
+  final IconData suffix;
+  final bool isPassword;
+
+  ChangePasswordVisibilityState({required this.suffix,required this.isPassword });
+}

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shopera/core/errors/failures.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
@@ -9,6 +10,8 @@ import 'package:shopera/features/authentication/domain/usecases/update_user.dart
 part 'states.dart';
 
 class UserCubit extends Cubit<UserState> {
+  IconData suffix = Icons.visibility_outlined;
+  bool isPassword = true;
   User? userEntite ;
   final LoginUsecase getLogin;
   final  RegisterUsecase getRegister;
@@ -68,6 +71,14 @@ class UserCubit extends Cubit<UserState> {
 
         } 
         );
+  }
+
+   void changePasswordVisibility() {
+    isPassword = !isPassword;
+    suffix =
+        isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
+    
+    emit(ChangePasswordVisibilityState(suffix: suffix, isPassword:isPassword));
   }
 
 }

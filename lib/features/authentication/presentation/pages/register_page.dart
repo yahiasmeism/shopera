@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/constants/strings.dart';
+import 'package:shopera/core/widgets/button_primary.dart';
+import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/core/services/google_signin_api.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
-import 'package:shopera/features/authentication/presentation/widgets/default_scaffold_messenger.dart';
-
-
+import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
+import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
 
 class RegisterPage extends StatelessWidget {
   static const routeName = 'register';
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -19,12 +22,11 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    
       body: BlocListener<UserCubit, UserState>(
         listener: (context, state) {
           if (state is UserSuccess) {
             // Navigate to home or another page
-             Navigator.of(context).pushNamed("home");
+            Navigator.of(context).pushNamed("home");
           } else if (state is UserFailure) {
             // Show error message
             ScaffoldMessenger.of(context).showSnackBar(
@@ -32,7 +34,9 @@ class RegisterPage extends StatelessWidget {
             );
           }
         },
-        child: Padding(
+        child: Form(
+          key: _formKey,
+          child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Center(
               child: SingleChildScrollView(
@@ -41,7 +45,10 @@ class RegisterPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // App logo and name
-                    Image.asset('assets/images/logo.png',height: 45,),
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: 45,
+                    ),
                     const SizedBox(height: 20),
                     const Text(
                       'Create an Account',
@@ -53,41 +60,84 @@ class RegisterPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // UserName input
-                    TextField(
+                    TextFormFieldWidget(
                       controller: _usernameController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        hintText: 'Enter your username',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        ),
-                      ),
+                      type: TextInputType.text,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your username';
+                        }
+                        return null;
+                      },
+                      label: 'Enter your username',
+                      prefix: Icons.person,
                     ),
                     const SizedBox(height: 10),
                     // email input
-                    TextField(
+                    TextFormFieldWidget(
                       controller: _emailController,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        hintText: 'Enter your username',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        ),
-                      ),
+                      label: 'Enter your username',
+                      prefix: Icons.email,
+                      type: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter an email';
+                        }
+                        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                          return 'Please enter a valid email address';
+                        }
+                        return null;
+                      },
                     ),
                     const SizedBox(height: 10),
                     // Password input
-                    TextField(
+                    BlocBuilder<UserCubit, UserState>(
+                 builder: (context, state) {
+                  if(state is ChangePasswordVisibilityState) {
+                  return  TextFormFieldWidget(
                       controller: _passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        hintText: 'Enter your password',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(30)),
-                        ),
-                      ),
-                    ),
+                      type: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        } else if (value.length < 8) {
+                          return 'Password must be at least 8 characters';
+                        }
+                        return null;
+                      },
+                      label: 'Enter your password',
+                      prefix: Icons.lock,
+                      suffix: state.suffix,
+                      isPassword: state.isPassword,
+                      suffixPressed: () {
+                        context.read<UserCubit>().changePasswordVisibility();
+                      },
+                    );
+                  }else {
+                   return TextFormFieldWidget(
+                      controller: _passwordController,
+                      type: TextInputType.visiblePassword,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        } else if (value.length < 8) {
+                          return 'Password must be at least 8 characters';
+                        }
+                        return null;
+                      },
+                      label: 'Enter your password',
+                      prefix: Icons.lock,
+                      suffix: Icons.visibility_outlined,
+                      isPassword: true,
+                      suffixPressed: () {
+                        print("ass");
+                        context.read<UserCubit>().changePasswordVisibility();
+                      },
+                    );
+                  }
+                 },
+                     
+                  ),
                     const SizedBox(height: 10),
                     Align(
                       alignment: Alignment.centerRight,
@@ -101,31 +151,26 @@ class RegisterPage extends StatelessWidget {
                     BlocBuilder<UserCubit, UserState>(
                       builder: (context, state) {
                         if (state is UserLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         }
-                        return ElevatedButton(
+                        return PrimaryButton(
                           onPressed: () {
-                            context.read<UserCubit>().registerUser(
-                            username: _usernameController.text,
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
+                             if (_formKey.currentState?.validate() ?? false) {
+                                  context.read<UserCubit>().registerUser(
+                                  username: _usernameController.text,
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                );
+                             }
+                            
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.teal,
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
-                          child: const Text(
-                            'Sign up',
-                            style: TextStyle(fontSize: 16),
-                          ),
+                          labelText: 'Register',
+                          height: 55,
                         );
                       },
                     ),
-        
+
                     const SizedBox(height: 20),
                     // Divider
                     const Row(
@@ -140,39 +185,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // Google sign-in button
-                    ElevatedButton.icon(
-                      onPressed: () async {
-                        await GoogleSignInApi.login().then((user) {
-                          if (user == null) {
-                            DefaultScaffoldMessenger(
-                                context: context, message: Faild_Google_SignIn);
-                          } else {
-                           context.read<UserCubit>().registerUser(
-                            username: _usernameController.text,
-                            email: _emailController.text,
-                            password: _passwordController.text,
-                          );
-                          }
-                        });
-                      },
-                      icon: SvgPicture.asset(
-                        height: 20,
-                        width: 20,
-                        'assets/images/svg/google_logo.svg',
-                      ),
-                      label: const Text(
-                        'Google',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.teal),
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
+                    PrimaryButtonGoogle(context: context),
                     const SizedBox(height: 20),
                     // Sign-up link
                     Row(
@@ -192,6 +205,7 @@ class RegisterPage extends StatelessWidget {
               ),
             ),
           ),
+        ),
       ),
     );
   }

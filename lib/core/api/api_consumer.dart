@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
-
 import '../errors/exceptions.dart';
+import 'package:shopera/core/constants/strings.dart';
+
 
 abstract class ApiConsumer {
   Future<dynamic> get(
+    
     String path, {
+    
     Map<String, dynamic>? query,
     String? token,
   });
@@ -46,6 +49,8 @@ class DioConsumer extends ApiConsumer {
 
   DioConsumer({required this.dio}) {
     dio.options = BaseOptions(
+
+      baseUrl: BASE_URL,
         connectTimeout: const Duration(seconds: 5),
         sendTimeout: const Duration(seconds: 3));
   }
