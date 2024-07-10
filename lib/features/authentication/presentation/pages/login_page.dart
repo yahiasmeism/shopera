@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
+import 'package:shopera/features/authentication/presentation/pages/update_user_page.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
 
@@ -120,7 +121,9 @@ class LoginPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(UpdateUserPage.routeName);
+                      },
                       child: const Text('Forgot Password?'),
                     ),
                   ),

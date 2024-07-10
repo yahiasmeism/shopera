@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
+import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
 
 class UpdateUserPage extends StatefulWidget {
   static const routeName = 'update_profile';
@@ -97,55 +98,64 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _firstNameController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'First Name'),
+                                           label: 'First Name',
+                                          
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter your first name';
                                             }
                                             return null;
                                           },
+                                           type: TextInputType.text, 
+                                           prefix: Icons.abc,
                                         ),
                                       ),
                                       const SizedBox(width: 8.0),
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget (
+
                                           controller: _lastNameController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'Last Name'),
+                                           label: 'Last Name',
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter your last name';
                                             }
                                             return null;
                                           },
+                                           type: TextInputType.text, 
+                                           prefix: Icons.abc,
                                         ),
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _usernameController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'Username'),
+                                           label: 'Username',
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter a username';
                                             }
                                             return null;
                                           },
+                                          type: TextInputType.text, 
+                                           prefix: Icons.person,
                                         ),
                                       ),
                                       const SizedBox(width: 8.0),
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _emailController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'Email'),
+                                          label: 'Email',
+                                           type: TextInputType.text, 
+                                           prefix: Icons.email,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter an email';
@@ -160,13 +170,17 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _phoneController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'Phone Number'),
+                                          label: 'Phone Number',
+                                           type: TextInputType.text, 
+                                           prefix: Icons.phone,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter a phone number';
@@ -177,10 +191,11 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       ),
                                       const SizedBox(width: 8.0),
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _cityController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'City'),
+                                          label: 'City',
+                                           type: TextInputType.text, 
+                                           prefix: Icons.location_city,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter a city';
@@ -191,13 +206,17 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       ),
                                     ],
                                   ),
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
                                   Row(
                                     children: [
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _postalCodeController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'Postal Code'),
+                                           label: 'Postal Code',
+                                            type: TextInputType.text, 
+                                           prefix: Icons.numbers,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter a postal code';
@@ -208,10 +227,11 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       ),
                                       const SizedBox(width: 8.0),
                                       Expanded(
-                                        child: TextFormField(
+                                        child: TextFormFieldWidget(
                                           controller: _stateController,
-                                          decoration: const InputDecoration(
-                                              labelText: 'State'),
+                                          label: 'State',
+                                           type: TextInputType.text, 
+                                           prefix: Icons.abc,
                                           validator: (value) {
                                             if (value == null || value.isEmpty) {
                                               return 'Please enter a state';
@@ -222,16 +242,23 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       ),
                                     ],
                                   ),
-                                  TextFormField(
+                                  const SizedBox(
+                                    height: 15,
+                                  ),
+                                  TextFormFieldWidget(
                                     controller: _addressController,
-                                    decoration: const InputDecoration(
-                                        labelText: 'Address'),
+                                     label: 'Address',
+                                      type: TextInputType.text, 
+                                           prefix: Icons.add_home_work_sharp,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter a address';
                                       }
                                       return null;
                                     },
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
                                   ),
                                 ],
                               ),
