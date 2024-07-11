@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CartItemCounterWidget extends StatefulWidget {
+class CartItemCounterWidget extends StatelessWidget {
   const CartItemCounterWidget({
     super.key,
     this.initalValue = 1,
@@ -8,21 +8,13 @@ class CartItemCounterWidget extends StatefulWidget {
   });
   final int initalValue;
   final Function(int value) onChange;
-  @override
-  State<CartItemCounterWidget> createState() => _CartItemCounterWidgetState();
-}
-
-class _CartItemCounterWidgetState extends State<CartItemCounterWidget> {
-  late int counter;
-  @override
-  void initState() {
-    counter = widget.initalValue;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    int counter = initalValue;
+
     return Column(
+      mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
@@ -35,16 +27,16 @@ class _CartItemCounterWidgetState extends State<CartItemCounterWidget> {
             child: const Icon(Icons.add, size: 20),
           ),
           onTap: () {
-            setState(() {
-              counter++;
-              widget.onChange(counter);
-            });
+            counter++;
+            onChange(counter);
           },
         ),
+        const SizedBox(height: 4),
         Text(
           counter.toString(),
           style: const TextStyle(fontSize: 16),
         ),
+        const SizedBox(height: 4),
         GestureDetector(
           child: Container(
               padding: const EdgeInsets.all(2),
@@ -57,12 +49,10 @@ class _CartItemCounterWidgetState extends State<CartItemCounterWidget> {
                 Icons.remove_outlined,
               )),
           onTap: () {
-            setState(() {
-              if (counter > 1) {
-                counter--;
-                widget.onChange(counter);
-              }
-            });
+            if (counter > 1) {
+              counter--;
+              onChange(counter);
+            }
           },
         ),
       ],

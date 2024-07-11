@@ -38,7 +38,11 @@ class CartItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(item.title),
+                ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 200),
+                    child: Text(
+                      item.title,
+                    )),
                 Text(
                   '\$${item.price}',
                   style: const TextStyle(

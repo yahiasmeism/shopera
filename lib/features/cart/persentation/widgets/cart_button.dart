@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/core/widgets/snackbar_global.dart';
+import 'package:shopera/features/cart/persentation/pages/cart_page.dart';
 
 import '../cubit/cart_cubit.dart';
 
 class CartButtonWidget extends StatelessWidget {
   const CartButtonWidget({
     super.key,
-    required this.onPressed,
   });
-  final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartCubit, CartState>(
+    return BlocConsumer<CartCubit, CartState>(
+      listener: (context, state) {
+        if (state is CartFailure) {
+          SnackBarGlobal.show(context, state.message);
+        }
+      },
       builder: (context, state) {
         return IconButton(
-          onPressed: onPressed,
+          onPressed: () {
+            Navigator.pushNamed(context, CartPage.routeName);
+          },
           icon: Stack(
             children: [
               const Icon(Icons.shopping_cart_outlined),

@@ -26,14 +26,13 @@ class CartCubit extends Cubit<CartState> {
   CartEntity? _cart;
 
   // Method to delete an item from the cart by index
-  void deleteItem(int index) {
-    if (state is CartLoaded) {
-      final stateLoaded = state as CartLoaded;
-      final updatedItems = List<CartItemEntity>.from(stateLoaded.cart.items);
-      final updatedCart = stateLoaded.cart.copyWith(items: updatedItems);
-      updatedItems.removeAt(index);
-      _updateCart(id: updatedCart.id, cartDto: CartDto.fromEntity(updatedCart));
-    }
+  Future<bool> deleteItem(int index) async {
+    final stateLoaded = state as CartLoaded;
+    final updatedItems = List<CartItemEntity>.from(stateLoaded.cart.items);
+    final updatedCart = stateLoaded.cart.copyWith(items: updatedItems);
+    updatedItems.removeAt(index);
+    return await _updateCart(
+        id: updatedCart.id, cartDto: CartDto.fromEntity(updatedCart));
   }
 
   // Method to add an item to the cart
@@ -80,24 +79,39 @@ class CartCubit extends Cubit<CartState> {
   }
 
   // Method to update an existing cart
-  _updateCart({required int id, required CartDto cartDto}) async {
+  Future _updateCart({required int id, required CartDto cartDto}) async {
+    bool success = false;
+    final previousState = state;
     if (state is CartLoaded) {
       final updateResult = await updateCartUsecase(
         UpdateParam(cartId: id, cartDto: cartDto),
       );
       updateResult.fold(
-        (failure) => emit(CartFailure(message: failure.message)),
+        (failure) {
+          if (state is CartFailure) {
+            final failureState = state as CartFailure;
+            final String message = "${failure.message} ";
+            emit(failureState.copyWith(
+              message: message,
+            ));
+          } else {
+            emit(CartFailure(message: failure.message));
+          }
+          emit(previousState);
+        },
         (cart) {
           _cart = cart;
           final loadedState = state as CartLoaded;
           emit(loadedState.copyWith(cart: cart));
+          success = true;
         },
       );
     }
+    return success;
   }
 
   // Method to change the quantity of an item in the cart
-  void onChangeQuantitiesOfItem(int quantity, int itemId) {
+  Future onChangeQuantitiesOfItem(int quantity, int itemId) async {
     if (_cart != null) {
       // Get the index of the item in the cart
       final itemIndex = _cart!.items.indexWhere((item) => item.id == itemId);

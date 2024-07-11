@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/pages/home_page.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<UserCubit>()),
       ],
       child: MaterialApp(
+        scaffoldMessengerKey: SnackBarGlobal.key,
         debugShowCheckedModeBanner: false,
         theme: appTheme(),
         home: const Placeholder(),

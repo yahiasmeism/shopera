@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -35,8 +34,8 @@ class _CartItemSliverListViewState extends State<CartItemSliverListView> {
                 children: [
                   const SizedBox(width: 12),
                   DeleteItemButton(
-                    onPressed: () {
-                      _deleteProduct(index, cubit);
+                    onPressed: () async {
+                      await _deleteProduct(index, cubit);
                     },
                   )
                 ],
@@ -49,9 +48,10 @@ class _CartItemSliverListViewState extends State<CartItemSliverListView> {
     );
   }
 
-  _deleteProduct(int index, CartCubit cubit) {
+  _deleteProduct(int index, CartCubit cubit) async {
     final removedItem = widget.items[index];
     cubit.deleteItem(index);
+
     _listKey.currentState?.removeItem(
       index,
       (context, animation) => SizeTransition(

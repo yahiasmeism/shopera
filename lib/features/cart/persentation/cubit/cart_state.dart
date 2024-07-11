@@ -23,6 +23,14 @@ final class CartLoaded extends CartState {
 
 final class CartFailure extends CartState {
   final String message;
+  late final DateTime uniqueKey;
+  CartFailure({required this.message}) {
+    uniqueKey = DateTime.now();
+  }
+  CartFailure copyWith({String? message}) {
+    return CartFailure(message: message ?? this.message);
+  }
 
-  const CartFailure({required this.message});
+  @override
+  List<Object?> get props => [message, uniqueKey];
 }
