@@ -35,11 +35,13 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteLogin = await remoteDataSource.login(userName, password);
         // todo: cache login
-        sharedPreferences.setString( TOKEN, remoteLogin.token ??"");
-        sharedPreferences.setInt( U_ID, remoteLogin.id);
-        // CacheHelper.saveData(key: TOKEN, value: remoteLogin.token);
-        // print("tokenis: ${ CacheHelper.getData(key: TOKEN)}");
-        // CacheHelper.saveData(key: U_ID, value: remoteLogin.id);
+        sharedPreferences.setString( K_TOKEN, remoteLogin.token ??"").then((val){
+          if(val) token = remoteLogin.token; 
+        });
+        sharedPreferences.setInt( K_U_ID, remoteLogin.id).then((val){
+          if(val) uId = remoteLogin.id; 
+        });
+       
         localDataSource.cacheUser(remoteLogin);
         return Right(remoteLogin);
       } on ServerException catch (e) {
@@ -70,7 +72,10 @@ class AuthRepositoryImpl extends AuthRepository {
         final remoteRegister =
             await remoteDataSource.register(userName, email, password);
             
-        sharedPreferences.setInt( U_ID, remoteRegister.id);
+        sharedPreferences.setInt( K_U_ID, remoteRegister.id).then((val){
+          if(val) uId = remoteRegister.id; 
+        });
+        
         // CacheHelper.saveData(key: U_ID, value: remoteRegister.id);
         localDataSource.cacheUser(remoteRegister);
         return Right(remoteRegister);
@@ -89,7 +94,7 @@ class AuthRepositoryImpl extends AuthRepository {
         final remoteUpdatedUser =
             await remoteDataSource.updateUser(UserModel.fromEntity(user));
          
-        sharedPreferences.setInt( U_ID, remoteUpdatedUser.id);
+        // sharedPreferences.setInt( K_U_ID, remoteUpdatedUser.id);
         // CacheHelper.saveData(key: U_ID, value: remoteUpdatedUser.id);
         localDataSource.cacheUser(remoteUpdatedUser);
         return Right(remoteUpdatedUser);
