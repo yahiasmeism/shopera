@@ -5,7 +5,9 @@ import 'package:shopera/features/authentication/presentation/pages/update_user_p
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
+import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
 
+// ignore: must_be_immutable
 class LoginPage extends StatelessWidget {
   static const routeName = 'login';
   bool isPassword = true;
@@ -69,54 +71,10 @@ class LoginPage extends StatelessWidget {
                     prefix: Icons.person,
                   ),
                   const SizedBox(height: 10),
-                  // Password input
-                  BlocBuilder<UserCubit, UserState>(
-                 builder: (context, state) {
-                  if(state is ChangePasswordVisibilityState) {
-                  return  TextFormFieldWidget(
-                      controller: _passwordController,
-                      type: TextInputType.visiblePassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                      label: 'Enter your password',
-                      prefix: Icons.lock,
-                      suffix: state.suffix,
-                      isPassword: state.isPassword,
-                      suffixPressed: () {
-                        context.read<UserCubit>().changePasswordVisibility();
-                      },
-                    );
-                  }else {
-                   return TextFormFieldWidget(
-                      controller: _passwordController,
-                      type: TextInputType.visiblePassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                      label: 'Enter your password',
-                      prefix: Icons.lock,
-                      suffix: Icons.visibility_outlined,
-                      isPassword: true,
-                      suffixPressed: () {
-                        print("dsds");
-                        context.read<UserCubit>().changePasswordVisibility();
-                      },
-                    );
-                  }
-                 },
-                     
-                  ),
+
+                  // password input
+                  CustomPasswordFormField(controller: _passwordController),
+                 
                   const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerRight,

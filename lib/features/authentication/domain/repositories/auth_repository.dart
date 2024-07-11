@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
+import '../../../../core/errors/failures.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 
-import '../../../../core/errors/failures.dart';
 
 
 abstract class AuthRepository  {
@@ -10,5 +10,7 @@ abstract class AuthRepository  {
   
   Future<Either<Failure,User>> register( String userName ,String email, String password);
   Future<Either<Failure,User>> updateUser(User user);
+
+  Future<Either<Failure, Unit>> logout();
 
 }

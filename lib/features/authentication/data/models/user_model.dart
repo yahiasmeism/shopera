@@ -156,8 +156,8 @@ class Coordinates extends HiveObject {
 
   factory Coordinates.fromJson(Map<String, dynamic> json) {
     return Coordinates(
-     lat: (json['lat'] as num).toDouble(), 
-      lng: (json['lng'] as num).toDouble(), 
+      lat: (json['lat'] != null) ? (json['lat'] as num).toDouble() : 0.0,
+      lng: (json['lng'] != null) ? (json['lng'] as num).toDouble() : 0.0,
     );
   }
 

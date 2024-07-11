@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import '../../../features/authentication/data/models/user_model.dart';
 import '../../constants/strings.dart';
+import '../../../features/authentication/data/models/user_model.dart';
 
 class UserRepository {
   static final UserRepository _instance = UserRepository._internal();
@@ -17,4 +17,10 @@ class UserRepository {
   UserModel? getUsers() {
     return _userBox.get(K_User_Box);
   }
+
+  Future<void> clearUsers() async {
+    await _userBox.clear();
+    
+  }
+
 }

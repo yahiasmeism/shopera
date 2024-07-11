@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
@@ -37,7 +36,6 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
     final user = context.read<UserCubit>().userEntite;
     if (user != null) {
       _userImage = user.image;
-      print("imahe $_userImage");
       _firstNameController.text = user.firstName ?? '';
       _lastNameController.text = user.lastName ?? '';
       _usernameController.text = user.userName;

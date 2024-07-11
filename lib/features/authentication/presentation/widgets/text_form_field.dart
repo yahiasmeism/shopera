@@ -15,7 +15,7 @@ class TextFormFieldWidget extends StatelessWidget {
   final void Function()? onTap;
 
   const TextFormFieldWidget({
-    Key? key,
+    super.key,
     required this.controller,
     required this.type,
     required this.validator,
@@ -28,7 +28,7 @@ class TextFormFieldWidget extends StatelessWidget {
     this.suffixPressed,
     this.isClickable = true,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

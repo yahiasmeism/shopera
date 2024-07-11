@@ -6,6 +6,7 @@ const String User_Box = 'User_Box';
 const String K_User_Box = 'k_User_Box';
 const String SERVER_FAILURE_MESSAGE = 'Please try again later .';
 const String EMPTY_CACHE_FAILURE_MESSAGE = 'No Data';
+const String LOGOUT_FAILURE_MESSAGE = 'Faild to log out';
 const String OFFLINE_FAILURE_MESSAGE = 'Please Check your Internet Connection';
 const String K_U_ID = 'uId';
 const String K_TOKEN = 'token';

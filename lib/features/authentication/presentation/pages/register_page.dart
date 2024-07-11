@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/constants/strings.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
-import 'package:shopera/core/widgets/snackbar_global.dart';
-import 'package:shopera/core/services/google_signin_api.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
+import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
 
 class RegisterPage extends StatelessWidget {
   static const routeName = 'register';
@@ -76,7 +73,7 @@ class RegisterPage extends StatelessWidget {
                     // email input
                     TextFormFieldWidget(
                       controller: _emailController,
-                      label: 'Enter your username',
+                      label: 'Enter your password',
                       prefix: Icons.email,
                       type: TextInputType.emailAddress,
                       validator: (value) {
@@ -91,53 +88,7 @@ class RegisterPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     // Password input
-                    BlocBuilder<UserCubit, UserState>(
-                 builder: (context, state) {
-                  if(state is ChangePasswordVisibilityState) {
-                  return  TextFormFieldWidget(
-                      controller: _passwordController,
-                      type: TextInputType.visiblePassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                      label: 'Enter your password',
-                      prefix: Icons.lock,
-                      suffix: state.suffix,
-                      isPassword: state.isPassword,
-                      suffixPressed: () {
-                        context.read<UserCubit>().changePasswordVisibility();
-                      },
-                    );
-                  }else {
-                   return TextFormFieldWidget(
-                      controller: _passwordController,
-                      type: TextInputType.visiblePassword,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        } else if (value.length < 8) {
-                          return 'Password must be at least 8 characters';
-                        }
-                        return null;
-                      },
-                      label: 'Enter your password',
-                      prefix: Icons.lock,
-                      suffix: Icons.visibility_outlined,
-                      isPassword: true,
-                      suffixPressed: () {
-                        print("ass");
-                        context.read<UserCubit>().changePasswordVisibility();
-                      },
-                    );
-                  }
-                 },
-                     
-                  ),
+                    CustomPasswordFormField(controller: _passwordController),
                     const SizedBox(height: 10),
                     Align(
                       alignment: Alignment.centerRight,
@@ -156,14 +107,13 @@ class RegisterPage extends StatelessWidget {
                         }
                         return PrimaryButton(
                           onPressed: () {
-                             if (_formKey.currentState?.validate() ?? false) {
-                                  context.read<UserCubit>().registerUser(
-                                  username: _usernameController.text,
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                );
-                             }
-                            
+                            if (_formKey.currentState?.validate() ?? false) {
+                              context.read<UserCubit>().registerUser(
+                                    username: _usernameController.text,
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  );
+                            }
                           },
                           labelText: 'Register',
                           height: 55,

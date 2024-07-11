@@ -11,23 +11,18 @@ import 'package:shopera/features/authentication/domain/repositories/auth_reposit
 import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
 
-
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
   final AuthLocalDataSource localDataSource;
   final NetworkInfo networkInfo;
   final SharedPreferences sharedPreferences;
 
-
-  AuthRepositoryImpl(
-      {required this.remoteDataSource,
-      required this.localDataSource,
-      required this.networkInfo,
-      required this.sharedPreferences,
-      
-      });
-
-  
+  AuthRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+    required this.networkInfo,
+    required this.sharedPreferences,
+  });
 
   @override
   Future<Either<Failure, User>> login(String userName, String password) async {
@@ -35,13 +30,15 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteLogin = await remoteDataSource.login(userName, password);
         // todo: cache login
-        sharedPreferences.setString( K_TOKEN, remoteLogin.token ??"").then((val){
-          if(val) token = remoteLogin.token; 
+        sharedPreferences
+            .setString(K_TOKEN, remoteLogin.token ?? "")
+            .then((val) {
+          if (val) token = remoteLogin.token;
         });
-        sharedPreferences.setInt( K_U_ID, remoteLogin.id).then((val){
-          if(val) uId = remoteLogin.id; 
+        sharedPreferences.setInt(K_U_ID, remoteLogin.id).then((val) {
+          if (val) uId = remoteLogin.id;
         });
-       
+
         localDataSource.cacheUser(remoteLogin);
         return Right(remoteLogin);
       } on ServerException catch (e) {
@@ -71,11 +68,11 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteRegister =
             await remoteDataSource.register(userName, email, password);
-            
-        sharedPreferences.setInt( K_U_ID, remoteRegister.id).then((val){
-          if(val) uId = remoteRegister.id; 
+
+        sharedPreferences.setInt(K_U_ID, remoteRegister.id).then((val) {
+          if (val) uId = remoteRegister.id;
         });
-        
+
         // CacheHelper.saveData(key: U_ID, value: remoteRegister.id);
         localDataSource.cacheUser(remoteRegister);
         return Right(remoteRegister);
@@ -93,9 +90,7 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final remoteUpdatedUser =
             await remoteDataSource.updateUser(UserModel.fromEntity(user));
-         
-        // sharedPreferences.setInt( K_U_ID, remoteUpdatedUser.id);
-        // CacheHelper.saveData(key: U_ID, value: remoteUpdatedUser.id);
+
         localDataSource.cacheUser(remoteUpdatedUser);
         return Right(remoteUpdatedUser);
       } on ServerException catch (e) {
@@ -103,6 +98,17 @@ class AuthRepositoryImpl extends AuthRepository {
       }
     } else {
       return Left(OfflineFailure(message: OFFLINE_FAILURE_MESSAGE));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> logout() async {
+    try {
+      await localDataSource.clearUserData();
+      sharedPreferences.clear;
+      return const Right(unit);
+    } on LogoutException catch (e) {
+      return Left(LogoutFailure(message: e.message));
     }
   }
 }

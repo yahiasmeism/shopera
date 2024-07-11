@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/authentication/domain/usecases/update_user.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/authentication/domain/usecases/login.dart';
+import 'package:shopera/features/authentication/domain/usecases/logout.dart';
 import 'package:shopera/features/authentication/domain/usecases/register.dart';
 import 'package:shopera/features/cart/domin/usecases/create_cart_usecase.dart';
 import 'package:shopera/features/cart/domin/usecases/delete_cart_usecase.dart';
@@ -42,13 +43,15 @@ Future<void> init() async {
       getLogin: sl(),
       getRegister: sl(),
       putUser: sl(),
+      logout: sl()
+      
     ),
   );
   //Use cases
   sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
   sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
   sl.registerLazySingleton(() => UpdateUsecase(repository: sl()));
-  sl.registerLazySingleton(() => (repository: sl()));
+  sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
   // Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(

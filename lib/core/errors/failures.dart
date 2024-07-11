@@ -14,3 +14,7 @@ class OfflineFailure extends Failure {
 class EmptyLocalStorageFailure extends Failure {
   EmptyLocalStorageFailure({required super.message});
 }
+
+class LogoutFailure extends Failure {
+  LogoutFailure({required super.message});
+}
