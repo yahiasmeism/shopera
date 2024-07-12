@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
-import 'package:shopera/features/authentication/presentation/pages/home_page.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 
 import 'core/routes/app_routes.dart';
@@ -9,6 +8,7 @@ import 'core/services/service_locator.dart' as di;
 import 'core/theme/app_theme.dart';
 import 'core/utils/hive_init.dart';
 import 'core/utils/app_bloc_observer.dart';
+import 'features/home/persentation/pages/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
