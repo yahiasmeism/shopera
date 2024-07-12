@@ -288,21 +288,6 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                           }
                         },
                       ),
-                    //    CircleAvatar(
-                    // radius: 60,
-                    // child: FutureBuilder(
-                    //       future: ImageCacheManager.getImagePath(
-                    //        _userImage?? "https://docs.flutter.dev/assets/images/dash/dash-fainting.gif"
-                    //       ),
-                    //       builder: (context, snapshot) {
-                    //         if (snapshot.data != null) {
-                    //           return Image.file(snapshot.data!);
-                    //         } else {
-                    //           return Image.asset(
-                    //               'assets/images/fallback.png');
-                    //         }
-                    //       }),
-                    //   ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -338,8 +323,8 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                     city: _cityController.text,
                                     postalCode: _postalCodeController.text,
                                     state: _stateController.text,
-                                    address: '',
-                                    coordinates: Coordinates(lat: 0, lng: 0)),
+                                    address: _addressController.text,
+                                    coordinates: Coordinates(lat: 0.0, lng: 0.0)),
                                 token: user?.token,
                               );
                               context

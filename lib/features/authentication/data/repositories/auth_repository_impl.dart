@@ -94,6 +94,7 @@ class AuthRepositoryImpl extends AuthRepository {
         localDataSource.cacheUser(remoteUpdatedUser);
         return Right(remoteUpdatedUser);
       } on ServerException catch (e) {
+ 
         return Left(ServerFailure(message: e.message));
       }
     } else {

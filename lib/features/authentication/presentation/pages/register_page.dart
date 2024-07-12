@@ -73,7 +73,7 @@ class RegisterPage extends StatelessWidget {
                     // email input
                     TextFormFieldWidget(
                       controller: _emailController,
-                      label: 'Enter your password',
+                      label: 'Enter your email',
                       prefix: Icons.email,
                       type: TextInputType.emailAddress,
                       validator: (value) {

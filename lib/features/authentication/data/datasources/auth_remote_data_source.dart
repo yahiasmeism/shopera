@@ -51,7 +51,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
 
   @override
   Future<UserModel> updateUser(UserModel user) async {
+
     try {
+
       final response = await api.put(
          UPDATE_PROFILE + user.id.toString(),
         data: user.toJson(),
@@ -60,10 +62,12 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
       return UserModel.fromJson(response.data);
     } on DioException catch (e) {
       if (e.response?.statusCode == 400) {
+       
         // final String errorMessage = e.response?.data["message"];
 
         throw const ServerException(message: INVALID_CREDENTIALS);
       } else {
+         
         throw const ServerException(message: UNEXPECTED_ERROR);
       }
     }
