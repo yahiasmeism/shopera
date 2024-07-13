@@ -6,14 +6,14 @@ class SearchTextField extends StatefulWidget {
   final VoidCallback onClear; // New callback to clear search
 
   const SearchTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onChanged,
     required this.onClear,
-  }) : super(key: key);
+  });
 
   @override
-  _SearchTextFieldState createState() => _SearchTextFieldState();
+  State createState() => _SearchTextFieldState();
 }
 
 class _SearchTextFieldState extends State<SearchTextField> {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopera/features/cart/persentation/pages/cart_page.dart';
 import '../../features/home/persentation/pages/home_page.dart';
 
 Map<String, WidgetBuilder> appRoutes() {
