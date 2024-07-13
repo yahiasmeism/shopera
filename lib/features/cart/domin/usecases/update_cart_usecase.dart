@@ -6,11 +6,10 @@ import '../../data/dtos/cart_dto.dart';
 import '../entities/cart_entity.dart';
 import '../repositories/cart_repositories.dart';
 
-class UpdateCartUsecase implements IUseCase<CartEntity, UpdateParam> {
+class UpdateCartUsecase implements UseCase<CartEntity, UpdateParam> {
   final CartRepository _repository;
 
-  UpdateCartUsecase({required CartRepository repository})
-      : _repository = repository;
+  UpdateCartUsecase({required CartRepository repository}) : _repository = repository;
 
   @override
   Future<Either<Failure, CartEntity>> call(UpdateParam params) {
