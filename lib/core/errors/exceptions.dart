@@ -1,8 +1,13 @@
 import 'package:dio/dio.dart';
 
-class ServerException implements Exception {
+class AppExecption implements Exception {
   final String message;
-  const ServerException(this.message);
+
+  const AppExecption(this.message);
+}
+
+class ServerException extends AppExecption {
+  const ServerException(super.message);
 
   factory ServerException.fromDioException(DioException e) {
     final String? message = e.response?.data['message'] as String?;
@@ -42,14 +47,14 @@ class ServerException implements Exception {
   }
 }
 
-class EmptyCacheException implements Exception {
-  final String message;
-
-  EmptyCacheException({required this.message});
+class EmptyCacheException extends AppExecption {
+  EmptyCacheException(super.message);
 }
 
-class OfflineException implements Exception {
-  final String message;
+class OfflineException extends AppExecption {
+  OfflineException(super.message);
+}
 
-  OfflineException({required this.message});
+class LogoutException extends AppExecption {
+  LogoutException(super.message);
 }

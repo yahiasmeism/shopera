@@ -29,20 +29,12 @@ class AuthRepositoryImpl extends AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteLogin = await remoteDataSource.login(userName, password);
-        sharedPreferences
-            .setString(K_TOKEN, remoteLogin.token ?? "")
-            .then((val) {
-          if (val) token = remoteLogin.token;
-        });
-        sharedPreferences.setInt(K_U_ID, remoteLogin.id).then((val) {
-          if (val) uId = remoteLogin.id;
-        });
+        sharedPreferences.setString(K_TOKEN, remoteLogin.token ?? "");
+        sharedPreferences.setInt(K_U_ID, remoteLogin.id);
 
         localDataSource.cacheUser(remoteLogin);
         return Right(remoteLogin);
       } on ServerException catch (e) {
-        
-
         return Left(ServerFailure(message: e.message));
       }
     } else {
@@ -56,23 +48,18 @@ class AuthRepositoryImpl extends AuthRepository {
         if (kDebugMode) {
           print("EmptyCacheException");
         }
-        return Left(
-            EmptyLocalStorageFailure(message: EMPTY_CACHE_FAILURE_MESSAGE));
+        return Left(EmptyLocalStorageFailure(message: EMPTY_CACHE_FAILURE_MESSAGE));
       }
     }
   }
 
   @override
-  Future<Either<Failure, User>> register(
-      String userName, String email, String password) async {
+  Future<Either<Failure, User>> register(String userName, String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteRegister =
-            await remoteDataSource.register(userName, email, password);
+        final remoteRegister = await remoteDataSource.register(userName, email, password);
 
-        sharedPreferences.setInt(K_U_ID, remoteRegister.id).then((val) {
-          if (val) uId = remoteRegister.id;
-        });
+        sharedPreferences.setInt(K_U_ID, remoteRegister.id);
 
         // CacheHelper.saveData(key: U_ID, value: remoteRegister.id);
         localDataSource.cacheUser(remoteRegister);
@@ -89,13 +76,11 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, User>> updateUser(User user) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteUpdatedUser =
-            await remoteDataSource.updateUser(UserModel.fromEntity(user));
+        final remoteUpdatedUser = await remoteDataSource.updateUser(UserModel.fromEntity(user));
 
         localDataSource.cacheUser(remoteUpdatedUser);
         return Right(remoteUpdatedUser);
       } on ServerException catch (e) {
- 
         return Left(ServerFailure(message: e.message));
       }
     } else {
