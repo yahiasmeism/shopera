@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
+import 'package:shopera/features/authentication/presentation/pages/register_page.dart';
 import 'package:shopera/features/authentication/presentation/pages/update_user_page.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
@@ -27,7 +28,7 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state is UserSuccess) {
           // Navigate to home or another page
-          Navigator.of(context).pushNamed("home");
+          Navigator.of(context).pushNamedAndRemoveUntil('home',(route) => false,);
         } else if (state is UserFailure) {
           // Show error message
           ScaffoldMessenger.of(context).showSnackBar(
@@ -134,7 +135,7 @@ class LoginPage extends StatelessWidget {
                       const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed('register');
+                          Navigator.of(context).pushNamed(RegisterPage.routeName);
                         },
                         child: const Text('Sign up'),
                       ),

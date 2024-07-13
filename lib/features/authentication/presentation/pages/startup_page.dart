@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:shopera/core/constants/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -25,7 +24,6 @@ class _StartupPageState extends State<StartupPage> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(height: 90),
@@ -88,7 +86,6 @@ class _StartupPageState extends State<StartupPage> {
             const Spacer(flex: 1),
             // button bar
             const LoginSignUpToggle(),
-
           ],
         ),
       ),
