@@ -1,5 +1,5 @@
 // ignore_for_file: constant_identifier_names
-
+const String kProductsBox = 'products_box';
 const String APP_BOX = 'APP_BOX';
 const String BASE_URL = 'https://dummyjson.com/';
 const String User_Box = 'User_Box';
@@ -16,5 +16,3 @@ const String UNEXPECTED_ERROR = 'An unexpected error occurred';
 const String Faild_Google_SignIn = 'Google login failed';
 const String Default_Login_Username = 'emilys';
 const String Default_Login_Password = 'emilyspass';
-String? token = '';
-int uId = 0;

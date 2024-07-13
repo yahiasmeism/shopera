@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
-import '../errors/exceptions.dart';
 import 'package:shopera/core/constants/strings.dart';
+
+import '../errors/exceptions.dart';
 
 
 abstract class ApiConsumer {
@@ -113,6 +114,6 @@ class DioConsumer extends ApiConsumer {
       );
     } on DioException catch (e) {
       throw ServerException.fromDioException(e);
-      }
-}
+    }
+  }
 }

@@ -53,9 +53,3 @@ class OfflineException implements Exception {
 
   OfflineException({required this.message});
 }
-
-class LogoutException implements Exception {
-  final String message;
-
-  LogoutException({required this.message});
-}
