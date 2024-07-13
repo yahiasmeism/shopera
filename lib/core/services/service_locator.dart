@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
 import '../network/network_info.dart';
+import '../local/hive/user_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/authentication/domain/usecases/update_user.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
@@ -64,7 +65,7 @@ Future<void> init() async {
   );
   // Data sources
   sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(userRepository: sl()),
+    () => AuthLocalDataSourceImpl(),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(

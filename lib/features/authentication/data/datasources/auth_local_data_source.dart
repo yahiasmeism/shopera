@@ -11,9 +11,8 @@ abstract class AuthLocalDataSource {
 }
 
 class AuthLocalDataSourceImpl extends AuthLocalDataSource {
- final UserRepository userRepository;
 
-  AuthLocalDataSourceImpl({required this.userRepository});
+
   @override
   Future<Unit> cacheUser(UserModel userModel) async {
     await UserRepository().saveUsers(userModel);
@@ -33,7 +32,7 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
   Future<Unit> clearUserData() async {
     try {
       // Clear the user data from local storage (Hive, SharedPreferences, etc.)
-      await userRepository.clearUsers();
+      await UserRepository().clearUsers();
 
       return Future.value(unit);
     } catch (e) {
