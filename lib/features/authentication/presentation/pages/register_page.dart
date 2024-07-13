@@ -19,6 +19,9 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+         automaticallyImplyLeading: true,
+      ),
       body: BlocListener<UserCubit, UserState>(
         listener: (context, state) {
           if (state is UserSuccess) {

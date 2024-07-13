@@ -10,6 +10,7 @@ const String LOGOUT_FAILURE_MESSAGE = 'Faild to log out';
 const String OFFLINE_FAILURE_MESSAGE = 'Please Check your Internet Connection';
 const String K_U_ID = 'uId';
 const String K_TOKEN = 'token';
+const String K_OnBoarding = 'onBoarding';
 const String INVALID_CREDENTIALS = 'Incorrect user name or password';
 const String UNEXPECTED_ERROR = 'An unexpected error occurred';
 const String Faild_Google_SignIn = 'Google login failed';

@@ -14,6 +14,7 @@ class AppColors {
   static const Color iconColor = Color(0xFF757575);
   static const Color favoriteIconColor = Color(0xFFF44336);
   static const Color cartIconColor = Color(0xFF4CAF50);
+  static const Color dotColor = Color(0xFF037EE6);
 
   static const MaterialColor primaryColor = MaterialColor(
     0xFF33D6AB,

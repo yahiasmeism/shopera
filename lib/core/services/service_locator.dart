@@ -25,7 +25,8 @@ import 'package:shopera/features/authentication/data/datasources/auth_remote_dat
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  //! Featurs - Home
+
+  //! ***************  Featurs - Home ***************
 
   //Bloc
 

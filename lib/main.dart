@@ -7,8 +7,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/services/service_locator.dart' as di;
 import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
-import 'package:shopera/features/authentication/presentation/pages/login_page.dart';
+import 'package:shopera/features/authentication/presentation/pages/on_boarding_page.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
+
 
 
 
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         theme: appTheme(),
         home: const Placeholder(),
         routes: appRoutes(),
-        initialRoute: LoginPage.routeName,
+        initialRoute: OnBoardingPage.routeName,
       ),
     );
   }
