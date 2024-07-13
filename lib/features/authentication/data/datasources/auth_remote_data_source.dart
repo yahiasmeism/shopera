@@ -26,9 +26,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         
         // final String errorMessage = e.response?.data["message"];
 
-        throw const ServerException(message: INVALID_CREDENTIALS);
+        throw const ServerException(INVALID_CREDENTIALS);
       }else {
-        throw const ServerException(message: UNEXPECTED_ERROR);
+        throw const ServerException(UNEXPECTED_ERROR);
       }
     }
   }
@@ -58,9 +58,9 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
         
         // final String errorMessage = e.response?.data["message"];
 
-        throw const ServerException(message: INVALID_CREDENTIALS);
+        throw const ServerException(INVALID_CREDENTIALS);
       }else {
-        throw const ServerException(message: UNEXPECTED_ERROR);
+        throw const ServerException(UNEXPECTED_ERROR);
       }
     }
     

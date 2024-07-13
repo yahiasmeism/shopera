@@ -59,7 +59,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
@@ -73,7 +73,7 @@ class DioConsumer extends ApiConsumer {
 
       return response;
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
@@ -86,7 +86,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
@@ -99,7 +99,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
@@ -112,7 +112,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 }
