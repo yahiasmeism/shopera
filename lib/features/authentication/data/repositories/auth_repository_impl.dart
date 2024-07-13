@@ -29,7 +29,6 @@ class AuthRepositoryImpl extends AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteLogin = await remoteDataSource.login(userName, password);
-        // todo: cache login
         sharedPreferences
             .setString(K_TOKEN, remoteLogin.token ?? "")
             .then((val) {
@@ -42,6 +41,8 @@ class AuthRepositoryImpl extends AuthRepository {
         localDataSource.cacheUser(remoteLogin);
         return Right(remoteLogin);
       } on ServerException catch (e) {
+        
+
         return Left(ServerFailure(message: e.message));
       }
     } else {

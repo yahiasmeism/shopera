@@ -5,9 +5,7 @@ import 'package:shopera/core/constants/strings.dart';
 
 abstract class ApiConsumer {
   Future<dynamic> get(
-    
     String path, {
-    
     Map<String, dynamic>? query,
     String? token,
   });
@@ -41,23 +39,19 @@ abstract class ApiConsumer {
   });
 }
 
-
-
-
 class DioConsumer extends ApiConsumer {
   final Dio dio;
 
   DioConsumer({required this.dio}) {
     dio.options = BaseOptions(
-
       baseUrl: BASE_URL,
-        connectTimeout: const Duration(seconds: 5),
-        sendTimeout: const Duration(seconds: 3));
+      connectTimeout: const Duration(seconds: 5),
+      sendTimeout: const Duration(seconds: 3),
+    );
   }
 
   @override
-  Future delete(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future delete(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.delete(
         path,
@@ -65,7 +59,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
@@ -79,13 +73,12 @@ class DioConsumer extends ApiConsumer {
 
       return response;
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
   @override
-  Future patch(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future patch(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.patch(
         path,
@@ -93,13 +86,12 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
   @override
-  Future post(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future post(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.post(
         path,
@@ -107,13 +99,12 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
+      throw ServerException.fromDioException(e);
     }
   }
 
   @override
-  Future put(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future put(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.put(
         path,
@@ -121,7 +112,7 @@ class DioConsumer extends ApiConsumer {
         data: data,
       );
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? '');
-    }
-  }
+      throw ServerException.fromDioException(e);
+      }
+}
 }
