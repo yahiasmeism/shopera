@@ -6,5 +6,5 @@ abstract interface class HomeRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts({required int pageNumber});
   Future<Either<Failure, List<ProductEntity>>> getProductsByCategory({required String categoryName, required int pageNumber});
   Future<Either<Failure, List<ProductEntity>>> searchProducts({required String keyword, required int pageNumber});
-  Future<Either<Failure, List<ProductEntity>>> getCategoris({required String categoryName});
+  Future<Either<Failure, List<ProductEntity>>> getCategoris();
 }
