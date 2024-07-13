@@ -6,6 +6,7 @@ import 'package:shopera/features/authentication/presentation/cubits/user_cubit/c
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
 import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
+import 'package:shopera/features/home/persentation/pages/home_page.dart';
 
 class RegisterPage extends StatelessWidget {
   static const routeName = 'register';
@@ -27,7 +28,7 @@ class RegisterPage extends StatelessWidget {
         listener: (context, state) {
           if (state is UserSuccess) {
             // Navigate to home or another page
-            Navigator.of(context).pushNamedAndRemoveUntil('home',(route) => false,);
+            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName,(route) => false,);
           } else if (state is UserFailure) {
             // Show error message
             ScaffoldMessenger.of(context).showSnackBar(
