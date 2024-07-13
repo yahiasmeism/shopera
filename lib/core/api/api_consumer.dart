@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shopera/core/constants/strings.dart';
 
 import '../errors/exceptions.dart';
 
@@ -38,21 +39,19 @@ abstract class ApiConsumer {
   });
 }
 
-
-
-
 class DioConsumer extends ApiConsumer {
   final Dio dio;
 
   DioConsumer({required this.dio}) {
     dio.options = BaseOptions(
-        connectTimeout: const Duration(seconds: 5),
-        sendTimeout: const Duration(seconds: 3));
+      baseUrl: BASE_URL,
+      connectTimeout: const Duration(seconds: 5),
+      sendTimeout: const Duration(seconds: 3),
+    );
   }
 
   @override
-  Future delete(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future delete(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.delete(
         path,
@@ -79,8 +78,7 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future patch(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future patch(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.patch(
         path,
@@ -93,8 +91,7 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future post(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future post(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.post(
         path,
@@ -107,8 +104,7 @@ class DioConsumer extends ApiConsumer {
   }
 
   @override
-  Future put(String path,
-      {data, Map<String, dynamic>? query, String? token}) async {
+  Future put(String path, {data, Map<String, dynamic>? query, String? token}) async {
     try {
       return await dio.put(
         path,
