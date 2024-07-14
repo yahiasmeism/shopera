@@ -1,23 +1,27 @@
 import 'dart:convert';
 
-class ProductModel {
-  final int id;
-  final String title;
-  final String description;
-  final String category;
-  final double price;
-  final double discountPercentage;
-  final double rating;
-  final List<String> tags;
-  final String brand;
-  final List<String> images;
-  final String thumbnail;
+import 'package:shopera/features/home/data/models/category_model.dart';
+import 'package:shopera/features/home/domin/entities/product_entity.dart';
+
+class ProductModel extends ProductEntity {
+  const ProductModel(
+      {required super.id,
+      required super.title,
+      required super.description,
+      required super.category,
+      required super.price,
+      required super.discountPercentage,
+      required super.rating,
+      required super.tags,
+      required super.brand,
+      required super.thumbnail,
+      required super.images});
 
   factory ProductModel.fromMap(Map<String, dynamic> data) => ProductModel(
         id: data['id'] as int? ?? 0,
         title: data['title'] as String? ?? '',
         description: data['description'] as String? ?? '',
-        category: data['category'] as String? ?? '',
+        category: CategoryModel.fromMap(data),
         price: (data['price'] as num? ?? 0).toDouble(),
         discountPercentage: (data['discountPercentage'] as num? ?? 0).toDouble(),
         rating: (data['rating'] as num? ?? 0).toDouble(),
@@ -26,19 +30,6 @@ class ProductModel {
         images: data['images'] as List<String>? ?? [],
         thumbnail: data['thumbnail'] as String? ?? '',
       );
-
-  ProductModel(
-      {required this.id,
-      required this.title,
-      required this.description,
-      required this.category,
-      required this.price,
-      required this.discountPercentage,
-      required this.rating,
-      required this.tags,
-      required this.brand,
-      required this.images,
-      required this.thumbnail});
 
   Map<String, dynamic> toMap() => {
         'id': id,
