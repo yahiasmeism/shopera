@@ -89,13 +89,10 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> logout() async {
-    try {
+  Future<Unit> logout() async {
+  
       await localDataSource.clearUserData();
       sharedPreferences.clear;
-      return const Right(unit);
-    } on LogoutException catch (e) {
-      return Left(LogoutFailure(message: e.message));
-    }
+      return unit;
   }
 }

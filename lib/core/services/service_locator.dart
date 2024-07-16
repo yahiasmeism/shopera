@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
 import '../network/network_info.dart';
-import '../local/hive/user_repository.dart';
+import '../../features/settings/cubit/cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/authentication/domain/usecases/update_user.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
@@ -22,14 +22,23 @@ import 'package:shopera/features/authentication/data/repositories/auth_repositor
 import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
 
-
 final sl = GetIt.instance;
 
 Future<void> init() async {
-
   //! ***************  Featurs - Home ***************
 
   //Bloc
+
+  //Use cases
+
+  // Repository
+
+  // Data sources
+
+  //! ***************  Featurs - Settings ***************
+
+  //Bloc
+  sl.registerFactory(() => SettingsCubit());
 
   //Use cases
 
@@ -42,12 +51,7 @@ Future<void> init() async {
   //Bloc
   sl.registerFactory(
     () => UserCubit(
-      getLogin: sl(),
-      getRegister: sl(),
-      putUser: sl(),
-      logout: sl()
-      
-    ),
+        getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),
   );
   //Use cases
   sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
@@ -59,8 +63,8 @@ Future<void> init() async {
     () => AuthRepositoryImpl(
       localDataSource: sl(),
       networkInfo: sl(),
-      remoteDataSource: sl(), 
-      sharedPreferences: sl(), 
+      remoteDataSource: sl(),
+      sharedPreferences: sl(),
     ),
   );
   // Data sources
@@ -72,8 +76,6 @@ Future<void> init() async {
       api: sl(),
     ),
   );
-
-
 
   //! ***************  Featurs - Products ***************
 

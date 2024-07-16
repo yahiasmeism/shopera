@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
+import '../../pages/login_page.dart';
+import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shopera/core/errors/failures.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
@@ -7,6 +10,8 @@ import 'package:shopera/features/authentication/domain/usecases/login.dart';
 import 'package:shopera/features/authentication/domain/usecases/logout.dart';
 import 'package:shopera/features/authentication/domain/usecases/register.dart';
 import 'package:shopera/features/authentication/domain/usecases/update_user.dart';
+
+
 
 part 'states.dart';
 
@@ -59,6 +64,13 @@ class UserCubit extends Cubit<UserState> {
     final failureOrUpdated = await putUser(user);
 
     emit(_mapFailureOrUserToState(failureOrUpdated));
+
+  }
+
+  Future<void> logoutUser(BuildContext context) async {
+    logout().then((onValue){
+      Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(route) => false, );
+    });
 
   }
 

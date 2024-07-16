@@ -69,6 +69,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
               key: _formKey,
               child: Column(
                 children: [
+                  const SizedBox(height: 20),
                   Image.asset(
                     'assets/images/logo.png',
                     height: 45,
@@ -78,7 +79,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                     'Update Profile',
                     textAlign: TextAlign.left,
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 30,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -297,7 +298,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                         return const CircularProgressIndicator();
                       }
                       return SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.5,
+                        width: MediaQuery.of(context).size.width / 1.1,
                         child: PrimaryButton(
                           child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -337,7 +338,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                       );
                     },
                   ),
-                  const SizedBox(height: 10.0),
+                  const SizedBox(height: 27.0),
                   SizedBox(
                     width: MediaQuery.of(context).size.width / 4,
                     child: ElevatedButton(

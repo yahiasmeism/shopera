@@ -72,6 +72,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0
 
   card_swiper: ^3.0.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -80,6 +81,14 @@ dev_dependencies:
   # Commend =>  flutter packages pub run build_runner build
   build_runner: ^2.4.11
   hive_generator: ^2.0.1
+  flutter_native_splash: ^2.4.1
+
+flutter_native_splash:
+  color: "#FAFAFA" # Background color of the splash screen
+  image: assets/images/logo.png # Path to the splash image
+  android: true # Enable splash screen for Android
+  ios: true # Enable splash screen for iOS
+
 
 
 flutter:
@@ -89,7 +98,6 @@ flutter:
   assets:
       - assets/images/
       - assets/images/svg/
-      - assets/images/
       - assets/images/profile/
       - assets/images/bag/
       - assets/images/banners/
