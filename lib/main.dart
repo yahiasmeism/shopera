@@ -3,7 +3,9 @@ import 'core/utils/hive_init.dart';
 import 'package:get_it/get_it.dart';
 import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'core/utils/nav_bar_cubit.dart';
 import 'core/utils/app_bloc_observer.dart';
+import 'features/main/pages/main_page.dart';
 import 'features/settings/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/services/service_locator.dart' as di;
@@ -47,7 +49,7 @@ Future<String> initialization() async {
   await Future.delayed(const Duration(seconds: 2));
   if (sharedPreferences.getBool(K_OnBoarding) != null) {
     if (sharedPreferences.getString(K_TOKEN) != null) {
-      return HomePage.routeName;
+      return MainPage.routeName;
     } else {
       return LoginPage.routeName;
     }
@@ -68,6 +70,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => di.sl<CartCubit>()),
         BlocProvider(create: (context) => di.sl<UserCubit>()),
         BlocProvider(create: (context) => di.sl<SettingsCubit>()),
+        BlocProvider(create: (context) => di.sl<NavigationBarCubit>()),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {

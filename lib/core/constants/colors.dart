@@ -10,7 +10,7 @@ class AppColors {
   static const Color subtitleTextColor = Color(0xFF757575);
   static const Color priceColor = Color(0xFF4CAF50);
 
-  // ألوان الأيقونات
+  // color icons
   static const Color iconColor = Color(0xFF757575);
   static const Color favoriteIconColor = Color(0xFFF44336);
   static const Color cartIconColor = Color(0xFF4CAF50);

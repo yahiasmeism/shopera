@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-
 import '../components/cart_body.dart';
+import 'package:flutter/material.dart';
+import '../../../../core/constants/colors.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -12,7 +12,7 @@ class CartPage extends StatelessWidget {
         title: const Text('Cart'),
         centerTitle: true,
       ),
-      backgroundColor: const Color(0xffFAFAFA),
+      backgroundColor: AppColors.backgroundColor,
       body: const CartBodyWidget(),
     );
   }

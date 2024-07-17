@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
+import '../utils/nav_bar_cubit.dart';
 import '../network/network_info.dart';
 import '../../features/settings/cubit/cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,9 +23,15 @@ import 'package:shopera/features/authentication/data/repositories/auth_repositor
 import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
 import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
 
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  //! ***************  Featurs - Main ***************
+
+  //Bloc
+  sl.registerFactory(() => NavigationBarCubit());
+
   //! ***************  Featurs - Home ***************
 
   //Bloc

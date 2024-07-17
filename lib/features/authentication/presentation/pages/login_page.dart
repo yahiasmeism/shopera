@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../main/pages/main_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../home/persentation/pages/home_page.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
 import 'package:shopera/features/authentication/presentation/pages/register_page.dart';
 import 'package:shopera/features/authentication/presentation/pages/update_user_page.dart';
@@ -8,6 +8,7 @@ import 'package:shopera/features/authentication/presentation/cubits/user_cubit/c
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
 import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
+
 
 
 
@@ -32,7 +33,7 @@ class LoginPage extends StatelessWidget {
       listener: (context, state) {
         if (state is UserSuccess) {
           // Navigate to home or another page
-          Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName,(route) => false,);
+          Navigator.of(context).pushNamedAndRemoveUntil(MainPage.routeName,(route) => false,);
         } else if (state is UserFailure) {
           // Show error message
           ScaffoldMessenger.of(context).showSnackBar(
