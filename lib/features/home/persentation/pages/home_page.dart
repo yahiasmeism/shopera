@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:shopera/features/cart/persentation/components/cart_button.dart';
-
+import '../components/top_swiper.dart';
+import '../components/tiled_title.dart';
+import '../components/product_card.dart';
+import '../components/category_selector.dart';
 import '../../../../core/constants/assets.dart';
 import '../../../../core/constants/colors.dart';
-import '../components/category_selector.dart';
 import '../components/dynamic_product_card.dart';
-import '../components/product_card.dart';
-import '../components/tiled_title.dart';
-import '../components/top_swiper.dart';
+import 'package:shopera/features/cart/persentation/components/cart_button.dart';
+
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -28,7 +28,6 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              
               HomePageTopSwiper(
                 size: size,
               ),

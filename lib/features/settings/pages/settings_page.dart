@@ -40,20 +40,22 @@ class _SettingsPageState extends State<SettingsPage> {
         automaticallyImplyLeading: true,
         actions: const [CartButtonWidget()],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: Column(
-          children: [
-            Visibility(
-              visible:_userEmail != null,
-              child: ProfileCardWidget(
-                name: _userName?? "",
-                email: _userEmail ?? "",
-                image: _userImage,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Column(
+            children: [
+              Visibility(
+                visible:_userName != null,
+                child: ProfileCardWidget(
+                  name: _userName?? "",
+                  email: _userEmail ?? "",
+                  image: _userImage,
+                ),
               ),
-            ),
-            SettingsWidget(),
-          ],
+              SettingsWidget(),
+            ],
+          ),
         ),
       ),
     );

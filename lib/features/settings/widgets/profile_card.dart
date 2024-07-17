@@ -8,8 +8,11 @@ class ProfileCardWidget extends StatelessWidget {
   final String email;
   final String? image;
 
-  ProfileCardWidget(
-      {required this.name, required this.email, required this.image});
+  ProfileCardWidget({
+    required this.name,
+    required this.email,
+    required this.image,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class ProfileCardWidget extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.done &&
                     snapshot.hasData) {
                   return CircleAvatar(
-                    radius: 60,
+                    radius: 30,
                     backgroundImage: FileImage(snapshot.data!),
                   );
                 } else {
@@ -38,22 +41,29 @@ class ProfileCardWidget extends StatelessWidget {
               },
             ),
             const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  email,
-                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                ),
-              ],
+            Expanded(
+              flex: 2,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    email,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                  ),
+                ],
+              ),
             ),
-            const Spacer(),
+            const SizedBox(width: 16),
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {

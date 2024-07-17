@@ -55,6 +55,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
         listener: (context, state) {
           if (state is UserSuccess) {
             // Auto Navigate to home or another page
+            Navigator.pop(context);
           } else if (state is UserFailure) {
             // Show error message
             ScaffoldMessenger.of(context).showSnackBar(
