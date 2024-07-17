@@ -1,12 +1,14 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/constants/colors.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
 import 'package:shopera/core/utils/image_cached_manager.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
+
 
 
 class UpdateUserPage extends StatefulWidget {
@@ -278,9 +280,28 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                         future: ImageCacheManager.getImagePath(_userImage ?? ''),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                            return CircleAvatar(
-                              radius: 60,
-                              backgroundImage: FileImage(snapshot.data!),
+                            return Stack(
+                              children: [          
+                                CircleAvatar(
+                                  radius: 60,
+                                  backgroundImage: FileImage(snapshot.data!),
+                                ),
+                                Positioned(
+                                  bottom: 5,
+                                  right: 5,
+                                  child: CircleAvatar(
+                                    radius: 16,
+                                    backgroundColor: AppColors.primaryColor[200],
+                                    child: IconButton(
+                                      padding: const EdgeInsets.all(0),
+                                      onPressed: (){}, 
+                                      icon: const Icon(
+                                        Icons.edit,color: AppColors.iconColor,
+                                      )
+                                      )
+                                      )
+                                      ),
+                              ],
                             );
                           } else {
                             return const CircleAvatar(
