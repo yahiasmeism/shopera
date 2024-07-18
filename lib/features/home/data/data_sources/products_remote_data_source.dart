@@ -2,16 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:shopera/core/api/api_consumer.dart';
 import 'package:shopera/core/constants/end_points.dart';
 import 'package:shopera/features/home/data/models/category_model.dart';
-import 'package:shopera/features/home/domin/entities/category_entity.dart';
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
 import '../models/product_model.dart';
 
 // Abstract class for product remote data source
 abstract class ProductsRemoteDataSource {
-  Future<List<ProductEntity>> getProducts({required int pageNumber});
-  Future<List<ProductEntity>> getProductsByCategory({required String categoryName, required int pageNumber});
-  Future<List<ProductEntity>> searchProducts({required String keyword, required int pageNumber});
-  Future<List<CategoryEntity>> getCategories();
+  Future<List<ProductModel>> getProducts({required int pageNumber});
+  Future<List<ProductModel>> getProductsByCategory({required String categoryName, required int pageNumber});
+  Future<List<ProductModel>> searchProducts({required String keyword, required int pageNumber});
+  Future<List<CategoryModel>> getCategories();
 }
 
 // Implementation of the product remote data source
@@ -23,15 +21,15 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
 
   // Fetch categories from the API
   @override
-  Future<List<CategoryEntity>> getCategories() async {
-    final Response response = await api.get(CATEGORIES);
+  Future<List<CategoryModel>> getCategories() async {
+    final Response response = await api.get(CATEGORY_LIST);
     final categoriesList = response.data as List;
     return categoriesList.map((categoryName) => CategoryModel(name: categoryName)).toList();
   }
 
   // Fetch products from the API with pagination
   @override
-  Future<List<ProductEntity>> getProducts({required int pageNumber}) async {
+  Future<List<ProductModel>> getProducts({required int pageNumber}) async {
     const int limit = 10;
     final int skip = pageNumber * 10;
     final Response response = await api.get(

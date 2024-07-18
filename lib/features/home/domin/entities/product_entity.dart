@@ -9,7 +9,6 @@ class ProductEntity extends Equatable {
   final double price;
   final double discountPercentage;
   final double rating;
-  final List<String> tags;
   final String brand;
   final CategoryEntity category;
   final List<String> images;
@@ -23,7 +22,6 @@ class ProductEntity extends Equatable {
     required this.price,
     required this.discountPercentage,
     required this.rating,
-    required this.tags,
     required this.brand,
     required this.thumbnail,
     required this.images,
@@ -38,7 +36,6 @@ class ProductEntity extends Equatable {
         price,
         discountPercentage,
         rating,
-        tags,
         brand,
         thumbnail,
         images,

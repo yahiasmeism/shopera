@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 // ignore_for_file: must_be_immutable, annotate_overrides, overridden_fields
 
-
 part 'user_model.g.dart';
 
 @HiveType(typeId: 0)
@@ -21,11 +20,10 @@ class UserModel extends User with HiveObjectMixin {
   final String? image;
   @HiveField(6)
   final Address? address;
- @HiveField(7)
+  @HiveField(7)
   final String username;
- @HiveField(8)
+  @HiveField(8)
   final String? token;
-
 
   UserModel({
     required this.id,
@@ -41,13 +39,12 @@ class UserModel extends User with HiveObjectMixin {
           id: id,
           firstName: firstName,
           lastName: lastName,
-          userName:username,
+          userName: username,
           image: image,
           email: email,
           phone: phone,
           address: address,
           token: token,
-
         );
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -58,8 +55,8 @@ class UserModel extends User with HiveObjectMixin {
       username: json['username'],
       email: json['email'],
       phone: json['phone'],
-      image: json['image'] ,
-      token: json['token'] ,
+      image: json['image'],
+      token: json['token'],
       address: json['address'] != null ? Address.fromJson(json['address']) : null,
     );
   }
@@ -69,15 +66,16 @@ class UserModel extends User with HiveObjectMixin {
       'id': id,
       'firstName': firstName,
       'lastName': lastName,
-      'username':username,
+      'username': username,
       'email': email,
       'phone': phone,
       'image': image,
       'token': token,
-      'address': address?.toJson() ,
+      'address': address?.toJson(),
     };
   }
-    factory UserModel.fromEntity(User userEntity) {
+
+  factory UserModel.fromEntity(User userEntity) {
     return UserModel(
       id: userEntity.id,
       firstName: userEntity.firstName,
@@ -133,16 +131,15 @@ class Address extends HiveObject {
     };
   }
 
- factory Address.fromEntity(Address? addressEntity){
-  return Address(
-    address: addressEntity?.address??"" ,
-    city: addressEntity?.city??"" ,
-    coordinates:  Coordinates.fromEntity(addressEntity!.coordinates),
-    postalCode: addressEntity.postalCode,
-    state:addressEntity.state  ,
-  );
- }
-
+  factory Address.fromEntity(Address? addressEntity) {
+    return Address(
+      address: addressEntity?.address ?? "",
+      city: addressEntity?.city ?? "",
+      coordinates: Coordinates.fromEntity(addressEntity!.coordinates),
+      postalCode: addressEntity.postalCode,
+      state: addressEntity.state,
+    );
+  }
 }
 
 @HiveType(typeId: 2)
@@ -167,14 +164,8 @@ class Coordinates extends HiveObject {
       'lng': lng,
     };
   }
-  
-
 
   factory Coordinates.fromEntity(Coordinates coordinatesEntity) {
-      return Coordinates(
-        lat: coordinatesEntity.lat, 
-        lng: coordinatesEntity.lng
-        );
+    return Coordinates(lat: coordinatesEntity.lat, lng: coordinatesEntity.lng);
   }
-
 }

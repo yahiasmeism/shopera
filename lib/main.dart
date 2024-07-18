@@ -1,10 +1,12 @@
+import 'package:shopera/features/home/persentation/pages/home_page.dart';
+
+import 'core/services/service_locator.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/hive_init.dart';
 import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'core/utils/app_bloc_observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'core/services/service_locator.dart' as di;
 import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/authentication/presentation/pages/on_boarding_page.dart';
@@ -14,7 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // initial dependancy injection
-  await di.init();
+  await AppDep.init();
 
   // initail hive DB
   await hiveInit();
@@ -32,15 +34,15 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => di.sl<CartCubit>()),
-        BlocProvider(create: (context) => di.sl<UserCubit>()),
+        BlocProvider(create: (context) => AppDep.sl<CartCubit>()),
+        BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: SnackBarGlobal.key,
         debugShowCheckedModeBanner: false,
         theme: appTheme(),
         routes: appRoutes(),
-        initialRoute: OnBoardingPage.routeName,
+        initialRoute: HomePage.routeName,
       ),
     );
   }

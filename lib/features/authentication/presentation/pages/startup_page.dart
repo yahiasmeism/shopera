@@ -6,6 +6,8 @@ import 'package:shopera/features/authentication/presentation/widgets/login_signu
 class StartupPage extends StatefulWidget {
   static const routeName = 'startup';
 
+  const StartupPage({super.key});
+
   @override
   State<StartupPage> createState() => _StartupPageState();
 }

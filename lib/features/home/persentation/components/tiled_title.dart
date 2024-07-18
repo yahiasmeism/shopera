@@ -9,11 +9,11 @@ class TiledTitle extends StatelessWidget {
     super.key,
     required this.title,
     required this.tileText,
-    required this.function,
+    required this.onTap,
   });
   final String title;
   final String tileText;
-  final VoidCallback function;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -29,7 +29,7 @@ class TiledTitle extends StatelessWidget {
           textStyle: const TextStyle(
             color: AppColors.textColor,
           ),
-          onPressed: function,
+          onPressed: onTap,
         ),
       ],
     );
