@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:shopera/core/api/api_consumer.dart';
-import 'package:shopera/core/constants/end_points.dart';
-import 'package:shopera/features/home/data/models/category_model.dart';
+import '../../../../core/api/api_consumer.dart';
+import '../../../../core/constants/end_points.dart';
+import '../models/category_model.dart';
 import '../models/product_model.dart';
 
 // Abstract class for product remote data source

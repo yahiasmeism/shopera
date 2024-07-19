@@ -1,6 +1,6 @@
-import 'package:shopera/core/api/api_consumer.dart';
-import 'package:shopera/core/constants/end_points.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
+import '../../../../core/api/api_consumer.dart';
+import '../../../../core/constants/end_points.dart';
+import '../models/user_model.dart';
 
 abstract class AuthRemoteDataSource {
   Future<UserModel> login(String userName, String password);

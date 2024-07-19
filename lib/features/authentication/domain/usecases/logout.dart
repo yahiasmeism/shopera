@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../repositories/auth_repository.dart';
-import 'package:shopera/core/errors/failures.dart';
+import '../../../../core/errors/failures.dart';
 
 
 

@@ -1,9 +1,9 @@
-import 'package:shopera/features/home/data/models/category_model.dart';
-import 'package:shopera/features/home/data/models/product_model.dart';
+import '../../features/home/data/models/category_model.dart';
+import '../../features/home/data/models/product_model.dart';
 
 import '../constants/strings.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
+import '../../features/authentication/data/models/user_model.dart';
 
 Future<void> hiveInit() async {
   await Hive.initFlutter();

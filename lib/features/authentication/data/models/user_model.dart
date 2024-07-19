@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 // ignore_for_file: must_be_immutable, annotate_overrides, overridden_fields
 
 part 'user_model.g.dart';

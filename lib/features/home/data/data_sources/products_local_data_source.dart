@@ -1,7 +1,7 @@
 import 'package:hive_flutter/adapters.dart';
-import 'package:shopera/core/constants/strings.dart';
-import 'package:shopera/features/home/data/models/category_model.dart';
-import 'package:shopera/features/home/data/models/product_model.dart';
+import '../../../../core/constants/strings.dart';
+import '../models/category_model.dart';
+import '../models/product_model.dart';
 
 import '../../../../core/errors/exceptions.dart';
 

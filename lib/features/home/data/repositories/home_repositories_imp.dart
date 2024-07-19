@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
-import 'package:shopera/core/errors/exceptions.dart';
+import '../../../../core/errors/exceptions.dart';
 
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/core/network/network_info.dart';
-import 'package:shopera/features/home/data/data_sources/products_local_data_source.dart';
-import 'package:shopera/features/home/data/data_sources/products_remote_data_source.dart';
-import 'package:shopera/features/home/domin/entities/category_entity.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/network/network_info.dart';
+import '../data_sources/products_local_data_source.dart';
+import '../data_sources/products_remote_data_source.dart';
+import '../../domin/entities/category_entity.dart';
 
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
+import '../../domin/entities/product_entity.dart';
 
 import '../../domin/repositories/home_repository.dart';
 

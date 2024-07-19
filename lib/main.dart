@@ -1,18 +1,16 @@
-import 'package:flutter/foundation.dart';
-import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
-import 'package:shopera/features/home/persentation/pages/home_page.dart';
+import 'features/home/persentation/cubit/home_cubit.dart';
 
 import 'core/services/service_locator.dart';
 import 'core/theme/app_theme.dart';
 import 'core/utils/hive_init.dart';
 import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
-import 'core/utils/app_bloc_observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/widgets/snackbar_global.dart';
-import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
-import 'package:shopera/features/authentication/presentation/pages/on_boarding_page.dart';
-import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
+import 'core/widgets/snackbar_global.dart';
+import 'features/cart/persentation/cubit/cart_cubit.dart';
+import 'features/authentication/presentation/cubits/user_cubit/cubit.dart';
+
+import 'features/authentication/presentation/pages/on_boarding_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,7 +43,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: appTheme(),
         routes: appRoutes(),
-        initialRoute: HomePage.routeName,
+        initialRoute: OnBoardingPage.routeName,
       ),
     );
   }

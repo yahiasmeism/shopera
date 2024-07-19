@@ -1,6 +1,6 @@
 
-import 'package:shopera/features/cart/data/models/cart_item_model.dart';
-import 'package:shopera/features/cart/domin/entities/cart_entity.dart';
+import 'cart_item_model.dart';
+import '../../domin/entities/cart_entity.dart';
 
 class CartModel extends CartEntity {
   const CartModel({

@@ -2,12 +2,12 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shopera/core/usecases/usecase.dart';
-import 'package:shopera/features/home/domin/entities/category_entity.dart';
-import 'package:shopera/features/home/domin/usecases/get_categories_usecase.dart';
-import 'package:shopera/features/home/domin/usecases/get_products_by_category_usecase.dart';
-import 'package:shopera/features/home/domin/usecases/get_products_usecase.dart';
-import 'package:shopera/features/home/domin/usecases/search_products_usecase.dart';
+import '../../../../core/usecases/usecase.dart';
+import '../../domin/entities/category_entity.dart';
+import '../../domin/usecases/get_categories_usecase.dart';
+import '../../domin/usecases/get_products_by_category_usecase.dart';
+import '../../domin/usecases/get_products_usecase.dart';
+import '../../domin/usecases/search_products_usecase.dart';
 
 import '../../domin/entities/product_entity.dart';
 

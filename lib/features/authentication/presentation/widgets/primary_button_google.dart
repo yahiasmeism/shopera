@@ -1,11 +1,11 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/constants/strings.dart';
-import 'package:shopera/core/widgets/button_primary.dart';
-import 'package:shopera/core/widgets/snackbar_global.dart';
-import 'package:shopera/core/services/google_signin_api.dart';
-import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
+import '../../../../core/constants/strings.dart';
+import '../../../../core/widgets/button_primary.dart';
+import '../../../../core/widgets/snackbar_global.dart';
+import '../../../../core/services/google_signin_api.dart';
+import '../cubits/user_cubit/cubit.dart';
 
 class PrimaryButtonGoogle extends StatelessWidget {
   const PrimaryButtonGoogle({super.key ,required BuildContext context});

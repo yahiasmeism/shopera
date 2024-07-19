@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shopera/core/widgets/button_primary.dart';
-import 'package:shopera/features/cart/persentation/components/cart_button.dart';
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
-import 'package:shopera/features/home/persentation/components/dynamic_product_card.dart';
-import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
+import '../../../../core/widgets/button_primary.dart';
+import '../../../cart/persentation/components/cart_button.dart';
+import '../../domin/entities/product_entity.dart';
+import '../components/dynamic_product_card.dart';
+import '../cubit/home_cubit.dart';
 
 import '../../../../core/constants/colors.dart';
 import '../components/category_selector.dart';
@@ -62,7 +62,6 @@ class _HomePageState extends State<HomePage> {
             }
           },
           builder: (context, state) {
-            final cubit = context.read<HomeCubit>();
             if (state is HomeStateLoaded) {
               if (state.categoriesLoading || state.productsLoading) {
                 return const Center(

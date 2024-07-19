@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/widgets/button_primary.dart';
-import 'package:shopera/features/authentication/presentation/pages/login_page.dart';
-import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
-import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
-import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
-import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
-import 'package:shopera/features/home/persentation/pages/home_page.dart';
+import '../../../../core/widgets/button_primary.dart';
+import 'login_page.dart';
+import '../cubits/user_cubit/cubit.dart';
+import '../widgets/text_form_field.dart';
+import '../widgets/primary_button_google.dart';
+import '../widgets/custom_password_form_field.dart';
+import '../../../home/persentation/pages/home_page.dart';
 
 class RegisterPage extends StatelessWidget {
   static const routeName = 'register';

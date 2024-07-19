@@ -1,7 +1,7 @@
 
 import 'package:dartz/dartz.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/cart/domin/entities/cart_entity.dart';
+import '../../../../core/errors/failures.dart';
+import '../entities/cart_entity.dart';
 
 import '../../data/dtos/cart_dto.dart';
 abstract interface class CartRepository {

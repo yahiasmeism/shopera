@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/home/domin/entities/category_entity.dart';
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
+import '../../../../core/errors/failures.dart';
+import '../entities/category_entity.dart';
+import '../entities/product_entity.dart';
 
 abstract interface class HomeRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts({required int pageNumber});

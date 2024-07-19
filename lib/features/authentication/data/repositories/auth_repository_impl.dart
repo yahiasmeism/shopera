@@ -1,15 +1,15 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/core/constants/strings.dart';
-import 'package:shopera/core/errors/exceptions.dart';
-import 'package:shopera/core/network/network_info.dart';
+import '../../../../core/errors/failures.dart';
+import '../../../../core/constants/strings.dart';
+import '../../../../core/errors/exceptions.dart';
+import '../../../../core/network/network_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
-import 'package:shopera/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
-import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
+import '../../domain/entities/user.dart';
+import '../models/user_model.dart';
+import '../../domain/repositories/auth_repository.dart';
+import '../datasources/auth_local_data_source.dart';
+import '../datasources/auth_remote_data_source.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource remoteDataSource;

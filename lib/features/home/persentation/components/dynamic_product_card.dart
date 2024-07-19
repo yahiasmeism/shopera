@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
+import '../../domin/entities/product_entity.dart';
 
 import '../../../../core/constants/colors.dart';
 import 'product_image.dart';

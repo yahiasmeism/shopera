@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shopera/core/constants/colors.dart';
-import 'package:shopera/features/authentication/presentation/pages/login_page.dart';
-import 'package:shopera/features/authentication/presentation/pages/register_page.dart';
+import '../../../../core/constants/colors.dart';
+import '../pages/login_page.dart';
+import '../pages/register_page.dart';
 
 class LoginSignUpToggle extends StatefulWidget {
   const LoginSignUpToggle({super.key});

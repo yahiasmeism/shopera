@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:shopera/core/constants/colors.dart';
-import 'package:shopera/core/constants/strings.dart';
+import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:shopera/features/authentication/presentation/pages/startup_page.dart';
+import 'startup_page.dart';
 
 class BoardingModel {
   final String image;

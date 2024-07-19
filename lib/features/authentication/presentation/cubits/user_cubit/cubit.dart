@@ -1,12 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/domain/usecases/login.dart';
-import 'package:shopera/features/authentication/domain/usecases/logout.dart';
-import 'package:shopera/features/authentication/domain/usecases/register.dart';
-import 'package:shopera/features/authentication/domain/usecases/update_user.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../domain/entities/user.dart';
+import '../../../domain/usecases/login.dart';
+import '../../../domain/usecases/logout.dart';
+import '../../../domain/usecases/register.dart';
+import '../../../domain/usecases/update_user.dart';
 
 part 'states.dart';
 

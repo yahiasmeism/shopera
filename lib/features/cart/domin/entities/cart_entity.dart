@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import 'package:shopera/features/cart/domin/entities/cart_item_entity.dart';
+import 'cart_item_entity.dart';
 
 class CartEntity extends Equatable {
   final int id;
