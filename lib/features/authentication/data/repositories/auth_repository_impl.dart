@@ -39,20 +39,6 @@ class AuthRepositoryImpl extends AuthRepository {
     } else {
       return Left(OfflineFailure(message: OFFLINE_FAILURE_MESSAGE));
     }
-    // else {
-    //   try {
-    //     if (kDebugMode) {
-    //       print("NoInternet");
-    //     }
-    //     final localLogin = await localDataSource.getCachedUser();
-    //     return Right(localLogin!);
-    //   } on EmptyCacheException {
-    //     if (kDebugMode) {
-    //       print("EmptyCacheException");
-    //     }
-    //     return Left(EmptyLocalStorageFailure(message: EMPTY_CACHE_FAILURE_MESSAGE));
-    //   }
-    // }
   }
 
   @override
