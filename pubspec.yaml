@@ -72,6 +72,7 @@ dependencies:
   smooth_page_indicator: ^1.2.0
 
   card_swiper: ^3.0.1
+  image_picker: ^1.1.2
   
 dev_dependencies:
   flutter_test:

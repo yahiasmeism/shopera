@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
@@ -8,8 +9,6 @@ import 'package:shopera/features/authentication/domain/entities/user.dart';
 import 'package:shopera/features/authentication/data/models/user_model.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
-
-
 
 class UpdateUserPage extends StatefulWidget {
   static const routeName = 'update_profile';
@@ -30,7 +29,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
   final TextEditingController _postalCodeController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  String? _userImage ;
+  String? _userImage;
 
   @override
   void initState() {
@@ -87,7 +86,6 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                
                   Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -110,32 +108,32 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       Expanded(
                                         child: TextFormFieldWidget(
                                           controller: _firstNameController,
-                                           label: 'First Name',
-                                          
+                                          label: 'First Name',
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter your first name';
                                             }
                                             return null;
                                           },
-                                           type: TextInputType.text, 
-                                           prefix: Icons.abc,
+                                          type: TextInputType.text,
+                                          prefix: Icons.abc,
                                         ),
                                       ),
                                       const SizedBox(width: 8.0),
                                       Expanded(
-                                        child: TextFormFieldWidget (
-
+                                        child: TextFormFieldWidget(
                                           controller: _lastNameController,
-                                           label: 'Last Name',
+                                          label: 'Last Name',
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter your last name';
                                             }
                                             return null;
                                           },
-                                           type: TextInputType.text, 
-                                           prefix: Icons.abc,
+                                          type: TextInputType.text,
+                                          prefix: Icons.abc,
                                         ),
                                       ),
                                     ],
@@ -148,15 +146,16 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       Expanded(
                                         child: TextFormFieldWidget(
                                           controller: _usernameController,
-                                           label: 'Username',
+                                          label: 'Username',
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter a username';
                                             }
                                             return null;
                                           },
-                                          type: TextInputType.text, 
-                                           prefix: Icons.person,
+                                          type: TextInputType.text,
+                                          prefix: Icons.person,
                                         ),
                                       ),
                                       const SizedBox(width: 8.0),
@@ -164,10 +163,11 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _emailController,
                                           label: 'Email',
-                                           type: TextInputType.emailAddress, 
-                                           prefix: Icons.email,
+                                          type: TextInputType.emailAddress,
+                                          prefix: Icons.email,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter an email';
                                             }
                                             if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
@@ -189,10 +189,11 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _phoneController,
                                           label: 'Phone Number',
-                                           type: TextInputType.phone, 
-                                           prefix: Icons.phone,
+                                          type: TextInputType.phone,
+                                          prefix: Icons.phone,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter a phone number';
                                             }
                                             return null;
@@ -204,10 +205,11 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _cityController,
                                           label: 'City',
-                                           type: TextInputType.text, 
-                                           prefix: Icons.location_city,
+                                          type: TextInputType.text,
+                                          prefix: Icons.location_city,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter a city';
                                             }
                                             return null;
@@ -224,11 +226,12 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                       Expanded(
                                         child: TextFormFieldWidget(
                                           controller: _postalCodeController,
-                                           label: 'Postal Code',
-                                            type: TextInputType.number, 
-                                           prefix: Icons.numbers,
+                                          label: 'Postal Code',
+                                          type: TextInputType.number,
+                                          prefix: Icons.numbers,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter a postal code';
                                             }
                                             return null;
@@ -240,10 +243,11 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                         child: TextFormFieldWidget(
                                           controller: _stateController,
                                           label: 'State',
-                                           type: TextInputType.text, 
-                                           prefix: Icons.abc,
+                                          type: TextInputType.text,
+                                          prefix: Icons.abc,
                                           validator: (value) {
-                                            if (value == null || value.isEmpty) {
+                                            if (value == null ||
+                                                value.isEmpty) {
                                               return 'Please enter a state';
                                             }
                                             return null;
@@ -257,9 +261,9 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                   ),
                                   TextFormFieldWidget(
                                     controller: _addressController,
-                                     label: 'Address',
-                                      type: TextInputType.text, 
-                                           prefix: Icons.add_home_work_sharp,
+                                    label: 'Address',
+                                    type: TextInputType.text,
+                                    prefix: Icons.add_home_work_sharp,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter a address';
@@ -276,41 +280,83 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                           ),
                         ],
                       ),
-                      FutureBuilder<File>(
-                        future: ImageCacheManager.getImagePath(_userImage ?? ''),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
-                            return Stack(
-                              children: [          
-                                CircleAvatar(
+                      BlocBuilder<UserCubit, UserState>(
+                          builder: (context, state) {
+                        if (state is ProfileImagePickerSuccessState) {
+                          return Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 60,
+                                backgroundImage: FileImage(state.imageFile),
+                              ),
+                               Positioned(
+                                        bottom: 5,
+                                        right: 5,
+                                        child: CircleAvatar(
+                                            radius: 16,
+                                            backgroundColor:
+                                                AppColors.primaryColor[200],
+                                            child: IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                onPressed: () {
+                                                  context
+                                                      .read<UserCubit>()
+                                                      .pickImage();
+                                                },
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: AppColors.iconColor,
+                                                )))),
+                            ],
+                          );
+                        } else {
+                          return FutureBuilder<File>(
+                            future: ImageCacheManager.getImagePath(
+                                _userImage ?? ''),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                      ConnectionState.done &&
+                                  snapshot.hasData) {
+                                return Stack(
+                                  children: [
+                                    CircleAvatar(
+                                      radius: 60,
+                                      backgroundImage:
+                                          FileImage(snapshot.data!),
+                                    ),
+                                    Positioned(
+                                        bottom: 5,
+                                        right: 5,
+                                        child: CircleAvatar(
+                                            radius: 16,
+                                            backgroundColor:
+                                                AppColors.primaryColor[200],
+                                            child: IconButton(
+                                                padding:
+                                                    const EdgeInsets.all(0),
+                                                onPressed: () {
+                                                  context
+                                                      .read<UserCubit>()
+                                                      .pickImage();
+                                                },
+                                                icon: const Icon(
+                                                  Icons.edit,
+                                                  color: AppColors.iconColor,
+                                                )))),
+                                  ],
+                                );
+                              } else {
+                                return const CircleAvatar(
                                   radius: 60,
-                                  backgroundImage: FileImage(snapshot.data!),
-                                ),
-                                Positioned(
-                                  bottom: 5,
-                                  right: 5,
-                                  child: CircleAvatar(
-                                    radius: 16,
-                                    backgroundColor: AppColors.primaryColor[200],
-                                    child: IconButton(
-                                      padding: const EdgeInsets.all(0),
-                                      onPressed: (){}, 
-                                      icon: const Icon(
-                                        Icons.edit,color: AppColors.iconColor,
-                                      )
-                                      )
-                                      )
-                                      ),
-                              ],
-                            );
-                          } else {
-                            return const CircleAvatar(
-                              radius: 60,
-                              backgroundImage: AssetImage('assets/images/fallback.png'),
-                            );
-                          }
-                        },
-                      ),
+                                  backgroundImage:
+                                      AssetImage('assets/images/fallback.png'),
+                                );
+                              }
+                            },
+                          );
+                        }
+                      }),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -331,7 +377,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                               Text('Update'),
                             ],
                           ),
-                          onPressed: () {
+                          onPressed: ()async {
                             if (_formKey.currentState?.validate() ?? false) {
                               final user = context.read<UserCubit>().userEntite;
                               User updatedUser = User(
@@ -341,13 +387,14 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                 userName: _usernameController.text,
                                 email: _emailController.text,
                                 phone: _phoneController.text,
-                                image: user?.image,
+                                image:state is ProfileImagePickerSuccessState?base64Encode(await state.imageFile.readAsBytes()): user?.image,
                                 address: Address(
                                     city: _cityController.text,
                                     postalCode: _postalCodeController.text,
                                     state: _stateController.text,
                                     address: _addressController.text,
-                                    coordinates: Coordinates(lat: 0.0, lng: 0.0)),
+                                    coordinates:
+                                        Coordinates(lat: 0.0, lng: 0.0)),
                                 token: user?.token,
                               );
                               context
@@ -355,7 +402,6 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                   .updateUser(user: updatedUser);
                             }
                           },
-
                         ),
                       );
                     },

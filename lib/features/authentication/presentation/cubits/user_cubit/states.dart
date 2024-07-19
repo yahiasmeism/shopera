@@ -27,3 +27,22 @@ class UserFailure extends UserState {
   @override
   List<Object> get props => [error];
 }
+
+class ProfileImagePickerSuccessState extends UserState {
+  final File  imageFile;
+
+  const ProfileImagePickerSuccessState( {required this.imageFile});
+
+  @override
+  List<Object> get props => [imageFile];
+}
+
+class ProfileImagePickerErrorState extends UserState {
+  final String  error;
+
+  const ProfileImagePickerErrorState({required this.error});
+
+  @override
+  List<Object> get props => [error];
+}
+

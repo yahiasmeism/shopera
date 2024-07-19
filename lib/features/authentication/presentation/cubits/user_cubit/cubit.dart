@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import '../../pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:shopera/core/errors/failures.dart';
 import 'package:shopera/features/authentication/domain/entities/user.dart';
 import 'package:shopera/features/authentication/domain/usecases/login.dart';
@@ -72,6 +74,20 @@ class UserCubit extends Cubit<UserState> {
       Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(route) => false, );
     });
 
+  }
+
+
+    Future<void> pickImage() async {
+      final picker = ImagePicker();
+    final pickerFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickerFile != null) {
+      //  File(pickerFile.path);
+      emit(ProfileImagePickerSuccessState( imageFile: File(pickerFile.path),));
+    } else {
+      print("No image selected");
+      emit(const ProfileImagePickerErrorState(error: 'Error image selected'));
+    }
   }
 
 
