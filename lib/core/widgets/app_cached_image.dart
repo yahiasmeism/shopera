@@ -1,11 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../../../../core/constants/colors.dart';
+import 'package:shopera/core/constants/colors.dart';
+import 'package:shopera/core/widgets/custom_fading_widget.dart';
 
-import '../../../../core/widgets/custom_fading_widget.dart';
-
-class ProductImage extends StatelessWidget {
-  const ProductImage({
+class AppCachedImage extends StatelessWidget {
+  const AppCachedImage({
     super.key,
     this.imageUrl,
     this.height = 150,
