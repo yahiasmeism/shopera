@@ -10,10 +10,10 @@ class ServerException extends AppExecption {
   const ServerException(super.message);
 
   factory ServerException.fromDioException(DioException e) {
-    // final String? message = e.response?.data['message'] as String?;
-    // if (message != null && message.isNotEmpty) {
-    //   return ServerException(message);
-    // }
+    final String? message = e.response?.data['message'] as String?;
+    if (message != null && message.isNotEmpty) {
+      return ServerException(message);
+    }
     switch (e.type) {
       case DioExceptionType.connectionTimeout:
         return const ServerException('Connection timeout with api server');
