@@ -6,6 +6,8 @@ import 'package:shopera/core/constants/colors.dart';
 
 
 class BottomNavBar extends StatelessWidget {
+  const BottomNavBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBarCubit, NavigationBarState>(

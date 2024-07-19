@@ -1,14 +1,13 @@
+import '../pages/login_page.dart';
+import '../pages/register_page.dart';
 import 'package:flutter/material.dart';
-import 'package:shopera/core/constants/colors.dart';
-import 'package:shopera/features/authentication/presentation/pages/login_page.dart';
-import 'package:shopera/features/authentication/presentation/pages/register_page.dart';
+import '../../../../core/constants/colors.dart';
 
 class LoginSignUpToggle extends StatefulWidget {
   const LoginSignUpToggle({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
-  _LoginSignUpToggleState createState() => _LoginSignUpToggleState();
+  State createState() => _LoginSignUpToggleState();
 }
 
 class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
@@ -16,7 +15,7 @@ class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width-33;
+    double width = MediaQuery.of(context).size.width - 33;
 
     return Stack(
       children: [
@@ -44,16 +43,16 @@ class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
           child: Row(
             children: [
               Expanded(
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isLoginSelected = true;
                     });
-                       Navigator.pushNamed(context, LoginPage.routeName);
+                    Navigator.pushNamed(context, SignInPage.routeName);
                   },
                   child: Center(
                     child: Text(
-                      'Login',
+                      'Sign-in',
                       style: TextStyle(
                         color: isLoginSelected ? Colors.white : AppColors.primaryColor,
                         fontWeight: FontWeight.bold,
@@ -63,12 +62,12 @@ class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
                 ),
               ),
               Expanded(
-                child: GestureDetector(
+                child: InkWell(
                   onTap: () {
                     setState(() {
                       isLoginSelected = false;
                     });
-                     Navigator.pushNamed(context,RegisterPage.routeName);
+                    Navigator.pushNamed(context, SignUpPage.routeName);
                   },
                   child: Center(
                     child: Text(

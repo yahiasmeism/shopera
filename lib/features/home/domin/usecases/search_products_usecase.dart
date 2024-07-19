@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
-import 'package:shopera/features/home/domin/repositories/home_repository.dart';
+import '../../../../core/errors/failures.dart';
+import '../entities/product_entity.dart';
+import '../repositories/home_repository.dart';
 
 import '../../../../core/usecases/usecase.dart';
 

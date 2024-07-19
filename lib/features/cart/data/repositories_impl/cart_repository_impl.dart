@@ -1,11 +1,11 @@
 
 import 'package:dartz/dartz.dart';
-import 'package:shopera/core/errors/exceptions.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/cart/data/data_sources/cart_remote_data_source.dart';
-import 'package:shopera/features/cart/data/dtos/cart_dto.dart';
-import 'package:shopera/features/cart/domin/entities/cart_entity.dart';
-import 'package:shopera/features/cart/domin/repositories/cart_repositories.dart';
+import '../../../../core/errors/exceptions.dart';
+import '../../../../core/errors/failures.dart';
+import '../data_sources/cart_remote_data_source.dart';
+import '../dtos/cart_dto.dart';
+import '../../domin/entities/cart_entity.dart';
+import '../../domin/repositories/cart_repositories.dart';
 
 import '../data_sources/cart_local_data_source.dart';
 

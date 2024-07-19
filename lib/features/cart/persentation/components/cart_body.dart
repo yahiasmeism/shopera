@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
-import 'package:shopera/features/cart/persentation/components/cart_sliver_list_view.dart';
-import 'package:shopera/features/cart/persentation/components/cart_statistics_widget.dart';
+import '../cubit/cart_cubit.dart';
+import 'cart_sliver_list_view.dart';
+import 'cart_statistics_widget.dart';
 
 import '../../../../core/widgets/button_primary.dart';
 

@@ -1,11 +1,15 @@
 import '../cubit/cubit.dart';
 import 'settings_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import '../data/model/setting_item_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../authentication/presentation/cubits/user_cubit/cubit.dart';
 
+
 class SettingsWidget extends StatelessWidget {
+  const SettingsWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -67,7 +71,9 @@ class SettingsWidget extends StatelessWidget {
                     value: isLightTheme,
                     onChanged: (value) {
                       // Toggle theme action
-                      print("switch");
+                      if (kDebugMode) {
+                        print("switch");
+                      }
                       context.read<SettingsCubit>().toggleTheme(value);
                     },
                   );

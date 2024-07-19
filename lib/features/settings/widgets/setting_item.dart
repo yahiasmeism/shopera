@@ -4,8 +4,7 @@ import '../data/model/setting_item_model.dart';
 class SettingItemWidget extends StatelessWidget {
   final SettingItem settingItem;
 
-  const SettingItemWidget({Key? key, required this.settingItem})
-      : super(key: key);
+  const SettingItemWidget({super.key, required this.settingItem});
 
   @override
   Widget build(BuildContext context) {

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/widgets/app_cached_image.dart';
+import '../../domin/entities/product_entity.dart';
+
 import '../../../../core/constants/colors.dart';
 import 'title_widget.dart';
 
 class DynamicProductCard extends StatelessWidget {
+  final ProductEntity product;
   final String type;
-  final String imagePath;
-  final String title;
-  final double price;
   final double? height;
 
   const DynamicProductCard({
     super.key,
+    required this.product,
     required this.type,
-    required this.imagePath,
-    required this.title,
-    required this.price,
     this.height = 100,
   });
 
@@ -57,7 +56,7 @@ class DynamicProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TitleWidget(
-                  label: title,
+                  label: product.title,
                   fontSize: 16,
                 ),
                 const SizedBox(height: 7),
@@ -88,7 +87,7 @@ class DynamicProductCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 image: DecorationImage(
-                  image: NetworkImage(imagePath),
+                  image: NetworkImage(product.thumbnail),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -101,7 +100,7 @@ class DynamicProductCard extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   Text(
-                    title,
+                    product.title,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -114,7 +113,7 @@ class DynamicProductCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '\$$price',
+                        '\$${product.price}',
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.teal,
@@ -182,12 +181,7 @@ class DynamicProductCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(
-                  imagePath,
-                  height: height,
-                  width: height,
-                  fit: BoxFit.cover,
-                ),
+                child: AppCachedImage(imageUrl: product.thumbnail, height: 150),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -196,11 +190,11 @@ class DynamicProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TitleWidget(
-                      label: title,
+                      label: product.title,
                       fontSize: 16,
                     ),
                     Text(
-                      '\$$price',
+                      '\$${product.price}',
                       style: const TextStyle(
                         fontSize: 18,
                         color: AppColors.priceColor,
@@ -244,8 +238,8 @@ class DynamicProductCard extends StatelessWidget {
   Widget _buildImage() {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(14.0)),
-      child: Image.network(
-        imagePath,
+      child: AppCachedImage(
+        imageUrl: product.thumbnail,
         height: 150,
         width: double.infinity,
         fit: BoxFit.cover,
@@ -258,7 +252,7 @@ class DynamicProductCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '\$$price',
+          '\$${product.price}',
           style: const TextStyle(
             fontSize: 18,
             color: AppColors.priceColor,

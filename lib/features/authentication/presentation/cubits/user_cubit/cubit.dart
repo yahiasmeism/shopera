@@ -2,16 +2,17 @@ import 'dart:io';
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import '../../pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:equatable/equatable.dart';
+import '../../../domain/entities/user.dart';
+import '../../../domain/usecases/login.dart';
+import '../../../domain/usecases/logout.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/domain/usecases/login.dart';
-import 'package:shopera/features/authentication/domain/usecases/logout.dart';
-import 'package:shopera/features/authentication/domain/usecases/register.dart';
-import 'package:shopera/features/authentication/domain/usecases/update_user.dart';
+import '../../../domain/usecases/register.dart';
+import '../../../../../core/errors/failures.dart';
+import '../../../domain/usecases/update_user.dart';
+import 'package:shopera/features/authentication/presentation/pages/login_page.dart';
 
 
 
@@ -71,7 +72,7 @@ class UserCubit extends Cubit<UserState> {
 
   Future<void> logoutUser(BuildContext context) async {
     logout().then((onValue){
-      Navigator.of(context).pushNamedAndRemoveUntil(LoginPage.routeName,(route) => false, );
+      Navigator.of(context).pushNamedAndRemoveUntil(SignInPage.routeName,(route) => false, );
     });
 
   }
@@ -85,7 +86,9 @@ class UserCubit extends Cubit<UserState> {
       //  File(pickerFile.path);
       emit(ProfileImagePickerSuccessState( imageFile: File(pickerFile.path),));
     } else {
-      print("No image selected");
+      if (kDebugMode) {
+        print("No image selected");
+      }
       emit(const ProfileImagePickerErrorState(error: 'Error image selected'));
     }
   }

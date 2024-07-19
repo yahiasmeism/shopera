@@ -1,33 +1,38 @@
-import 'dart:convert';
+// ignore_for_file: annotate_overrides, overridden_fields
 
-class ProductModel {
+import 'dart:convert';
+import 'package:hive/hive.dart';
+import 'package:shopera/features/home/data/models/category_model.dart';
+import 'package:shopera/features/home/domin/entities/product_entity.dart';
+
+import '../../domin/entities/category_entity.dart';
+part 'product_model.g.dart';
+
+
+@HiveType(typeId: 4)
+class ProductModel extends ProductEntity {
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String title;
+  @HiveField(2)
   final String description;
-  final String category;
+  @HiveField(3)
   final double price;
+  @HiveField(4)
   final double discountPercentage;
+  @HiveField(5)
   final double rating;
-  final List<String> tags;
+  @HiveField(6)
   final String brand;
+  @HiveField(7)
+  final CategoryEntity category;
+  @HiveField(8)
   final List<String> images;
+  @HiveField(9)
   final String thumbnail;
 
-  factory ProductModel.fromMap(Map<String, dynamic> data) => ProductModel(
-        id: data['id'] as int? ?? 0,
-        title: data['title'] as String? ?? '',
-        description: data['description'] as String? ?? '',
-        category: data['category'] as String? ?? '',
-        price: (data['price'] as num? ?? 0).toDouble(),
-        discountPercentage: (data['discountPercentage'] as num? ?? 0).toDouble(),
-        rating: (data['rating'] as num? ?? 0).toDouble(),
-        tags: data['tags'] as List<String>? ?? [],
-        brand: data['brand'] as String? ?? '',
-        images: data['images'] as List<String>? ?? [],
-        thumbnail: data['thumbnail'] as String? ?? '',
-      );
-
-  ProductModel(
+  const ProductModel(
       {required this.id,
       required this.title,
       required this.description,
@@ -35,10 +40,34 @@ class ProductModel {
       required this.price,
       required this.discountPercentage,
       required this.rating,
-      required this.tags,
       required this.brand,
-      required this.images,
-      required this.thumbnail});
+      required this.thumbnail,
+      required this.images})
+      : super(
+          brand: brand,
+          category: category,
+          description: description,
+          discountPercentage: discountPercentage,
+          id: id,
+          images: images,
+          price: price,
+          rating: rating,
+          thumbnail: thumbnail,
+          title: title,
+        );
+
+  factory ProductModel.fromMap(Map<String, dynamic> data) => ProductModel(
+        id: data['id'] as int? ?? 0,
+        title: data['title'] as String? ?? '',
+        description: data['description'] as String? ?? '',
+        category: CategoryModel.fromMap(data),
+        price: (data['price'] as num? ?? 0).toDouble(),
+        discountPercentage: (data['discountPercentage'] as num? ?? 0).toDouble(),
+        rating: (data['rating'] as num? ?? 0).toDouble(),
+        brand: data['brand'] as String? ?? '',
+        images: (data['images'] as List).map((e) => e as String).toList(),
+        thumbnail: data['thumbnail'] as String? ?? '',
+      );
 
   Map<String, dynamic> toMap() => {
         'id': id,
@@ -48,7 +77,6 @@ class ProductModel {
         'price': price,
         'discountPercentage': discountPercentage,
         'rating': rating,
-        'tags': tags,
         'brand': brand,
         'images': images,
         'thumbnail': thumbnail,

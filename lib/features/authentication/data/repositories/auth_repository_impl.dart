@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
+import '../models/user_model.dart';
+import '../../domain/entities/user.dart';
 import 'package:shopera/core/errors/failures.dart';
+import '../datasources/auth_local_data_source.dart';
 import 'package:shopera/core/constants/strings.dart';
 import 'package:shopera/core/errors/exceptions.dart';
+import '../datasources/auth_remote_data_source.dart';
 import 'package:shopera/core/network/network_info.dart';
+import '../../domain/repositories/auth_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
-import 'package:shopera/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
-import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
 
 class AuthRepositoryImpl extends AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
@@ -36,7 +36,7 @@ class AuthRepositoryImpl extends AuthRepository {
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       }
-    } else {
+    }else {
       return Left(OfflineFailure(message: OFFLINE_FAILURE_MESSAGE));
     }
   }

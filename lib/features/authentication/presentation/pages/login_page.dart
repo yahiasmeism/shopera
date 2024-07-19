@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../main/pages/main_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/button_primary.dart';
+import 'package:shopera/core/utils/my_route_observer.dart';
+import 'package:shopera/features/home/persentation/pages/home_page.dart';
 import 'package:shopera/features/authentication/presentation/pages/register_page.dart';
 import 'package:shopera/features/authentication/presentation/pages/update_user_page.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
@@ -9,16 +10,12 @@ import 'package:shopera/features/authentication/presentation/widgets/text_form_f
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
 import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
 
-
-
-
-
 // ignore: must_be_immutable
-class LoginPage extends StatelessWidget {
+class SignInPage extends StatelessWidget {
   static const routeName = 'login';
   bool isPassword = true;
 
-  LoginPage({super.key});
+  SignInPage({super.key});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -26,14 +23,14 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-         automaticallyImplyLeading: true,
-      ),
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+        ),
         body: BlocListener<UserCubit, UserState>(
       listener: (context, state) {
         if (state is UserSuccess) {
           // Navigate to home or another page
-          Navigator.of(context).pushNamedAndRemoveUntil(MainPage.routeName,(route) => false,);
+          Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName,(route) => false,);
         } else if (state is UserFailure) {
           // Show error message
           ScaffoldMessenger.of(context).showSnackBar(
@@ -99,7 +96,6 @@ class LoginPage extends StatelessWidget {
                   BlocBuilder<UserCubit, UserState>(
                     builder: (context, state) {
                       if (state is UserLoading) {
-                        print("UserLoading");
                         return const Center(child: CircularProgressIndicator());
                       }
                       return PrimaryButton(
@@ -108,7 +104,7 @@ class LoginPage extends StatelessWidget {
                             context.read<UserCubit>().loginUser(
                                   username: _usernameController.text,
                                   password: _passwordController.text,
-                                  isFromGoogle: false,
+                                  isFromGoogle: false,  
                                 );
                           }
                         },
@@ -118,42 +114,46 @@ class LoginPage extends StatelessWidget {
                     },
                   ),
 
-                  const SizedBox(height: 20),
-                  // Divider
-                  const Row(
-                    children: [
-                      Expanded(child: Divider(thickness: 1)),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Text('or continue with'),
+                      const SizedBox(height: 20),
+                      // Divider
+                      const Row(
+                        children: [
+                          Expanded(child: Divider(thickness: 1)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 10),
+                            child: Text('or continue with'),
+                          ),
+                          Expanded(child: Divider(thickness: 1)),
+                        ],
                       ),
-                      Expanded(child: Divider(thickness: 1)),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  // Google sign-in button
-                  PrimaryButtonGoogle(context: context),
+                      const SizedBox(height: 20),
+                      // Google sign-in button
+                      PrimaryButtonGoogle(context: context),
 
-                  const SizedBox(height: 20),
-                  // Sign-up link
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Don't have an account?"),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(RegisterPage.routeName);
-                        },
-                        child: const Text('Sign up'),
+                      const SizedBox(height: 20),
+                      // Sign-up link
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Don't have an account?"),
+                          TextButton(
+                            onPressed: () {
+                              if (AppNavigatorObserver().isRoutePresent(SignUpPage.routeName)) {
+                                Navigator.popUntil(context, ModalRoute.withName(SignUpPage.routeName));
+                              } else {
+                                Navigator.pushNamed(context, SignUpPage.routeName);
+                              }
+                            },
+                            child: const Text('Sign up'),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:shopera/core/errors/failures.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/domain/repositories/auth_repository.dart';
+import '../../../../core/errors/failures.dart';
+import '../entities/user.dart';
+import '../repositories/auth_repository.dart';
 
 
 

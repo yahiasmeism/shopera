@@ -8,6 +8,8 @@ import '../../authentication/presentation/cubits/user_cubit/cubit.dart';
 class SettingsPage extends StatefulWidget {
   static const routeName = 'settings';
 
+  const SettingsPage({super.key});
+
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
@@ -53,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
                   image: _userImage,
                 ),
               ),
-              SettingsWidget(),
+              const SettingsWidget(),
             ],
           ),
         ),

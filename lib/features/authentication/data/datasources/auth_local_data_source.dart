@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:shopera/core/constants/strings.dart';
-import 'package:shopera/core/errors/exceptions.dart';
-import 'package:shopera/core/local/hive/user_repository.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
+import '../../../../core/constants/strings.dart';
+import '../../../../core/errors/exceptions.dart';
+import '../../../../core/local/hive/user_repository.dart';
+import '../models/user_model.dart';
 
 abstract class AuthLocalDataSource {
   Future<UserModel?> getCachedUser();

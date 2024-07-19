@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:shopera/features/cart/data/dtos/cart_dto.dart';
-import 'package:shopera/features/cart/data/dtos/cart_item_dto.dart';
-import 'package:shopera/features/cart/domin/entities/cart_item_entity.dart';
+import '../../data/dtos/cart_dto.dart';
+import '../../data/dtos/cart_item_dto.dart';
+import '../../domin/entities/cart_item_entity.dart';
 
 import '../../domin/entities/cart_entity.dart';
 import '../../domin/usecases/create_cart_usecase.dart';

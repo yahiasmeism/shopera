@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shopera/core/constants/colors.dart';
+import '../../../../core/constants/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:shopera/features/authentication/presentation/widgets/login_signup_toggle.dart';
+import '../widgets/signin_signup_toggle.dart';
 
 class StartupPage extends StatefulWidget {
   static const routeName = 'startup';
+
+  const StartupPage({super.key});
 
   @override
   State<StartupPage> createState() => _StartupPageState();

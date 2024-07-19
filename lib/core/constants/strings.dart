@@ -1,11 +1,12 @@
 // ignore_for_file: constant_identifier_names
 const String kProductsBox = 'products_box';
+const String kCategoriesBox = 'categorie_box';
 const String APP_BOX = 'APP_BOX';
 const String BASE_URL = 'https://dummyjson.com/';
 const String User_Box = 'User_Box';
 const String K_User_Box = 'k_User_Box';
 const String SERVER_FAILURE_MESSAGE = 'Please try again later .';
-const String EMPTY_CACHE_FAILURE_MESSAGE = 'No Data';
+const String EMPTY_CACHE_FAILURE_MESSAGE = 'No data please try later';
 const String LOGOUT_FAILURE_MESSAGE = 'Faild to log out';
 const String OFFLINE_FAILURE_MESSAGE = 'Please Check your Internet Connection';
 const String K_U_ID = 'uId';

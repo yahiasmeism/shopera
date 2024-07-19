@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:shopera/core/constants/colors.dart';
+import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/hr_dashed_divider.dart';
 import '../../domin/entities/cart_entity.dart';
 

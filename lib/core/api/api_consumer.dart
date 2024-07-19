@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:shopera/core/constants/strings.dart';
+import '../constants/strings.dart';
 
 import '../errors/exceptions.dart';
 

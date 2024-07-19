@@ -7,10 +7,10 @@ class SettingsSectionWidget extends StatelessWidget {
   final List<SettingItem> settingItems;
 
   const SettingsSectionWidget({
-    Key? key,
+    super.key,
     required this.sectionTitle,
     required this.settingItems,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,8 @@ class SettingsSectionWidget extends StatelessWidget {
             ),
             ...settingItems
                 .map((item) => SettingItemWidget(settingItem: item))
-                .toList(),
+                ,
+              
           ],
         ),
       ),

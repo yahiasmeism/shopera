@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/widgets/snackbar_global.dart';
-import 'package:shopera/features/cart/persentation/pages/cart_page.dart';
+import '../../../../core/widgets/snackbar_global.dart';
+import '../pages/cart_page.dart';
 
 import '../cubit/cart_cubit.dart';
 

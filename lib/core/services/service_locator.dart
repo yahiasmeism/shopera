@@ -3,146 +3,180 @@ import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
 import '../utils/nav_bar_cubit.dart';
 import '../network/network_info.dart';
-import '../../features/settings/cubit/cubit.dart';
+import 'package:shopera/features/settings/cubit/cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/home/persentation/cubit/home_cubit.dart';
+import '../../features/cart/persentation/cubit/cart_cubit.dart';
+import '../../features/authentication/domain/usecases/login.dart';
+import '../../features/authentication/domain/usecases/logout.dart';
+import '../../features/home/domin/repositories/home_repository.dart';
+import '../../features/authentication/domain/usecases/register.dart';
+import '../../features/cart/domin/usecases/create_cart_usecase.dart';
+import '../../features/cart/domin/usecases/delete_cart_usecase.dart';
+import '../../features/cart/domin/usecases/update_cart_usecase.dart';
+import '../../features/home/domin/usecases/get_products_usecase.dart';
+import '../../features/cart/domin/repositories/cart_repositories.dart';
+import '../../features/home/domin/usecases/get_categories_usecase.dart';
 import '../../features/authentication/domain/usecases/update_user.dart';
-import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
-import 'package:shopera/features/authentication/domain/usecases/login.dart';
-import 'package:shopera/features/authentication/domain/usecases/logout.dart';
-import 'package:shopera/features/authentication/domain/usecases/register.dart';
-import 'package:shopera/features/cart/domin/usecases/create_cart_usecase.dart';
-import 'package:shopera/features/cart/domin/usecases/delete_cart_usecase.dart';
-import 'package:shopera/features/cart/domin/usecases/update_cart_usecase.dart';
-import 'package:shopera/features/cart/domin/repositories/cart_repositories.dart';
-import 'package:shopera/features/cart/data/data_sources/cart_local_data_source.dart';
-import 'package:shopera/features/cart/data/data_sources/cart_remote_data_source.dart';
-import 'package:shopera/features/cart/data/repositories_impl/cart_repository_impl.dart';
-import 'package:shopera/features/authentication/domain/repositories/auth_repository.dart';
-import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
-import 'package:shopera/features/authentication/data/repositories/auth_repository_impl.dart';
-import 'package:shopera/features/authentication/data/datasources/auth_local_data_source.dart';
-import 'package:shopera/features/authentication/data/datasources/auth_remote_data_source.dart';
+import '../../features/home/domin/usecases/search_products_usecase.dart';
+import '../../features/home/data/repositories/home_repositories_imp.dart';
+import '../../features/cart/data/data_sources/cart_local_data_source.dart';
+import '../../features/cart/data/data_sources/cart_remote_data_source.dart';
+import '../../features/cart/data/repositories_impl/cart_repository_impl.dart';
+import '../../features/home/data/data_sources/products_local_data_source.dart';
+import '../../features/home/data/data_sources/products_remote_data_source.dart';
+import '../../features/authentication/domain/repositories/auth_repository.dart';
+import '../../features/authentication/presentation/cubits/user_cubit/cubit.dart';
+import '../../features/home/domin/usecases/get_products_by_category_usecase.dart';
+import '../../features/authentication/data/repositories/auth_repository_impl.dart';
+import '../../features/authentication/data/datasources/auth_local_data_source.dart';
+import '../../features/authentication/data/datasources/auth_remote_data_source.dart';
 
+class AppDep {
+  AppDep._();
 
-final sl = GetIt.instance;
+  static final sl = GetIt.instance;
 
-Future<void> init() async {
-  //! ***************  Featurs - Main ***************
+  static Future<void> init() async {
+    //! ***************  Featurs - Main ***************
 
-  //Bloc
-  sl.registerFactory(() => NavigationBarCubit());
+    //Bloc
+    sl.registerFactory(() => NavigationBarCubit());
 
-  //! ***************  Featurs - Home ***************
+    //! ***************  Featurs - Home ***************
 
-  //Bloc
+    //Bloc
 
-  //Use cases
+    //Use cases
 
-  // Repository
+    // Repository
 
-  // Data sources
+    // Data sources
 
-  //! ***************  Featurs - Settings ***************
+    //! ***************  Featurs - Settings ***************
 
-  //Bloc
-  sl.registerFactory(() => SettingsCubit());
+    //Bloc
+    sl.registerFactory(() => SettingsCubit());
 
-  //Use cases
+    //Use cases
 
-  // Repository
+    // Repository
 
-  // Data sources
+    // Data sources
 
-  //! ***************  Featurs - User ***************
+    //! ***************  Featurs - Home ***************
 
-  //Bloc
-  sl.registerFactory(
-    () => UserCubit(
-        getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),
-  );
-  //Use cases
-  sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
-  sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
-  sl.registerLazySingleton(() => UpdateUsecase(repository: sl()));
-  sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
-  // Repository
-  sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(
-      localDataSource: sl(),
-      networkInfo: sl(),
-      remoteDataSource: sl(),
-      sharedPreferences: sl(),
-    ),
-  );
-  // Data sources
-  sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(),
-  );
-  sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(
-      api: sl(),
-    ),
-  );
+    //Bloc
 
-  //! ***************  Featurs - Products ***************
+    //Use cases
 
-  //Bloc
-  sl.registerFactory(
-    () => CartCubit(
-      createCartUsecase: sl(),
-      deleteCartUsecase: sl(),
-      updateCartUsecase: sl(),
-    ),
-  );
-  //Use cases
-  sl.registerLazySingleton(() => CreateCartUsecase(repository: sl()));
-  sl.registerLazySingleton(() => DeleteCartUsecase(repository: sl()));
-  sl.registerLazySingleton(() => UpdateCartUsecase(repository: sl()));
-  // Repository
-  sl.registerLazySingleton<CartRepository>(
-    () => CartRepositoryImpl(
-      local: sl(),
-      remote: sl(),
-    ),
-  );
-  // Data sources
-  sl.registerLazySingleton<CartRemoteDataSource>(
-    () => CartRemoteDataSourceImpl(
-      api: sl(),
-    ),
-  );
-  sl.registerLazySingleton<CartLocalDataSource>(
-    () => CartLocalDataSourceImpl(),
-  );
-  //! ***************  Featurs - Cart ***************
+    // Repository
 
-  //Bloc
+    // Data sources
 
-  //Use cases
+    //! ***************  Featurs - User ***************
 
-  // Repository
+    //Bloc
+    sl.registerFactory(
+      () => UserCubit(
+          getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),
+    );
+    //Use cases
+    sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
+    sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
+    sl.registerLazySingleton(() => UpdateUsecase(repository: sl()));
+    sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
+    // Repository
+    sl.registerLazySingleton<AuthRepository>(
+      () => AuthRepositoryImpl(
+        localDataSource: sl(),
+        networkInfo: sl(),
+        remoteDataSource: sl(),
+        sharedPreferences: sl(),
+      ),
+    );
+    // Data sources
+    sl.registerLazySingleton<AuthLocalDataSource>(
+      () => AuthLocalDataSourceImpl(),
+    );
+    sl.registerLazySingleton<AuthRemoteDataSource>(
+      () => AuthRemoteDataSourceImpl(
+        api: sl(),
+      ),
+    );
 
-  // Data sources
+    //! ***************  Featurs - Cart ***************
 
-  //! ***************  Featurs - Orders ***************
+    //Bloc
+    sl.registerFactory(
+      () => CartCubit(
+        createCartUsecase: sl(),
+        deleteCartUsecase: sl(),
+        updateCartUsecase: sl(),
+      ),
+    );
+    //Use cases
+    sl.registerLazySingleton(() => CreateCartUsecase(repository: sl()));
+    sl.registerLazySingleton(() => DeleteCartUsecase(repository: sl()));
+    sl.registerLazySingleton(() => UpdateCartUsecase(repository: sl()));
+    // Repository
+    sl.registerLazySingleton<CartRepository>(
+      () => CartRepositoryImpl(
+        local: sl(),
+        remote: sl(),
+      ),
+    );
+    // Data sources
+    sl.registerLazySingleton<CartRemoteDataSource>(
+      () => CartRemoteDataSourceImpl(
+        api: sl(),
+      ),
+    );
+    sl.registerLazySingleton<CartLocalDataSource>(
+      () => CartLocalDataSourceImpl(),
+    );
+    //! ***************  Featurs - Product-Home ***************
 
-  //Bloc
+    //Bloc
+    sl.registerFactory(() => HomeCubit(
+        getProductsUsecase: sl(),
+        getCategoriesUsecase: sl(),
+        getProductsByCategoryUsecase: sl(),
+        searchProductsUsecase: sl()));
+    //Use cases
+    sl.registerLazySingleton(() => GetProductsUsecase(homeRepository: sl()));
+    sl.registerLazySingleton(() => GetCategoriesUsecase(homeRepository: sl()));
+    sl.registerLazySingleton(
+        () => GetProductsByCategoryUsecase(homeRepository: sl()));
+    sl.registerLazySingleton(() => SearchProductsUsecase(homeRepository: sl()));
+    // Repository
+    sl.registerLazySingleton<HomeRepository>(
+        () => HomeRepositoryImpl(remote: sl(), local: sl(), networkInfo: sl()));
+    // Data sources
+    sl.registerLazySingleton<ProductsLocalDataSource>(
+        () => ProductsLocalDataSourceImpl());
+    sl.registerLazySingleton<ProductsRemoteDataSource>(
+        () => ProductsRemoteDataSourceImpl(api: sl()));
+    //! ***************  Featurs - Orders ***************
 
-  //Use cases
+    //Bloc
 
-  // Repository
+    //Use cases
 
-  // Data sources
+    // Repository
 
-  ///****************************************************
-  ///! Core
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
-  sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: sl()));
+    // Data sources
 
-  ///! External
-  sl.registerLazySingleton<Dio>(() => Dio());
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton<SharedPreferences>(
-    () => sharedPreferences,
-  );
+    ///****************************************************
+    ///! Core
+    sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
+    sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(dio: sl()));
+
+    ///! External
+    sl.registerLazySingleton<Dio>(() => Dio());
+    final sharedPreferences = await SharedPreferences.getInstance();
+    sl.registerLazySingleton<SharedPreferences>(
+      () => sharedPreferences,
+    );
+  }
 }

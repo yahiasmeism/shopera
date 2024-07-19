@@ -8,7 +8,7 @@ class ProfileCardWidget extends StatelessWidget {
   final String email;
   final String? image;
 
-  ProfileCardWidget({
+  const ProfileCardWidget({super.key, 
     required this.name,
     required this.email,
     required this.image,

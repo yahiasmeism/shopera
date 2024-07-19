@@ -1,14 +1,16 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/user.dart';
+import '../cubits/user_cubit/cubit.dart';
+import '../widgets/text_form_field.dart';
+import '../../data/models/user_model.dart';
 import '../../../../core/constants/colors.dart';
-import 'package:shopera/core/widgets/button_primary.dart';
-import 'package:shopera/core/utils/image_cached_manager.dart';
-import 'package:shopera/features/authentication/domain/entities/user.dart';
-import 'package:shopera/features/authentication/data/models/user_model.dart';
-import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
-import 'package:shopera/features/authentication/presentation/widgets/text_form_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/widgets/button_primary.dart';
+import '../../../../core/utils/image_cached_manager.dart';
+// ignore_for_file: use_build_context_synchronously
+
 
 class UpdateUserPage extends StatefulWidget {
   static const routeName = 'update_profile';

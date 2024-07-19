@@ -1,119 +1,183 @@
+import '../cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import '../components/top_swiper.dart';
 import '../components/tiled_title.dart';
-import '../components/product_card.dart';
 import '../components/category_selector.dart';
-import '../../../../core/constants/assets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
 import '../components/dynamic_product_card.dart';
-import 'package:shopera/features/cart/persentation/components/cart_button.dart';
+import '../../domin/entities/product_entity.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import '../../../../core/widgets/button_primary.dart';
+import '../../../cart/persentation/components/cart_button.dart';
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
   static const routeName = 'home';
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<ProductEntity> products = [];
+  late final ScrollController _scrollController;
+  late HomeCubit cubit;
+  bool isLoading = false;
+  int nextPage = 1;
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
+  _scrollListener() async {
+    var cureentPosition = _scrollController.position.pixels;
+    var maxScrollLength = _scrollController.position.maxScrollExtent;
+    if (cureentPosition >= (maxScrollLength)) {
+      if (!isLoading) {
+        isLoading = true;
+        await cubit.getProducts(pageNumber: nextPage);
+        isLoading = false;
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      appBar: AppBar(
-        title: const Text('Home'),
-        centerTitle: true,
-        actions: const [CartButtonWidget()],
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              HomePageTopSwiper(
-                size: size,
-              ),
-              const SizedBox(height: 28),
-              TiledTitle(
-                title: 'Categories',
-                tileText: 'See All',
-                function: () {},
-              ),
-              const SizedBox(height: 14),
-              const CategorySelector(),
-              const SizedBox(height: 28),
-              TiledTitle(
-                title: 'Popular products for you',
-                tileText: 'See All',
-                function: () {},
-              ),
-              const SizedBox(height: 14),
-              Row(
-                children: [
-                  Expanded(
-                      child: ProductCard(
-                    title: 'Aqua Shoes',
-                    imagePath: AppConstants.productImageUrls[0],
-                  )),
-                  const SizedBox(width: 7),
-                  Expanded(
-                      child: ProductCard(
-                    title: 'Softy Headphones',
-                    imagePath: AppConstants.productImageUrls[1],
-                  )),
-                ],
-              ),
-              const SizedBox(height: 28),
-              TiledTitle(
-                title: 'Latest Products',
-                tileText: 'See All',
-                function: () {},
-              ),
-              const SizedBox(height: 14),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[0],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[5],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[4],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[2],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[3],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[0],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-              DynamicProductCard(
-                  type: 'typeC',
-                  imagePath: AppConstants.productImageUrls[1],
-                  title: 'Title goes here',
-                  price: 33.9),
-              const SizedBox(height: 7),
-            ],
+        backgroundColor: AppColors.backgroundColor,
+        appBar: AppBar(
+          title: const Text('Home'),
+          centerTitle: true,
+          actions: const [CartButtonWidget()],
+        ),
+        body: BlocConsumer<HomeCubit, HomeState>(
+          listener: (context, state) {
+            if (state is HomeStateLoaded) {
+              if (state.products.isNotEmpty) {
+                products.addAll(state.products);
+                nextPage++;
+              }
+            }
+          },
+          builder: (context, state) {
+            if (state is HomeStateLoaded) {
+              if (state.loadingData) {
+                return const Center(
+                  child: SpinKitWaveSpinner(
+                    color: AppColors.primaryColor,
+                  ),
+                );
+              } else {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    retry();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                    child: buildHomeBody(state),
+                  ),
+                );
+              }
+            } else if (state is HomeStateFailure) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(state.message),
+                    const SizedBox(height: 14),
+                    SizedBox(
+                      width: 200,
+                      child: PrimaryButton(
+                        onPressed: () {
+                          retry();
+                        },
+                        labelText: 'Retry',
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        ));
+  }
+
+  void retry() {
+    products.clear();
+    nextPage = 1;
+    cubit.loadData();
+  }
+
+  Widget buildHomeBody(HomeStateLoaded state) {
+    Size size = MediaQuery.of(context).size;
+
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      controller: _scrollController,
+      slivers: [
+        SliverToBoxAdapter(
+          child: HomePageTopSwiper(
+            size: size,
           ),
         ),
-      ),
+        const SliverToBoxAdapter(child: SizedBox(height: 28)),
+        SliverToBoxAdapter(
+          child: TiledTitle(
+            title: 'Categories',
+            tileText: 'See All',
+            onTap: () {},
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 14)),
+        SliverToBoxAdapter(child: CategorySelector(categories: state.categoris)),
+        const SliverToBoxAdapter(child: SizedBox(height: 28)),
+        SliverToBoxAdapter(
+          child: TiledTitle(
+            title: 'Popular products for you',
+            tileText: 'See All',
+            onTap: () {},
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 28)),
+        SliverToBoxAdapter(
+          child: TiledTitle(
+            title: 'Latest Products',
+            tileText: 'See All',
+            onTap: () {},
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 14)),
+        SliverList.builder(
+          itemCount: products.length + 1,
+          itemBuilder: (context, index) {
+            if (index < products.length) {
+              return DynamicProductCard(
+                type: 'typeA',
+                product: products[index],
+              );
+            } else {
+              return Padding(
+                padding: const EdgeInsets.all(8),
+                child: Center(
+                  child: state.products.isEmpty
+                      ? const Text('No more data to products')
+                      : const SpinKitWaveSpinner(
+                          size: 40,
+                          color: AppColors.primaryColor,
+                        ),
+                ),
+              );
+            }
+          },
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 7)),
+      ],
     );
   }
 }

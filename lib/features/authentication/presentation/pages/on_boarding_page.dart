@@ -1,10 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:flutter/material.dart';
-import 'package:shopera/core/constants/colors.dart';
-import 'package:shopera/core/constants/strings.dart';
+import '../../../../core/constants/colors.dart';
+import '../../../../core/constants/strings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:shopera/features/authentication/presentation/pages/startup_page.dart';
+import 'startup_page.dart';
 
 class BoardingModel {
   final String image;
@@ -17,9 +17,11 @@ class BoardingModel {
 class OnBoardingPage extends StatefulWidget {
   static const routeName = 'onBoarding';
 
-   final sharedPreferences = GetIt.instance<SharedPreferences>();
+  final sharedPreferences = GetIt.instance<SharedPreferences>();
 
-   OnBoardingPage({super.key,});
+  OnBoardingPage({
+    super.key,
+  });
 
   @override
   State<OnBoardingPage> createState() => _OnBoardingPageState();
@@ -34,19 +36,16 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     BoardingModel(
         image: 'assets/images/purchase_online.png',
         title: 'Purchase Online !!',
-        body:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing, sed do eiusmod tempor ut labore'),
+        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing, sed do eiusmod tempor ut labore'),
     BoardingModel(
         image: 'assets/images/track_order_screen.png',
         title: 'Track order !!',
-        body:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing, sed do eiusmod tempor ut labore'),
+        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing, sed do eiusmod tempor ut labore'),
     BoardingModel(
         image: 'assets/images/get_order_screen.png',
         title: 'Get your order !!',
-        body:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing, sed do eiusmod tempor ut labore'),
-  ]; 
+        body: 'Lorem ipsum dolor sit amet, consectetur adipiscing, sed do eiusmod tempor ut labore'),
+  ];
   void submit() {
     widget.sharedPreferences.setBool(K_OnBoarding, true).then((value) {
       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -73,10 +72,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           child: Column(
             children: [
               // App logo and name
-                  Image.asset(
-                    'assets/images/logo.png',
-                    height: 45,
-                  ),
+              Image.asset(
+                'assets/images/logo.png',
+                height: 45,
+              ),
               Expanded(
                 child: PageView.builder(
                     physics: const BouncingScrollPhysics(),
@@ -89,8 +88,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                     },
                     controller: boardController,
                     itemCount: boarding.length,
-                    itemBuilder: (context, index) =>
-                        buildBoardingItem(boarding[index])),
+                    itemBuilder: (context, index) => buildBoardingItem(boarding[index])),
               ),
               const SizedBox(
                 height: 40.0,
@@ -122,7 +120,10 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         curve: Curves.fastLinearToSlowEaseIn,
                       );
                     },
-                    child: const Icon(Icons.arrow_forward_ios),
+                    child: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.white,
+                    ),
                   ),
                 ],
               ),
@@ -132,8 +133,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   }
 }
 
-Widget buildBoardingItem(BoardingModel model) =>
-    Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+Widget buildBoardingItem(BoardingModel model) => Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Expanded(
         child: Image(
           image: AssetImage(model.image),

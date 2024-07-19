@@ -11,16 +11,15 @@ import '../../features/authentication/presentation/pages/update_user_page.dart';
 
 Map<String, WidgetBuilder> appRoutes() {
   return <String, WidgetBuilder>{
-    MainPage.routeName: (context) =>  MainPage(),
+    MainPage.routeName: (context) => const MainPage(),
     CartPage.routeName: (context) => const CartPage(),
     HomePage.routeName: (context) => const HomePage(),
-    LoginPage.routeName: (context) => LoginPage(),
-    RegisterPage.routeName: (context) => RegisterPage(),
     UpdateUserPage.routeName: (context) => const UpdateUserPage(),
+    SettingsPage.routeName: (context) => const SettingsPage(),
+    SignInPage.routeName: (context) => SignInPage(),
+    SignUpPage.routeName: (context) => SignUpPage(),
     OnBoardingPage.routeName: (context) => OnBoardingPage(),
-    StartupPage.routeName: (context) => StartupPage(),
-    SettingsPage.routeName: (context) => SettingsPage(),
-
+    StartupPage.routeName: (context) => const StartupPage(),
     // 'products': (context) => const ProductsPage(),
     // 'orders': (context) => const OrdersPage(),
   };
