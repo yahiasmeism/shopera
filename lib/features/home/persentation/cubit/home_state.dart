@@ -34,7 +34,7 @@ class HomeStateLoaded extends HomeState {
     List<CategoryEntity>? categoris,
   }) {
     return HomeStateLoaded(
-      message: message ?? this.message,
+      message: message,
       loadingData: loadingData ?? this.loadingData,
       products: products ?? this.products,
       productsBySearch: productsBySearch ?? this.productsBySearch,

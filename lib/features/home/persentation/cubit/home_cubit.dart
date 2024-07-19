@@ -43,12 +43,14 @@ class HomeCubit extends Cubit<HomeState> {
       result.fold(
         (failure) {
           if (pageNumber > 0) {
-            state.copyWith(message: failure.message);
+            emit(HomeStateLoaded(message: failure.message));
           } else {
             emit(HomeStateFailure(message: failure.message));
           }
         },
-        (products) => emit(state.copyWith(products: products)),
+        (products) {
+          emit(state.copyWith(products: products));
+        },
       );
     }
   }
@@ -86,5 +88,4 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
   }
-
 }

@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
     if (cureentPosition >= (maxScrollLength)) {
       if (!isLoading) {
         isLoading = true;
-        await cubit.getProducts(pageNumber: nextPage++);
+        await cubit.getProducts(pageNumber: nextPage);
         isLoading = false;
       }
     }
@@ -58,7 +58,10 @@ class _HomePageState extends State<HomePage> {
         body: BlocConsumer<HomeCubit, HomeState>(
           listener: (context, state) {
             if (state is HomeStateLoaded) {
-              products.addAll(state.products);
+              if (state.products.isNotEmpty) {
+                products.addAll(state.products);
+                nextPage++;
+              }
             }
           },
           builder: (context, state) {
