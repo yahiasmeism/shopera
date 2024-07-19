@@ -11,8 +11,8 @@ Map<String, WidgetBuilder> appRoutes() {
   return <String, WidgetBuilder>{
     CartPage.routeName: (context) => const CartPage(),
     HomePage.routeName: (context) => const HomePage(),
-    LoginPage.routeName: (context) => LoginPage(),
-    RegisterPage.routeName: (context) => RegisterPage(),
+    SignIn.routeName: (context) => SignIn(),
+    SignUpPage.routeName: (context) => SignUpPage(),
     UpdateUserPage.routeName: (context) => const UpdateUserPage(),
     OnBoardingPage.routeName: (context) => OnBoardingPage(),
     StartupPage.routeName: (context) => const StartupPage(),

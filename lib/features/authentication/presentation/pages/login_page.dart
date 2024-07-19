@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/utils/my_route_observer.dart';
 import '../../../../core/widgets/button_primary.dart';
 import 'register_page.dart';
 import 'update_user_page.dart';
@@ -10,11 +11,11 @@ import '../widgets/custom_password_form_field.dart';
 import '../../../home/persentation/pages/home_page.dart';
 
 // ignore: must_be_immutable
-class LoginPage extends StatelessWidget {
+class SignIn extends StatelessWidget {
   static const routeName = 'login';
   bool isPassword = true;
 
-  LoginPage({super.key});
+  SignIn({super.key});
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -109,7 +110,7 @@ class LoginPage extends StatelessWidget {
                                     );
                               }
                             },
-                            labelText: 'Login',
+                            labelText: 'Sign in',
                             height: 55,
                           );
                         },
@@ -139,7 +140,11 @@ class LoginPage extends StatelessWidget {
                           const Text("Don't have an account?"),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed(RegisterPage.routeName);
+                              if (AppNavigatorObserver().isRoutePresent(SignUpPage.routeName)) {
+                                Navigator.popUntil(context, ModalRoute.withName(SignUpPage.routeName));
+                              } else {
+                                Navigator.pushNamed(context, SignUpPage.routeName);
+                              }
                             },
                             child: const Text('Sign up'),
                           ),

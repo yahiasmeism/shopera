@@ -1,3 +1,4 @@
+import 'core/utils/my_route_observer.dart';
 import 'features/home/persentation/cubit/home_cubit.dart';
 
 import 'core/services/service_locator.dart';
@@ -29,7 +30,7 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
+  static final AppNavigatorObserver routeObserver = AppNavigatorObserver();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AppDep.sl<HomeCubit>()),
       ],
       child: MaterialApp(
+        navigatorObservers: [routeObserver],
         scaffoldMessengerKey: SnackBarGlobal.key,
         debugShowCheckedModeBanner: false,
         theme: appTheme(),

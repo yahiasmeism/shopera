@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/utils/my_route_observer.dart';
 import '../../../../core/widgets/button_primary.dart';
 import 'login_page.dart';
 import '../cubits/user_cubit/cubit.dart';
@@ -8,7 +9,7 @@ import '../widgets/primary_button_google.dart';
 import '../widgets/custom_password_form_field.dart';
 import '../../../home/persentation/pages/home_page.dart';
 
-class RegisterPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   static const routeName = 'register';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -16,19 +17,22 @@ class RegisterPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  RegisterPage({super.key});
+  SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         automaticallyImplyLeading: true,
+        automaticallyImplyLeading: true,
       ),
       body: BlocListener<UserCubit, UserState>(
         listener: (context, state) {
           if (state is UserSuccess) {
             // Navigate to home or another page
-            Navigator.of(context).pushNamedAndRemoveUntil(HomePage.routeName,(route) => false,);
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              HomePage.routeName,
+              (route) => false,
+            );
           } else if (state is UserFailure) {
             // Show error message
             ScaffoldMessenger.of(context).showSnackBar(
@@ -107,8 +111,7 @@ class RegisterPage extends StatelessWidget {
                     BlocBuilder<UserCubit, UserState>(
                       builder: (context, state) {
                         if (state is UserLoading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         }
                         return PrimaryButton(
                           onPressed: () {
@@ -149,9 +152,13 @@ class RegisterPage extends StatelessWidget {
                         const Text("Don't have an account?"),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed(LoginPage.routeName);
+                            if (AppNavigatorObserver().isRoutePresent(SignIn.routeName)) {
+                              Navigator.popUntil(context, ModalRoute.withName(SignIn.routeName));
+                            } else {
+                              Navigator.pushNamed(context, SignIn.routeName);
+                            }
                           },
-                          child: const Text('Login'),
+                          child: const Text('Sign in'),
                         ),
                       ],
                     ),

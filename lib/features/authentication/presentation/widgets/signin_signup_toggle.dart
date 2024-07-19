@@ -7,7 +7,7 @@ class LoginSignUpToggle extends StatefulWidget {
   const LoginSignUpToggle({super.key});
 
   @override
-  _LoginSignUpToggleState createState() => _LoginSignUpToggleState();
+  State createState() => _LoginSignUpToggleState();
 }
 
 class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
@@ -48,7 +48,7 @@ class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
                     setState(() {
                       isLoginSelected = true;
                     });
-                    Navigator.pushNamed(context, LoginPage.routeName);
+                    Navigator.pushNamed(context, SignIn.routeName);
                   },
                   child: Center(
                     child: Text(
@@ -67,7 +67,7 @@ class _LoginSignUpToggleState extends State<LoginSignUpToggle> {
                     setState(() {
                       isLoginSelected = false;
                     });
-                    Navigator.pushNamed(context, RegisterPage.routeName);
+                    Navigator.pushNamed(context, SignUpPage.routeName);
                   },
                   child: Center(
                     child: Text(
