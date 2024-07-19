@@ -63,7 +63,13 @@ class _HomePageState extends State<HomePage> {
           },
           builder: (context, state) {
             if (state is HomeStateLoaded) {
-              if (state.categoriesLoaded && state.productsLoaded) {
+              if (state.loadingData) {
+                return const Center(
+                  child: SpinKitWaveSpinner(
+                    color: AppColors.primaryColor,
+                  ),
+                );
+              } else {
                 return RefreshIndicator(
                   onRefresh: () async {
                     retry();
@@ -71,12 +77,6 @@ class _HomePageState extends State<HomePage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14.0),
                     child: buildHomeBody(state),
-                  ),
-                );
-              } else {
-                return const Center(
-                  child: SpinKitWaveSpinner(
-                    color: AppColors.primaryColor,
                   ),
                 );
               }

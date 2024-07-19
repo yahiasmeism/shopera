@@ -10,16 +10,14 @@ sealed class HomeState extends Equatable {
 final class HomeStateInitial extends HomeState {}
 
 class HomeStateLoaded extends HomeState {
-  final bool productsLoaded;
-  final bool categoriesLoaded;
+  final bool loadingData;
   final List<ProductEntity> products;
   final List<ProductEntity> productsBySearch;
   final List<ProductEntity> productsBycategory;
   final List<CategoryEntity> categoris;
   final String? message;
   const HomeStateLoaded({
-    this.categoriesLoaded = false,
-    this.productsLoaded = false,
+    this.loadingData = false,
     this.message,
     this.products = const [],
     this.productsBySearch = const [],
@@ -29,8 +27,7 @@ class HomeStateLoaded extends HomeState {
 
   HomeStateLoaded copyWith({
     String? message,
-    bool? productsLoaded,
-    bool? categoriesLoaded,
+    bool? loadingData,
     List<ProductEntity>? products,
     List<ProductEntity>? productsBySearch,
     List<ProductEntity>? productsBycategory,
@@ -38,8 +35,7 @@ class HomeStateLoaded extends HomeState {
   }) {
     return HomeStateLoaded(
       message: message ?? this.message,
-      productsLoaded: productsLoaded ?? this.productsLoaded,
-      categoriesLoaded: categoriesLoaded ?? this.categoriesLoaded,
+      loadingData: loadingData ?? this.loadingData,
       products: products ?? this.products,
       productsBySearch: productsBySearch ?? this.productsBySearch,
       productsBycategory: productsBycategory ?? this.productsBycategory,
@@ -50,8 +46,7 @@ class HomeStateLoaded extends HomeState {
   @override
   List<Object?> get props {
     return [
-      productsLoaded,
-      categoriesLoaded,
+      loadingData,
       products,
       productsBySearch,
       productsBycategory,
