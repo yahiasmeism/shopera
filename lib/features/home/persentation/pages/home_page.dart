@@ -63,18 +63,23 @@ class _HomePageState extends State<HomePage> {
           },
           builder: (context, state) {
             if (state is HomeStateLoaded) {
-              if (state.categoriesLoading || state.productsLoading) {
+              if (state.categoriesLoaded && state.productsLoaded) {
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    retry();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                    child: buildHomeBody(state),
+                  ),
+                );
+              } else {
                 return const Center(
-                    child: SpinKitWaveSpinner(
-                  color: AppColors.primaryColor,
-                ));
+                  child: SpinKitWaveSpinner(
+                    color: AppColors.primaryColor,
+                  ),
+                );
               }
-              return RefreshIndicator(
-                onRefresh: () async {
-                  retry();
-                },
-                child: Padding(padding: const EdgeInsets.symmetric(horizontal: 14.0), child: buildHomeBody(state)),
-              );
             } else if (state is HomeStateFailure) {
               return Center(
                 child: Column(
