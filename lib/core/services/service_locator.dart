@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shopera/features/authentication/domain/usecases/get_current_user_usecase.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
 import '../utils/nav_bar_cubit.dart';
@@ -43,16 +44,6 @@ class AppDep {
     //Bloc
     sl.registerFactory(() => NavigationBarCubit());
 
-    //! ***************  Featurs - Home ***************
-
-    //Bloc
-
-    //Use cases
-
-    // Repository
-
-    // Data sources
-
     //! ***************  Featurs - Settings ***************
 
     //Bloc
@@ -64,28 +55,18 @@ class AppDep {
 
     // Data sources
 
-    //! ***************  Featurs - Home ***************
-
-    //Bloc
-
-    //Use cases
-
-    // Repository
-
-    // Data sources
-
     //! ***************  Featurs - User ***************
 
     //Bloc
     sl.registerFactory(
-      () => UserCubit(
-          getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),
+      () => UserCubit(getCurrentUserUsecase: sl(), getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),
     );
     //Use cases
     sl.registerLazySingleton(() => LoginUsecase(repository: sl()));
     sl.registerLazySingleton(() => RegisterUsecase(repository: sl()));
     sl.registerLazySingleton(() => UpdateUsecase(repository: sl()));
     sl.registerLazySingleton(() => LogoutUseCase(repository: sl()));
+    sl.registerLazySingleton(() => GetCurrentUserUsecase(repository: sl()));
     // Repository
     sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(
@@ -139,24 +120,17 @@ class AppDep {
 
     //Bloc
     sl.registerFactory(() => HomeCubit(
-        getProductsUsecase: sl(),
-        getCategoriesUsecase: sl(),
-        getProductsByCategoryUsecase: sl(),
-        searchProductsUsecase: sl()));
+        getProductsUsecase: sl(), getCategoriesUsecase: sl(), getProductsByCategoryUsecase: sl(), searchProductsUsecase: sl()));
     //Use cases
     sl.registerLazySingleton(() => GetProductsUsecase(homeRepository: sl()));
     sl.registerLazySingleton(() => GetCategoriesUsecase(homeRepository: sl()));
-    sl.registerLazySingleton(
-        () => GetProductsByCategoryUsecase(homeRepository: sl()));
+    sl.registerLazySingleton(() => GetProductsByCategoryUsecase(homeRepository: sl()));
     sl.registerLazySingleton(() => SearchProductsUsecase(homeRepository: sl()));
     // Repository
-    sl.registerLazySingleton<HomeRepository>(
-        () => HomeRepositoryImpl(remote: sl(), local: sl(), networkInfo: sl()));
+    sl.registerLazySingleton<HomeRepository>(() => HomeRepositoryImpl(remote: sl(), local: sl(), networkInfo: sl()));
     // Data sources
-    sl.registerLazySingleton<ProductsLocalDataSource>(
-        () => ProductsLocalDataSourceImpl());
-    sl.registerLazySingleton<ProductsRemoteDataSource>(
-        () => ProductsRemoteDataSourceImpl(api: sl()));
+    sl.registerLazySingleton<ProductsLocalDataSource>(() => ProductsLocalDataSourceImpl());
+    sl.registerLazySingleton<ProductsRemoteDataSource>(() => ProductsRemoteDataSourceImpl(api: sl()));
     //! ***************  Featurs - Orders ***************
 
     //Bloc

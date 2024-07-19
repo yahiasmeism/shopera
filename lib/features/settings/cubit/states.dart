@@ -10,10 +10,10 @@ abstract class SettingsState extends Equatable {
 class SettingsInitial extends SettingsState {}
 
 class SettingsThemeChanged extends SettingsState {
-  final bool isLightTheme;
+  final bool isDarkTheme;
 
-  const SettingsThemeChanged(this.isLightTheme);
+  const SettingsThemeChanged(this.isDarkTheme);
 
   @override
-  List<Object> get props => [isLightTheme];
+  List<Object> get props => [isDarkTheme];
 }

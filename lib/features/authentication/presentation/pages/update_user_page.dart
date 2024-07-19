@@ -11,7 +11,6 @@ import '../../../../core/widgets/button_primary.dart';
 import '../../../../core/utils/image_cached_manager.dart';
 // ignore_for_file: use_build_context_synchronously
 
-
 class UpdateUserPage extends StatefulWidget {
   static const routeName = 'update_profile';
   const UpdateUserPage({super.key});
@@ -32,22 +31,23 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   String? _userImage;
-
+  late UserCubit cubit;
+  User? user;
   @override
   void initState() {
     super.initState();
-    final user = context.read<UserCubit>().userEntite;
+    user = context.read<UserCubit>().userEntite;
     if (user != null) {
-      _userImage = user.image;
-      _firstNameController.text = user.firstName ?? '';
-      _lastNameController.text = user.lastName ?? '';
-      _usernameController.text = user.userName;
-      _emailController.text = user.email;
-      _phoneController.text = user.phone ?? '';
-      _cityController.text = user.address?.city ?? '';
-      _postalCodeController.text = user.address?.postalCode ?? '';
-      _stateController.text = user.address?.state ?? '';
-      _addressController.text = user.address?.address ?? '';
+      _userImage = user!.image;
+      _firstNameController.text = user!.firstName ?? '';
+      _lastNameController.text = user!.lastName ?? '';
+      _usernameController.text = user!.userName;
+      _emailController.text = user!.email;
+      _phoneController.text = user!.phone ?? '';
+      _cityController.text = user!.address?.city ?? '';
+      _postalCodeController.text = user!.address?.postalCode ?? '';
+      _stateController.text = user!.address?.state ?? '';
+      _addressController.text = user!.address?.address ?? '';
     }
   }
 
@@ -112,8 +112,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           controller: _firstNameController,
                                           label: 'First Name',
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter your first name';
                                             }
                                             return null;
@@ -128,8 +127,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           controller: _lastNameController,
                                           label: 'Last Name',
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter your last name';
                                             }
                                             return null;
@@ -150,8 +148,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           controller: _usernameController,
                                           label: 'Username',
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter a username';
                                             }
                                             return null;
@@ -168,12 +165,10 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           type: TextInputType.emailAddress,
                                           prefix: Icons.email,
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter an email';
                                             }
-                                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
-                                                .hasMatch(value)) {
+                                            if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
                                               return 'Please enter a valid email address';
                                             }
                                             return null;
@@ -194,8 +189,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           type: TextInputType.phone,
                                           prefix: Icons.phone,
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter a phone number';
                                             }
                                             return null;
@@ -210,8 +204,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           type: TextInputType.text,
                                           prefix: Icons.location_city,
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter a city';
                                             }
                                             return null;
@@ -232,8 +225,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           type: TextInputType.number,
                                           prefix: Icons.numbers,
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter a postal code';
                                             }
                                             return null;
@@ -248,8 +240,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                           type: TextInputType.text,
                                           prefix: Icons.abc,
                                           validator: (value) {
-                                            if (value == null ||
-                                                value.isEmpty) {
+                                            if (value == null || value.isEmpty) {
                                               return 'Please enter a state';
                                             }
                                             return null;
@@ -282,8 +273,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                           ),
                         ],
                       ),
-                      BlocBuilder<UserCubit, UserState>(
-                          builder: (context, state) {
+                      BlocBuilder<UserCubit, UserState>(builder: (context, state) {
                         if (state is ProfileImagePickerSuccessState) {
                           return Stack(
                             children: [
@@ -291,56 +281,44 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                 radius: 60,
                                 backgroundImage: FileImage(state.imageFile),
                               ),
-                               Positioned(
-                                        bottom: 5,
-                                        right: 5,
-                                        child: CircleAvatar(
-                                            radius: 16,
-                                            backgroundColor:
-                                                AppColors.primaryColor[200],
-                                            child: IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(0),
-                                                onPressed: () {
-                                                  context
-                                                      .read<UserCubit>()
-                                                      .pickImage();
-                                                },
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  color: AppColors.iconColor,
-                                                )))),
+                              Positioned(
+                                  bottom: 5,
+                                  right: 5,
+                                  child: CircleAvatar(
+                                      radius: 16,
+                                      backgroundColor: AppColors.primaryColor[200],
+                                      child: IconButton(
+                                          padding: const EdgeInsets.all(0),
+                                          onPressed: () {
+                                            context.read<UserCubit>().pickImage();
+                                          },
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: AppColors.iconColor,
+                                          )))),
                             ],
                           );
                         } else {
                           return FutureBuilder<File>(
-                            future: ImageCacheManager.getImagePath(
-                                _userImage ?? ''),
+                            future: ImageCacheManager.getImagePath(_userImage ?? ''),
                             builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                      ConnectionState.done &&
-                                  snapshot.hasData) {
+                              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData) {
                                 return Stack(
                                   children: [
                                     CircleAvatar(
                                       radius: 60,
-                                      backgroundImage:
-                                          FileImage(snapshot.data!),
+                                      backgroundImage: FileImage(snapshot.data!),
                                     ),
                                     Positioned(
                                         bottom: 5,
                                         right: 5,
                                         child: CircleAvatar(
                                             radius: 16,
-                                            backgroundColor:
-                                                AppColors.primaryColor[200],
+                                            backgroundColor: AppColors.primaryColor[200],
                                             child: IconButton(
-                                                padding:
-                                                    const EdgeInsets.all(0),
+                                                padding: const EdgeInsets.all(0),
                                                 onPressed: () {
-                                                  context
-                                                      .read<UserCubit>()
-                                                      .pickImage();
+                                                  context.read<UserCubit>().pickImage();
                                                 },
                                                 icon: const Icon(
                                                   Icons.edit,
@@ -351,8 +329,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                               } else {
                                 return const CircleAvatar(
                                   radius: 60,
-                                  backgroundImage:
-                                      AssetImage('assets/images/fallback.png'),
+                                  backgroundImage: AssetImage('assets/images/fallback.png'),
                                 );
                               }
                             },
@@ -379,7 +356,7 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                               Text('Update'),
                             ],
                           ),
-                          onPressed: ()async {
+                          onPressed: () async {
                             if (_formKey.currentState?.validate() ?? false) {
                               final user = context.read<UserCubit>().userEntite;
                               User updatedUser = User(
@@ -389,19 +366,18 @@ class _UpdateUserPageState extends State<UpdateUserPage> {
                                 userName: _usernameController.text,
                                 email: _emailController.text,
                                 phone: _phoneController.text,
-                                image:state is ProfileImagePickerSuccessState?base64Encode(await state.imageFile.readAsBytes()): user?.image,
+                                image: state is ProfileImagePickerSuccessState
+                                    ? base64Encode(await state.imageFile.readAsBytes())
+                                    : user?.image,
                                 address: Address(
                                     city: _cityController.text,
                                     postalCode: _postalCodeController.text,
                                     state: _stateController.text,
                                     address: _addressController.text,
-                                    coordinates:
-                                        Coordinates(lat: 0.0, lng: 0.0)),
+                                    coordinates: Coordinates(lat: 0.0, lng: 0.0)),
                                 token: user?.token,
                               );
-                              context
-                                  .read<UserCubit>()
-                                  .updateUser(user: updatedUser);
+                              context.read<UserCubit>().updateUser(user: updatedUser);
                             }
                           },
                         ),

@@ -7,7 +7,7 @@ part 'states.dart';
 class SettingsCubit extends Cubit<SettingsState> {
   SettingsCubit() : super(SettingsInitial());
 
-  void toggleTheme(bool isLightTheme) {
-    emit(SettingsThemeChanged(isLightTheme));
+  void toggleTheme(bool isDarkTheme) {
+    emit(SettingsThemeChanged(isDarkTheme));
   }
 }

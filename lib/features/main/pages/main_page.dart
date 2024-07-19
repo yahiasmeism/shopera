@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../cart/persentation/pages/cart_page.dart';
@@ -9,10 +10,22 @@ import 'package:shopera/core/services/service_locator.dart';
 import 'package:shopera/features/settings/pages/settings_page.dart';
 import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   static const routeName = 'main page';
 
   const MainPage({super.key});
+
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<UserCubit>().getCurrentUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

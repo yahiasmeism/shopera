@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shopera/core/constants/colors.dart';
 
 ThemeData appLightTheme = ThemeData(
-  useMaterial3: false,
   primarySwatch: AppColors.primaryColor,
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.backgroundColor,
@@ -21,7 +20,6 @@ ThemeData appLightTheme = ThemeData(
 );
 
 ThemeData appDarkTheme = ThemeData(
-  useMaterial3: false,
   appBarTheme: const AppBarTheme(
     centerTitle: true,
     elevation: 0,

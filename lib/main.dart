@@ -1,6 +1,5 @@
 import 'core/theme/app_theme.dart';
 import 'core/utils/hive_init.dart';
-import 'package:get_it/get_it.dart';
 import 'core/constants/strings.dart';
 import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ import 'package:shopera/features/authentication/presentation/pages/login_page.da
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // todo: should FlutterNativeSplash
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
   String initialRoute = OnBoardingPage.routeName;
@@ -48,7 +46,7 @@ void main() async {
 
 Future<String> initialization() async {
   // Initialize your app here (e.g., load data, set up services, etc.)
-  final sharedPreferences = GetIt.instance<SharedPreferences>();
+  final SharedPreferences sharedPreferences = AppDep.sl();
   await Future.delayed(const Duration(seconds: 2));
   if (sharedPreferences.getBool(K_OnBoarding) != null) {
     if (sharedPreferences.getString(K_TOKEN) != null) {
@@ -81,16 +79,16 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
-          bool isLightTheme = true; // default value
+          bool isDarkTheme = false; // default value
           if (state is SettingsThemeChanged) {
-            isLightTheme = state.isLightTheme;
+            isDarkTheme = state.isDarkTheme;
           }
 
           return MaterialApp(
             navigatorObservers: [routeObserver],
             scaffoldMessengerKey: SnackBarGlobal.key,
             debugShowCheckedModeBanner: false,
-            theme: isLightTheme ? appLightTheme : appDarkTheme,
+            theme: isDarkTheme ? appDarkTheme : appLightTheme,
             routes: appRoutes(),
             initialRoute: initialRoute,
           );

@@ -36,7 +36,7 @@ class AuthRepositoryImpl extends AuthRepository {
       } on ServerException catch (e) {
         return Left(ServerFailure(message: e.message));
       }
-    }else {
+    } else {
       return Left(OfflineFailure(message: OFFLINE_FAILURE_MESSAGE));
     }
   }
@@ -78,9 +78,25 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Unit> logout() async {
-  
-      await localDataSource.clearUserData();
-      sharedPreferences.clear;
-      return unit;
+    await localDataSource.clearUserData();
+    sharedPreferences.clear;
+    return unit;
+  }
+
+  @override
+  Future<Either<Failure, User>> getCurrentUser() async {
+    try {
+      UserModel user;
+      if (await networkInfo.isConnected) {
+        user = await remoteDataSource.getCurrentUser();
+      } else {
+        user = await localDataSource.getCachedUser();
+      }
+      return right(user);
+    } on EmptyCacheException catch (e) {
+      return left(EmptyCacheFailure(message: e.message));
+    } on ServerException catch (e) {
+      return left(ServerFailure(message: e.message));
+    }
   }
 }

@@ -11,3 +11,4 @@ const FAVORITES = 'favorites';
 const PROFILE = 'profile';
 const UPDATE_PROFILE = 'users/';
 const SEARCH = 'products/search';
+const AUTH_ME = 'auth/me';

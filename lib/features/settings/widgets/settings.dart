@@ -6,7 +6,6 @@ import '../data/model/setting_item_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../authentication/presentation/cubits/user_cubit/cubit.dart';
 
-
 class SettingsWidget extends StatelessWidget {
   const SettingsWidget({super.key});
 
@@ -58,17 +57,17 @@ class SettingsWidget extends StatelessWidget {
           sectionTitle: 'Settings',
           settingItems: [
             SettingItem(
-              title: 'Light Theme',
+              title: 'Dark Theme',
               icon: Icons.brightness_6_outlined,
               backgroundColor: const Color(0xff353430),
               trailing: BlocBuilder<SettingsCubit, SettingsState>(
                 builder: (context, state) {
-                  bool isLightTheme = true; // default value
+                  bool isDarkTheme = false; // default value
                   if (state is SettingsThemeChanged) {
-                    isLightTheme = state.isLightTheme;
+                    isDarkTheme = state.isDarkTheme;
                   }
                   return Switch(
-                    value: isLightTheme,
+                    value: isDarkTheme,
                     onChanged: (value) {
                       // Toggle theme action
                       if (kDebugMode) {
