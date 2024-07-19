@@ -45,7 +45,7 @@ class UserCubit extends Cubit<UserState> {
   Future<void> registerUser(
      {required String username, required String email, required String password, bool isFromGoogle =false}) async {
     // Add register logic here (e.g., API call)
-    if(isFromGoogle) {
+    if(!isFromGoogle) {
       emit(UserLoading());
     }
 
