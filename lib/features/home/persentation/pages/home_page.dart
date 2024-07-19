@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   _scrollListener() async {
     var cureentPosition = _scrollController.position.pixels;
     var maxScrollLength = _scrollController.position.maxScrollExtent;
-    if (cureentPosition >= maxScrollLength) {
+    if (cureentPosition >= (maxScrollLength)) {
       if (!isLoading) {
         isLoading = true;
         await cubit.getProducts(pageNumber: nextPage++);
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                   child: state.products.isEmpty
                       ? const Text('No more data to products')
                       : const SpinKitWaveSpinner(
-                          size: 50,
+                          size: 40,
                           color: AppColors.primaryColor,
                         ),
                 ),
