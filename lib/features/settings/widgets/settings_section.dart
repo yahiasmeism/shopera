@@ -15,23 +15,25 @@ class SettingsSectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-            child: Text(
-              sectionTitle,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: Text(
+                sectionTitle,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
             ),
-          ),
-          ...settingItems
-              .map((item) => SettingItemWidget(settingItem: item))
-              .toList(),
-        ],
+            ...settingItems
+                .map((item) => SettingItemWidget(settingItem: item))
+                .toList(),
+          ],
+        ),
       ),
     );
   }

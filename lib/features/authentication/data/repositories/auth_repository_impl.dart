@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shopera/core/errors/failures.dart';
 import 'package:shopera/core/constants/strings.dart';
 import 'package:shopera/core/errors/exceptions.dart';
