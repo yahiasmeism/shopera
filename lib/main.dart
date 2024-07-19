@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+
+import 'core/utils/app_bloc_observer.dart';
 import 'core/utils/my_route_observer.dart';
 import 'features/home/persentation/cubit/home_cubit.dart';
 
@@ -23,7 +26,7 @@ void main() async {
   await hiveInit();
 
   // State Observer
-  // if (kDebugMode) Bloc.observer = AppBlocObserver();
+  if (kDebugMode) Bloc.observer = AppBlocObserver();
 
   runApp(const MyApp());
 }

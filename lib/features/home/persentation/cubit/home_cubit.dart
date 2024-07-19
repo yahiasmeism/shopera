@@ -26,9 +26,10 @@ class HomeCubit extends Cubit<HomeState> {
   }) : super(HomeStateInitial());
 
   init() async {
-    emit(const HomeStateLoaded(productsLoaded: false, categoriesLoaded: false));
+    emit(const HomeStateLoaded(loadingData: true));
     await getProducts();
     await getCategoris();
+    emit(const HomeStateLoaded(loadingData: false));
   }
 
   Future getProducts({int pageNumber = 0}) async {
@@ -44,7 +45,7 @@ class HomeCubit extends Cubit<HomeState> {
             emit(HomeStateFailure(message: failure.message));
           }
         },
-        (products) => emit(state.copyWith(productsLoaded: true, products: products)),
+        (products) => emit(state.copyWith(products: products)),
       );
     }
   }
@@ -55,7 +56,7 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await getCategoriesUsecase(NoParams());
       result.fold(
         (failure) => emit(state.copyWith(message: failure.message)),
-        (categories) => emit(state.copyWith(categoriesLoaded: true, categoris: categories)),
+        (categories) => emit(state.copyWith(categoris: categories)),
       );
     }
   }
