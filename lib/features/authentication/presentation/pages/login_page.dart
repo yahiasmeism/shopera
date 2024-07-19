@@ -99,6 +99,7 @@ class LoginPage extends StatelessWidget {
                   BlocBuilder<UserCubit, UserState>(
                     builder: (context, state) {
                       if (state is UserLoading) {
+                        print("UserLoading");
                         return const Center(child: CircularProgressIndicator());
                       }
                       return PrimaryButton(
@@ -107,6 +108,7 @@ class LoginPage extends StatelessWidget {
                             context.read<UserCubit>().loginUser(
                                   username: _usernameController.text,
                                   password: _passwordController.text,
+                                  isFromGoogle: false,
                                 );
                           }
                         },

@@ -30,7 +30,7 @@ class UserCubit extends Cubit<UserState> {
   Future<void> loginUser(
       {required String username, required String password , bool isFromGoogle =false}) async {
     // Add login logic here (e.g., API call)
-    if(isFromGoogle) {
+    if(!isFromGoogle) {
       emit(UserLoading());
     }
 

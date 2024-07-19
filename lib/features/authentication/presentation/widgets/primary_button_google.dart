@@ -27,6 +27,7 @@ class PrimaryButtonGoogle extends StatelessWidget {
                         context.read<UserCubit>().loginUser(
                               username: Default_Login_Username,
                               password: Default_Login_Password,
+                              isFromGoogle: true,
                             );
                       }
                     });
