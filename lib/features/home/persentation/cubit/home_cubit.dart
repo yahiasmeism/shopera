@@ -25,7 +25,7 @@ class HomeCubit extends Cubit<HomeState> {
     required this.searchProductsUsecase,
   }) : super(HomeStateInitial());
 
-  init() async {
+  loadData() async {
     emit(const HomeStateLoaded(loadingData: true));
     await getProducts();
     await getCategoris();
@@ -87,7 +87,4 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  reTryLoad() {
-    init();
-  }
 }

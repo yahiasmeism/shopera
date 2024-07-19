@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
   int nextPage = 1;
   @override
   void initState() {
-    cubit = context.read<HomeCubit>()..init();
+    cubit = context.read<HomeCubit>()..loadData();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
@@ -109,7 +109,7 @@ class _HomePageState extends State<HomePage> {
   void retry() {
     products.clear();
     nextPage = 1;
-    cubit.reTryLoad();
+    cubit.loadData();
   }
 
   Widget buildHomeBody(HomeStateLoaded state) {
