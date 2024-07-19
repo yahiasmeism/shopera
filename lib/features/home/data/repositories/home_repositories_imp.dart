@@ -38,7 +38,9 @@ class HomeRepositoryImpl implements HomeRepository {
         local.saveProducts(products: products);
         return products;
       },
-      localCall: () => local.getProducts(pageNumber: pageNumber),
+      localCall: () async {
+        return await local.getProducts(pageNumber: pageNumber);
+      },
     );
   }
 
@@ -84,6 +86,8 @@ class HomeRepositoryImpl implements HomeRepository {
       }
     } on ServerException catch (e) {
       return left(ServerFailure(message: e.message));
+    } on EmptyCacheException catch (e) {
+      return left(EmptyCacheFailure(message: e.message));
     }
   }
 }

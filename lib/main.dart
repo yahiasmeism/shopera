@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
 import 'package:shopera/features/home/persentation/pages/home_page.dart';
 
 import 'core/services/service_locator.dart';
@@ -22,7 +24,7 @@ void main() async {
   await hiveInit();
 
   // State Observer
-  Bloc.observer = AppBlocObserver();
+  // if (kDebugMode) Bloc.observer = AppBlocObserver();
 
   runApp(const MyApp());
 }
@@ -36,6 +38,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AppDep.sl<CartCubit>()),
         BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
+        BlocProvider(create: (context) => AppDep.sl<HomeCubit>()),
       ],
       child: MaterialApp(
         scaffoldMessengerKey: SnackBarGlobal.key,

@@ -3,6 +3,8 @@ import 'package:shopera/core/constants/strings.dart';
 import 'package:shopera/features/home/data/models/category_model.dart';
 import 'package:shopera/features/home/data/models/product_model.dart';
 
+import '../../../../core/errors/exceptions.dart';
+
 /// Abstract class defining the methods for local data source of products
 abstract class ProductsLocalDataSource {
   Future<void> saveProducts({required List<ProductModel> products});
@@ -18,11 +20,17 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   /// Retrieves a paginated list of products from local storage
   @override
   Future<List<ProductModel>> getProducts({required int pageNumber}) async {
+    List<ProductModel> products;
     try {
       var box = Hive.box<ProductModel>(kProductsBox);
-      return _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => true);
+      products = await _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => true);
     } catch (e) {
-      return [];
+      products = [];
+    }
+    if (products.isEmpty) {
+      throw EmptyCacheException(EMPTY_CACHE_FAILURE_MESSAGE);
+    } else {
+      return products;
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
 
 import '../../../../core/constants/colors.dart';
+import 'product_image.dart';
 import 'title_widget.dart';
 
 class DynamicProductCard extends StatelessWidget {
@@ -180,12 +181,7 @@ class DynamicProductCard extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(14.0),
-                child: Image.network(
-                  product.thumbnail,
-                  height: height,
-                  width: height,
-                  fit: BoxFit.cover,
-                ),
+                child: ProductImage(imageUrl: product.thumbnail, height: 150),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -242,8 +238,8 @@ class DynamicProductCard extends StatelessWidget {
   Widget _buildImage() {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(14.0)),
-      child: Image.network(
-        product.thumbnail,
+      child: ProductImage(
+        imageUrl: product.thumbnail,
         height: 150,
         width: double.infinity,
         fit: BoxFit.cover,

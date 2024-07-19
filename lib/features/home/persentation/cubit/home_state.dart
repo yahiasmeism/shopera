@@ -28,6 +28,7 @@ class HomeStateLoaded extends HomeState {
   });
 
   HomeStateLoaded copyWith({
+    String? message,
     bool? productsLoading,
     bool? categoriesLoading,
     List<ProductEntity>? products,
@@ -36,6 +37,7 @@ class HomeStateLoaded extends HomeState {
     List<CategoryEntity>? categoris,
   }) {
     return HomeStateLoaded(
+      message: message ?? this.message,
       productsLoading: productsLoading ?? this.productsLoading,
       categoriesLoading: categoriesLoading ?? this.categoriesLoading,
       products: products ?? this.products,

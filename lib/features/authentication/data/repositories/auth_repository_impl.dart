@@ -48,7 +48,7 @@ class AuthRepositoryImpl extends AuthRepository {
         if (kDebugMode) {
           print("EmptyCacheException");
         }
-        return Left(EmptyLocalStorageFailure(message: EMPTY_CACHE_FAILURE_MESSAGE));
+        return Left(EmptyCacheFailure(message: EMPTY_CACHE_FAILURE_MESSAGE));
       }
     }
   }

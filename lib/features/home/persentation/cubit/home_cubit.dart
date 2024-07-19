@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shopera/core/usecases/usecase.dart';
@@ -25,17 +27,23 @@ class HomeCubit extends Cubit<HomeState> {
 
   init() async {
     emit(const HomeStateLoaded(productsLoading: true, categoriesLoading: true));
-    await getCategoris();
     await getProducts();
+    await getCategoris();
   }
 
   Future getProducts({int pageNumber = 0}) async {
+    log(pageNumber.toString());
     if (state is HomeStateLoaded) {
       final state = this.state as HomeStateLoaded;
-
       final result = await getProductsUsecase(pageNumber);
       result.fold(
-        (failure) => emit(HomeStateFailure(message: failure.message)),
+        (failure) {
+          if (pageNumber > 0) {
+            state.copyWith(message: failure.message);
+          } else {
+            emit(HomeStateFailure(message: failure.message));
+          }
+        },
         (products) => emit(state.copyWith(productsLoading: false, products: products)),
       );
     }
@@ -46,7 +54,7 @@ class HomeCubit extends Cubit<HomeState> {
       final state = this.state as HomeStateLoaded;
       final result = await getCategoriesUsecase(NoParams());
       result.fold(
-        (failure) => emit(HomeStateFailure(message: failure.message)),
+        (failure) => emit(state.copyWith(message: failure.message)),
         (categories) => emit(state.copyWith(categoriesLoading: false, categoris: categories)),
       );
     }
@@ -55,7 +63,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future getProductsByCategory({int pageNumber = 0, required String category}) async {
     if (state is HomeStateLoaded) {
       final state = this.state as HomeStateLoaded;
-
       final result =
           await getProductsByCategoryUsecase.call(ProductsByCategoryParams(categoryName: category, pageNumber: pageNumber));
       result.fold(
