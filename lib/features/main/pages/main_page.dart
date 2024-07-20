@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../cart/persentation/pages/cart_page.dart';
@@ -8,6 +7,7 @@ import '../../home/persentation/pages/home_page.dart';
 import '../../wish_list/presentation/pages/wish_list.dart';
 import 'package:shopera/features/settings/pages/settings_page.dart';
 import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
+import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 
 class MainPage extends StatefulWidget {
   static const routeName = 'main page';

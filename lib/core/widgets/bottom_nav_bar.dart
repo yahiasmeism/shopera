@@ -1,6 +1,8 @@
 import '../utils/nav_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/features/cart/persentation/components/cart_button.dart';
+
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({super.key});
@@ -30,7 +32,7 @@ class BottomNavBar extends StatelessWidget {
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
             BottomNavigationBarItem(icon: Icon(Icons.favorite_border_outlined), label: "Favorite"),
-            BottomNavigationBarItem(icon: Icon(Icons.shopping_cart_outlined), label: "Cart"),
+            BottomNavigationBarItem(icon: CartIconWidget(), label: "Cart"),
             BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Settings"),
           ],
         );

@@ -2,7 +2,6 @@ import '../widgets/settings.dart';
 import '../widgets/profile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cart/persentation/components/cart_button.dart';
 import '../../authentication/presentation/cubits/user_cubit/cubit.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -40,7 +39,6 @@ class _SettingsPageState extends State<SettingsPage> {
         ),
         centerTitle: true,
         automaticallyImplyLeading: true,
-        actions: const [CartButtonWidget()],
       ),
       body: SingleChildScrollView(
         child: Padding(

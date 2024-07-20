@@ -1,12 +1,11 @@
+import '../cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/widgets/snackbar_global.dart';
-import '../pages/cart_page.dart';
 
-import '../cubit/cart_cubit.dart';
 
-class CartButtonWidget extends StatelessWidget {
-  const CartButtonWidget({
+class CartIconWidget extends StatelessWidget {
+  const CartIconWidget({
     super.key,
   });
   @override
@@ -18,11 +17,7 @@ class CartButtonWidget extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, CartPage.routeName);
-          },
-          icon: Stack(
+        return Stack(
             children: [
               const Icon(Icons.shopping_cart_outlined),
               if (state is CartLoaded && state.cart.items.isNotEmpty)
@@ -36,8 +31,7 @@ class CartButtonWidget extends StatelessWidget {
                   ),
                 )
             ],
-          ),
-        );
+          );
       },
     );
   }

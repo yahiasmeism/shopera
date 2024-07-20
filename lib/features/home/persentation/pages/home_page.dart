@@ -8,7 +8,6 @@ import '../../../../core/constants/colors.dart';
 import '../components/dynamic_product_card.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/widgets/button_primary.dart';
-import '../../../cart/persentation/components/cart_button.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -49,7 +48,6 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           title: const Text('Home'),
           centerTitle: true,
-          actions: const [CartButtonWidget()],
         ),
         body: BlocConsumer<HomeCubit, HomeState>(
           listener: (context, state) {
