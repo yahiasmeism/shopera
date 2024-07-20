@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/widgets/button_primary.dart';
 import 'package:shopera/core/utils/my_route_observer.dart';
 import 'package:shopera/features/authentication/presentation/pages/register_page.dart';
 import 'package:shopera/features/authentication/presentation/pages/update_user_page.dart';
@@ -9,6 +8,7 @@ import 'package:shopera/features/authentication/presentation/widgets/text_form_f
 import 'package:shopera/features/authentication/presentation/widgets/primary_button_google.dart';
 import 'package:shopera/features/authentication/presentation/widgets/custom_password_form_field.dart';
 
+import '../../../../core/widgets/primary_loading_button.dart';
 import '../../../main/pages/main_page.dart';
 
 // ignore: must_be_immutable
@@ -50,7 +50,7 @@ class SignInPage extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    // crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       // App logo and name
                       Image.asset(
@@ -58,12 +58,14 @@ class SignInPage extends StatelessWidget {
                         height: 45,
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        'Welcome Back!',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Welcome Back!',
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -97,24 +99,17 @@ class SignInPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       // SignIn button
-                      BlocBuilder<UserCubit, UserState>(
-                        builder: (context, state) {
-                          if (state is UserLoading) {
-                            return const Center(child: CircularProgressIndicator());
+
+                      PrimaryLoadingButton(
+                        labelText: 'Sign in',
+                        onPressed: () async {
+                          if (_formKey.currentState?.validate() ?? false) {
+                            await context.read<UserCubit>().signInUser(
+                                  username: _usernameController.text,
+                                  password: _passwordController.text,
+                                  isFromGoogle: false,
+                                );
                           }
-                          return PrimaryButton(
-                            onPressed: () {
-                              if (_formKey.currentState?.validate() ?? false) {
-                                context.read<UserCubit>().signInUser(
-                                      username: _usernameController.text,
-                                      password: _passwordController.text,
-                                      isFromGoogle: false,
-                                    );
-                              }
-                            },
-                            labelText: 'Sign In',
-                            height: 55,
-                          );
                         },
                       ),
 

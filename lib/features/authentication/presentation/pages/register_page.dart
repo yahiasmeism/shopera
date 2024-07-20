@@ -1,3 +1,6 @@
+import 'package:shopera/core/widgets/primary_loading_button.dart';
+import 'package:shopera/features/main/pages/main_page.dart';
+
 import 'login_page.dart';
 import 'package:flutter/material.dart';
 import '../cubits/user_cubit/cubit.dart';
@@ -5,9 +8,7 @@ import '../widgets/text_form_field.dart';
 import '../widgets/primary_button_google.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/custom_password_form_field.dart';
-import '../../../../core/widgets/button_primary.dart';
 import '../../../../core/utils/my_route_observer.dart';
-import '../../../home/persentation/pages/home_page.dart';
 
 class SignUpPage extends StatelessWidget {
   static const routeName = 'register';
@@ -30,7 +31,7 @@ class SignUpPage extends StatelessWidget {
           if (state is UserSuccess) {
             // Navigate to home or another page
             Navigator.of(context).pushNamedAndRemoveUntil(
-              HomePage.routeName,
+              MainPage.routeName,
               (route) => false,
             );
           } else if (state is UserFailure) {
@@ -48,7 +49,6 @@ class SignUpPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     // App logo and name
                     Image.asset(
@@ -56,12 +56,15 @@ class SignUpPage extends StatelessWidget {
                       height: 45,
                     ),
                     const SizedBox(height: 20),
-                    const Text(
-                      'Create an Account',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Create an Account',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -108,26 +111,18 @@ class SignUpPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // Register button
-                    BlocBuilder<UserCubit, UserState>(
-                      builder: (context, state) {
-                        if (state is UserLoading) {
-                          return const Center(child: CircularProgressIndicator());
+                    PrimaryLoadingButton(
+                      onPressed: () async {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          await context.read<UserCubit>().registerUser(
+                                username: _usernameController.text,
+                                email: _emailController.text,
+                                password: _passwordController.text,
+                                isFromGoogle: false,
+                              );
                         }
-                        return PrimaryButton(
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              context.read<UserCubit>().registerUser(
-                                    username: _usernameController.text,
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                    isFromGoogle: false,
-                                  );
-                            }
-                          },
-                          labelText: 'Register',
-                          height: 55,
-                        );
                       },
+                      labelText: 'Sign up',
                     ),
 
                     const SizedBox(height: 20),
