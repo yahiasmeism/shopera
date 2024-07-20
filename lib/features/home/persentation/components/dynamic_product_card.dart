@@ -41,7 +41,6 @@ class DynamicProductCard extends StatelessWidget {
 
   Widget _buildTypeA() {
     return Card(
-      color: AppColors.cardColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.0),
       ),
@@ -71,7 +70,6 @@ class DynamicProductCard extends StatelessWidget {
 
   Widget _buildTypeB() {
     return Card(
-      color: Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14.0),
       ),

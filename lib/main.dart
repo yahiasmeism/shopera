@@ -79,9 +79,11 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
-          bool isDarkTheme = false; // default value
+          final SharedPreferences sharedPref = AppDep.sl();
+          bool isDarkTheme = sharedPref.getBool(kIsDarkTheme) ?? false; // default value
           if (state is SettingsThemeChanged) {
             isDarkTheme = state.isDarkTheme;
+            sharedPref.setBool(kIsDarkTheme, isDarkTheme);
           }
 
           return MaterialApp(

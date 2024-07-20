@@ -7,7 +7,7 @@ class PrimaryButton extends StatelessWidget {
     super.key,
     required this.onPressed,
     this.labelText,
-    this.textColor = Colors.white,
+    this.textColor,
     this.bgColor = AppColors.primaryColor,
     this.borderSideColor = Colors.transparent,
     this.borderRadius = 100,
@@ -20,7 +20,7 @@ class PrimaryButton extends StatelessWidget {
 
   final String? labelText;
   final Widget? child;
-  final Color textColor;
+  final Color? textColor;
   final Color bgColor;
   final Color borderSideColor;
   final double borderRadius;
@@ -48,8 +48,7 @@ class PrimaryButton extends StatelessWidget {
             ),
           ),
           backgroundColor: onPressed == null
-              ? WidgetStateProperty.resolveWith(
-                  (states) => bgColor.withOpacity(0.3))
+              ? WidgetStateProperty.resolveWith((states) => bgColor.withOpacity(0.3))
               : WidgetStateProperty.resolveWith((states) => bgColor),
           textStyle: WidgetStateProperty.resolveWith(
             (states) => TextStyle(
@@ -62,9 +61,7 @@ class PrimaryButton extends StatelessWidget {
             Text(
               labelText ?? "",
               style: TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: textColor,
-                  fontSize: 16),
+                  fontWeight: FontWeight.normal, color: textColor ?? Theme.of(context).scaffoldBackgroundColor, fontSize: 16),
             ),
       ),
     );

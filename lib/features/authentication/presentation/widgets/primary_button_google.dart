@@ -8,49 +8,49 @@ import '../../../../core/widgets/snackbar_global.dart';
 import '../../../../core/services/google_signin_api.dart';
 
 class PrimaryButtonGoogle extends StatelessWidget {
-  const PrimaryButtonGoogle({super.key ,required BuildContext context});
+  const PrimaryButtonGoogle({super.key, required BuildContext context});
 
   @override
   Widget build(BuildContext context) {
     return PrimaryButton(
-                  borderSideColor: Colors.black,
-                     onPressed: () async {
-                    await GoogleSignInApi.login().then((user) {
-                      if (user == null) {
-                        SnackBarGlobal.show(
-                          context,
-                          Faild_Google_SignIn,
-                          color: Colors.red,
-                          icon: Icons.cancel,
-                        );
-                      } else {
-                        context.read<UserCubit>().loginUser(
-                              username: Default_Login_Username,
-                              password: Default_Login_Password,
-                              isFromGoogle: true,
-                            );
-                      }
-                    });
-                  },
-                  height: 55,
-                  bgColor: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        height: 20,
-                        width: 20,
-                        'assets/images/svg/google_logo.svg',
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      const Text(
-                        'Google',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ],
-                  ),
+      borderSideColor: Theme.of(context).dividerColor,
+      onPressed: () async {
+        await GoogleSignInApi.login().then((user) {
+          if (user == null) {
+            SnackBarGlobal.show(
+              context,
+              Faild_Google_SignIn,
+              color: Theme.of(context).colorScheme.error,
+              icon: Icons.cancel,
+            );
+          } else {
+            context.read<UserCubit>().signInUser(
+                  username: Default_Login_Username,
+                  password: Default_Login_Password,
+                  isFromGoogle: true,
                 );
+          }
+        });
+      },
+      height: 55,
+      bgColor: Theme.of(context).scaffoldBackgroundColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            height: 20,
+            width: 20,
+            'assets/images/svg/google_logo.svg',
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Text(
+            'Google',
+            style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+          ),
+        ],
+      ),
+    );
   }
 }

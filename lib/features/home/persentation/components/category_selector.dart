@@ -33,13 +33,15 @@ class _CategorySelectorState extends State<CategorySelector> {
                   margin: const EdgeInsets.only(right: 10),
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   decoration: BoxDecoration(
-                    color: selectedIndex == index ? AppColors.primaryColor : Colors.white,
+                    color: selectedIndex == index ? AppColors.primaryColor : Theme.of(context).highlightColor,
                     borderRadius: BorderRadius.circular(7),
                   ),
                   child: Text(
                     widget.categories[index].name,
                     style: TextStyle(
-                      color: selectedIndex == index ? Colors.white : AppColors.textColor,
+                      color: selectedIndex == index
+                          ? Theme.of(context).scaffoldBackgroundColor
+                          : Theme.of(context).textTheme.bodyLarge?.color,
                       fontWeight: selectedIndex == index ? FontWeight.bold : FontWeight.normal,
                     ),
                   ),

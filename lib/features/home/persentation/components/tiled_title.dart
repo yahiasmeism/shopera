@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/constants/colors.dart';
 import 'minimal_text_button.dart';
 import 'title_widget.dart';
 
@@ -21,14 +20,11 @@ class TiledTitle extends StatelessWidget {
       children: [
         TitleWidget(
           label: title,
-          color: AppColors.textColor,
           fontSize: 16,
         ),
         MinimalTextButton(
           text: tileText,
-          textStyle: const TextStyle(
-            color: AppColors.textColor,
-          ),
+          textStyle: const TextStyle(),
           onPressed: onTap,
         ),
       ],

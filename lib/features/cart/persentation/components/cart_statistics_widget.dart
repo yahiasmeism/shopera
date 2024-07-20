@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/hr_dashed_divider.dart';
@@ -17,15 +16,15 @@ class CartStatisticsWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(10, 0, 0, 0),
-            offset: Offset(0, 1),
+            blurStyle: BlurStyle.outer,
+            color: Theme.of(context).highlightColor,
+            offset: const Offset(0, 1),
             blurRadius: 3,
             spreadRadius: 2,
           )
         ],
-        color: Colors.white,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

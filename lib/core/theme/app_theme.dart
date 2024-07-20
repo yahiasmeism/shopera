@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:shopera/core/constants/colors.dart';
 
 ThemeData appLightTheme = ThemeData(
-  primarySwatch: AppColors.primaryColor,
+  colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor, brightness: Brightness.light),
+  cardTheme: const CardTheme(color: AppColors.backgroundColor),
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.backgroundColor,
     centerTitle: true,
     elevation: 0,
   ),
 
-  brightness: Brightness.light,
   // Define other light theme properties
   scaffoldBackgroundColor: AppColors.backgroundColor,
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -24,9 +24,8 @@ ThemeData appDarkTheme = ThemeData(
     centerTitle: true,
     elevation: 0,
   ),
+  colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor, brightness: Brightness.dark),
 
-  primarySwatch: AppColors.primaryColor,
-  brightness: Brightness.dark,
   // Define other dark theme properties
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     backgroundColor: AppColors.backgroundColor,

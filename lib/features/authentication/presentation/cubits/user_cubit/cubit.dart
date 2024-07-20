@@ -33,7 +33,7 @@ class UserCubit extends Cubit<UserState> {
     required this.logout,
   }) : super(UserInitial());
 
-  Future<void> loginUser({required String username, required String password, bool isFromGoogle = false}) async {
+  Future<void> signInUser({required String username, required String password, bool isFromGoogle = false}) async {
     // Add login logic here (e.g., API call)
     if (!isFromGoogle) {
       emit(UserLoading());

@@ -35,6 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  List<ProductEntity> products = [];
   Future getProducts({int pageNumber = 0}) async {
     log(pageNumber.toString());
     if (state is HomeStateLoaded) {

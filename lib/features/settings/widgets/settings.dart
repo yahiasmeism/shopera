@@ -1,3 +1,7 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shopera/core/services/service_locator.dart';
+
+import '../../../core/constants/strings.dart';
 import '../cubit/cubit.dart';
 import 'settings_section.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +66,8 @@ class SettingsWidget extends StatelessWidget {
               backgroundColor: const Color(0xff353430),
               trailing: BlocBuilder<SettingsCubit, SettingsState>(
                 builder: (context, state) {
-                  bool isDarkTheme = false; // default value
+                  final SharedPreferences sharedPref = AppDep.sl();
+                  bool isDarkTheme = sharedPref.getBool(kIsDarkTheme) ?? false; // default value
                   if (state is SettingsThemeChanged) {
                     isDarkTheme = state.isDarkTheme;
                   }

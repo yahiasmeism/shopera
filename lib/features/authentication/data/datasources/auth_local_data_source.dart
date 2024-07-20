@@ -31,7 +31,7 @@ class AuthLocalDataSourceImpl extends AuthLocalDataSource {
     try {
       // Clear the user data from local storage (Hive, SharedPreferences, etc.)
       await UserRepository().clearUser();
-
+    
       return Future.value(unit);
     } catch (e) {
       throw LogoutException(LOGOUT_FAILURE_MESSAGE);

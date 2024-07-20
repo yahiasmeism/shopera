@@ -17,3 +17,4 @@ const String UNEXPECTED_ERROR = 'An unexpected error occurred';
 const String Faild_Google_SignIn = 'Google login failed';
 const String Default_Login_Username = 'emilys';
 const String Default_Login_Password = 'emilyspass';
+const String kIsDarkTheme = 'isDarkTheme';

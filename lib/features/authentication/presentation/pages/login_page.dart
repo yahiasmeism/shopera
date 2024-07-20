@@ -13,7 +13,7 @@ import '../../../main/pages/main_page.dart';
 
 // ignore: must_be_immutable
 class SignInPage extends StatelessWidget {
-  static const routeName = 'login';
+  static const routeName = 'SignIn';
   bool isPassword = true;
 
   SignInPage({super.key});
@@ -96,7 +96,7 @@ class SignInPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      // Login button
+                      // SignIn button
                       BlocBuilder<UserCubit, UserState>(
                         builder: (context, state) {
                           if (state is UserLoading) {
@@ -105,14 +105,14 @@ class SignInPage extends StatelessWidget {
                           return PrimaryButton(
                             onPressed: () {
                               if (_formKey.currentState?.validate() ?? false) {
-                                context.read<UserCubit>().loginUser(
+                                context.read<UserCubit>().signInUser(
                                       username: _usernameController.text,
                                       password: _passwordController.text,
                                       isFromGoogle: false,
                                     );
                               }
                             },
-                            labelText: 'Login',
+                            labelText: 'Sign In',
                             height: 55,
                           );
                         },

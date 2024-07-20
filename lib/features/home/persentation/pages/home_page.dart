@@ -6,11 +6,9 @@ import '../components/category_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
 import '../components/dynamic_product_card.dart';
-import '../../domin/entities/product_entity.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../../core/widgets/button_primary.dart';
 import '../../../cart/persentation/components/cart_button.dart';
-
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -21,13 +19,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ProductEntity> products = [];
   late final ScrollController _scrollController;
   late HomeCubit cubit;
   bool isLoading = false;
   int nextPage = 1;
   @override
   void initState() {
+    cubit = context.read<HomeCubit>();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
@@ -48,7 +46,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.backgroundColor,
         appBar: AppBar(
           title: const Text('Home'),
           centerTitle: true,
@@ -58,7 +55,7 @@ class _HomePageState extends State<HomePage> {
           listener: (context, state) {
             if (state is HomeStateLoaded) {
               if (state.products.isNotEmpty) {
-                products.addAll(state.products);
+                cubit.products.addAll(state.products);
                 nextPage++;
               }
             }
@@ -109,7 +106,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void retry() {
-    products.clear();
+    cubit.products.clear();
     nextPage = 1;
     cubit.loadData();
   }
@@ -154,12 +151,12 @@ class _HomePageState extends State<HomePage> {
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
         SliverList.builder(
-          itemCount: products.length + 1,
+          itemCount: cubit.products.length + 1,
           itemBuilder: (context, index) {
-            if (index < products.length) {
+            if (index < cubit.products.length) {
               return DynamicProductCard(
                 type: 'typeA',
-                product: products[index],
+                product: cubit.products[index],
               );
             } else {
               return Padding(
