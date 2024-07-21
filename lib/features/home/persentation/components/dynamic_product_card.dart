@@ -54,10 +54,7 @@ class DynamicProductCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleWidget(
-                  label: product.title,
-                  fontSize: 16,
-                ),
+                TitleWidget(label: product.title, fontSize: 16, maxLines: 2),
                 const SizedBox(height: 7),
                 _buildPriceAndActions(),
               ],
@@ -258,8 +255,23 @@ class DynamicProductCard extends StatelessWidget {
         ),
         Row(
           children: [
-            _buildIconButton(Icons.favorite_border, () {}),
-            _buildIconButton(Icons.shopping_cart, () {}),
+            InkWell(
+              onTap: () {},
+              child: Icon(
+                Icons.favorite_border,
+                size: 20,
+                color: AppColors.iconColor,
+              ),
+            ),
+            SizedBox(width: 8), // Add spacing between icons
+            InkWell(
+              onTap: () {},
+              child: Icon(
+                Icons.shopping_cart,
+                size: 20,
+                color: AppColors.iconColor,
+              ),
+            ),
           ],
         ),
       ],

@@ -11,9 +11,7 @@ import '../../../../core/widgets/button_primary.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-  static const routeName = 'home page';
-
-  //
+  static const routeName = 'home';
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -118,11 +116,7 @@ class _HomePageState extends State<HomePage> {
       physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       slivers: [
-        SliverToBoxAdapter(
-          child: HomePageTopSwiper(
-            size: size,
-          ),
-        ),
+        SliverToBoxAdapter(child: HomePageTopSwiper(size: size)),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
@@ -132,7 +126,8 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
-        SliverToBoxAdapter(child: CategorySelector(categories: state.categoris)),
+        SliverToBoxAdapter(
+            child: CategorySelector(categories: state.categoris)),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
@@ -142,37 +137,55 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
-        SliverToBoxAdapter(
-          child: TiledTitle(
-            title: 'Latest Products',
-            tileText: 'See All',
-            onTap: () {},
-          ),
-        ),
-        const SliverToBoxAdapter(child: SizedBox(height: 14)),
-        SliverList.builder(
-          itemCount: cubit.products.length + 1,
-          itemBuilder: (context, index) {
-            if (index < cubit.products.length) {
+        // SliverToBoxAdapter(
+        //   child: TiledTitle(
+        //     title: 'Latest Products',
+        //     tileText: 'See All',
+        //     onTap: () {},
+        //   ),
+        // ),
+        // const SliverToBoxAdapter(child: SizedBox(height: 14)),
+        SliverGrid(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              // If the index is out of the bounds of the product list, show a loading indicator or message
+              if (index >= cubit.products.length) {
+                return Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: cubit.products.isEmpty
+                            ? const Text('No more data to products')
+                            : const SpinKitWaveSpinner(
+                                size: 40,
+                                color: AppColors.primaryColor,
+                              ),
+                      ),
+                      const SizedBox(
+                          height: 7), // Add space below the indicator
+                    ],
+                  ),
+                );
+              }
+
+              // Display the product card
               return DynamicProductCard(
                 type: 'typeA',
                 product: cubit.products[index],
               );
-            } else {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: Center(
-                  child: state.products.isEmpty
-                      ? const Text('No more data to products')
-                      : const SpinKitWaveSpinner(
-                          size: 40,
-                          color: AppColors.primaryColor,
-                        ),
-                ),
-              );
-            }
-          },
+            },
+            childCount:
+                cubit.products.length + 1, // Adding 1 for the loading indicator
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Two products per row
+            mainAxisSpacing: 7, // Space between rows
+            crossAxisSpacing: 7, // Space between columns
+            childAspectRatio: 0.70, // Adjust the aspect ratio as needed
+          ),
         ),
+
         const SliverToBoxAdapter(child: SizedBox(height: 7)),
       ],
     );
