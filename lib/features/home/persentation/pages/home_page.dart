@@ -11,7 +11,7 @@ import '../../../../core/widgets/button_primary.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-  static const routeName = 'home';
+  static const routeName = 'home page';
 
   @override
   State<HomePage> createState() => _HomePageState();
