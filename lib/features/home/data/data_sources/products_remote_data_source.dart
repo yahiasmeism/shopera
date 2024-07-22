@@ -16,6 +16,9 @@ abstract class ProductsRemoteDataSource {
 class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   final ApiConsumer api;
 
+  // Constants for pagination
+  static const int _limit = 20;
+
   // Constructor with required api parameter
   ProductsRemoteDataSourceImpl({required this.api});
 
@@ -30,35 +33,27 @@ class ProductsRemoteDataSourceImpl implements ProductsRemoteDataSource {
   // Fetch products from the API with pagination
   @override
   Future<List<ProductModel>> getProducts({required int pageNumber}) async {
-    const int limit = 10;
-    final int skip = pageNumber * 10;
-    final Response response = await api.get(
-      PRODUCTS,
-      query: {'limit': limit, 'skip': skip},
-    );
-    return _processProductsResponse(response);
+    return _fetchProducts(PRODUCTS, pageNumber);
   }
 
   // Fetch products by category from the API with pagination
   @override
   Future<List<ProductModel>> getProductsByCategory({required String categoryName, required int pageNumber}) async {
-    const int limit = 10;
-    final int skip = pageNumber * 10;
-    final Response response = await api.get(
-      '$PRODUCTS_CATEGORY$categoryName',
-      query: {'limit': limit, 'skip': skip},
-    );
-    return _processProductsResponse(response);
+    return _fetchProducts('$PRODUCTS_CATEGORY$categoryName', pageNumber);
   }
 
   // Search products by keyword from the API with pagination
   @override
   Future<List<ProductModel>> searchProducts({required String keyword, required int pageNumber}) async {
-    const int limit = 10;
-    final int skip = pageNumber * 10;
+    return _fetchProducts(SEARCH_PRODUCTS, pageNumber, query: {'q': keyword});
+  }
+
+  // General method to fetch products from the API with pagination
+  Future<List<ProductModel>> _fetchProducts(String url, int pageNumber, {Map<String, dynamic>? query}) async {
+    final int skip = pageNumber * _limit;
     final Response response = await api.get(
-      SEARCH_PRODUCTS,
-      query: {'limit': limit, 'skip': skip, 'q': keyword},
+      url,
+      query: {'limit': _limit, 'skip': skip, ...?query},
     );
     return _processProductsResponse(response);
   }

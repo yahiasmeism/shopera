@@ -95,8 +95,8 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
     required int pageNumber,
     required bool Function(T) filter,
   }) async {
-    int startIndex = pageNumber * 10;
-    int endIndex = (pageNumber + 1) * 10;
+    int startIndex = pageNumber * 20;
+    int endIndex = (pageNumber + 1) * 20;
     int length = box.values.length;
 
     if (startIndex >= length) {
