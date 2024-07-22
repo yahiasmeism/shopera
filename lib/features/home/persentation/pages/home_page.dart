@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     if (cureentPosition >= maxScrollLength) {
       if (!isLoading) {
         isLoading = true;
-        await cubit.getProducts(pageNumber: nextPage);
+        await cubit.getProducts(pageNumber: nextPage++);
         isLoading = false;
       }
     }
