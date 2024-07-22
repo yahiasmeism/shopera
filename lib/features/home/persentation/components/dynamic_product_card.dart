@@ -257,16 +257,16 @@ class DynamicProductCard extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {},
-              child: Icon(
+              child: const Icon(
                 Icons.favorite_border,
                 size: 20,
                 color: AppColors.iconColor,
               ),
             ),
-            SizedBox(width: 8), // Add spacing between icons
+            const SizedBox(width: 8), // Add spacing between icons
             InkWell(
               onTap: () {},
-              child: Icon(
+              child: const Icon(
                 Icons.shopping_cart,
                 size: 20,
                 color: AppColors.iconColor,

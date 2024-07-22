@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     if (cureentPosition >= (maxScrollLength)) {
       if (!isLoading) {
         isLoading = true;
-        await cubit.getProducts(pageNumber: nextPage);
+        await cubit.getProducts(pageNumber: nextPage++);
         isLoading = false;
       }
     }
@@ -50,14 +50,7 @@ class _HomePageState extends State<HomePage> {
           centerTitle: true,
         ),
         body: BlocConsumer<HomeCubit, HomeState>(
-          listener: (context, state) {
-            if (state is HomeStateLoaded) {
-              if (state.products.isNotEmpty) {
-                cubit.products.addAll(state.products);
-                nextPage++;
-              }
-            }
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is HomeStateLoaded) {
               if (state.loadingData) {
@@ -104,7 +97,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void retry() {
-    cubit.products.clear();
     nextPage = 1;
     cubit.loadData();
   }
@@ -126,8 +118,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
-        SliverToBoxAdapter(
-            child: CategorySelector(categories: state.categoris)),
+        SliverToBoxAdapter(child: CategorySelector(categories: state.categoris)),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
@@ -137,56 +128,34 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
-        // SliverToBoxAdapter(
-        //   child: TiledTitle(
-        //     title: 'Latest Products',
-        //     tileText: 'See All',
-        //     onTap: () {},
-        //   ),
-        // ),
-        // const SliverToBoxAdapter(child: SizedBox(height: 14)),
-        SliverGrid(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              // If the index is out of the bounds of the product list, show a loading indicator or message
-              if (index >= cubit.products.length) {
-                return Center(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: cubit.products.isEmpty
-                            ? const Text('No more data to products')
-                            : const SpinKitWaveSpinner(
-                                size: 40,
-                                color: AppColors.primaryColor,
-                              ),
-                      ),
-                      const SizedBox(
-                          height: 7), // Add space below the indicator
-                    ],
-                  ),
-                );
-              }
-
-              // Display the product card
-              return DynamicProductCard(
-                type: 'typeA',
-                product: cubit.products[index],
-              );
-            },
-            childCount:
-                cubit.products.length + 1, // Adding 1 for the loading indicator
-          ),
+        SliverGrid.builder(
+          itemCount: state.products.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Two products per row
-            mainAxisSpacing: 7, // Space between rows
-            crossAxisSpacing: 7, // Space between columns
-            childAspectRatio: 0.70, // Adjust the aspect ratio as needed
+            crossAxisCount: 2,
+            mainAxisSpacing: 7,
+            crossAxisSpacing: 7,
+            childAspectRatio: 0.70,
+          ),
+          itemBuilder: (context, index) {
+            return DynamicProductCard(
+              type: 'typeA',
+              product: state.products[index],
+            );
+          },
+        ),
+        SliverToBoxAdapter(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: state.hasMoreProductsWithPagenation
+                  ? const SpinKitWaveSpinner(
+                      size: 40,
+                      color: AppColors.primaryColor,
+                    )
+                  : const Text('No more data to products'),
+            ),
           ),
         ),
-
-        const SliverToBoxAdapter(child: SizedBox(height: 7)),
       ],
     );
   }

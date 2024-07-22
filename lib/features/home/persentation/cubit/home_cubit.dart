@@ -35,7 +35,6 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  List<ProductEntity> products = [];
   Future getProducts({int pageNumber = 0}) async {
     log(pageNumber.toString());
     if (state is HomeStateLoaded) {
@@ -49,8 +48,13 @@ class HomeCubit extends Cubit<HomeState> {
             emit(HomeStateFailure(message: failure.message));
           }
         },
-        (products) {
-          emit(state.copyWith(products: products));
+        (newProducts) {
+          if (newProducts.isEmpty) {
+            emit(state.copyWith(hasMoreProductsWithPagenation: false));
+          } else {
+            final products = List<ProductEntity>.from(state.products)..addAll(newProducts);
+            emit(state.copyWith(products: products, hasMoreProductsWithPagenation: true));
+          }
         },
       );
     }

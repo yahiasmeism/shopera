@@ -10,6 +10,7 @@ sealed class HomeState extends Equatable {
 final class HomeStateInitial extends HomeState {}
 
 class HomeStateLoaded extends HomeState {
+  final bool hasMoreProductsWithPagenation;
   final bool loadingData;
   final List<ProductEntity> products;
   final List<ProductEntity> productsBySearch;
@@ -17,15 +18,17 @@ class HomeStateLoaded extends HomeState {
   final List<CategoryEntity> categoris;
   final String? message;
   const HomeStateLoaded({
+    this.hasMoreProductsWithPagenation = false,
     this.loadingData = false,
-    this.message,
     this.products = const [],
     this.productsBySearch = const [],
-    this.categoris = const [],
     this.productsBycategory = const [],
+    this.categoris = const [],
+    this.message,
   });
 
   HomeStateLoaded copyWith({
+    bool? hasMoreProductsWithPagenation,
     String? message,
     bool? loadingData,
     List<ProductEntity>? products,
@@ -34,6 +37,7 @@ class HomeStateLoaded extends HomeState {
     List<CategoryEntity>? categoris,
   }) {
     return HomeStateLoaded(
+      hasMoreProductsWithPagenation: hasMoreProductsWithPagenation ?? this.hasMoreProductsWithPagenation,
       message: message,
       loadingData: loadingData ?? this.loadingData,
       products: products ?? this.products,
@@ -46,6 +50,7 @@ class HomeStateLoaded extends HomeState {
   @override
   List<Object?> get props {
     return [
+      hasMoreProductsWithPagenation,
       loadingData,
       products,
       productsBySearch,
