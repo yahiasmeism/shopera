@@ -33,10 +33,10 @@ class _HomePageState extends State<HomePage> {
   _scrollListener() async {
     var cureentPosition = _scrollController.position.pixels;
     var maxScrollLength = _scrollController.position.maxScrollExtent;
-    if (cureentPosition >= maxScrollLength) {
+    if (cureentPosition >= (0.7 * maxScrollLength)) {
       if (!isLoading) {
         isLoading = true;
-        await cubit.getProducts(pageNumber: nextPage++);
+        await cubit.getProducts(pageNumber: nextPage);
         isLoading = false;
       }
     }
@@ -144,19 +144,15 @@ class _HomePageState extends State<HomePage> {
             );
           },
         ),
-        SliverToBoxAdapter(
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: state.hasMoreProductsWithPagenation
-                  ? const SpinKitWaveSpinner(
-                      size: 40,
-                      color: AppColors.primaryColor,
-                    )
-                  : const Text('No more data to products'),
+        if (!state.hasMoreProductsWithPagenation)
+          const SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('No more data to products'),
+              ),
             ),
           ),
-        ),
       ],
     );
   }
