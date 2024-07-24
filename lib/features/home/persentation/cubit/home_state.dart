@@ -15,7 +15,7 @@ class HomeStateLoaded extends HomeState {
   final List<ProductEntity> products;
   final List<ProductEntity> productsBySearch;
   final List<ProductEntity> productsBycategory;
-  final List<CategoryEntity> categoris;
+  final List<CategoryEntity> categories;
   final String? message;
   const HomeStateLoaded({
     this.hasMoreProductsWithPagenation = false,
@@ -23,7 +23,7 @@ class HomeStateLoaded extends HomeState {
     this.products = const [],
     this.productsBySearch = const [],
     this.productsBycategory = const [],
-    this.categoris = const [],
+    this.categories = const [],
     this.message,
   });
 
@@ -43,7 +43,7 @@ class HomeStateLoaded extends HomeState {
       products: products ?? this.products,
       productsBySearch: productsBySearch ?? this.productsBySearch,
       productsBycategory: productsBycategory ?? this.productsBycategory,
-      categoris: categoris ?? this.categoris,
+      categories: categoris ?? this.categories,
     );
   }
 
@@ -55,7 +55,7 @@ class HomeStateLoaded extends HomeState {
       products,
       productsBySearch,
       productsBycategory,
-      categoris,
+      categories,
       message,
     ];
   }

@@ -19,18 +19,22 @@ class BottomNavBar extends StatelessWidget {
                 context.read<NavigationBarCubit>().navigateTo(NavigationBarState.home);
                 break;
               case 1:
-                context.read<NavigationBarCubit>().navigateTo(NavigationBarState.wishList);
+                context.read<NavigationBarCubit>().navigateTo(NavigationBarState.search);
                 break;
               case 2:
-                context.read<NavigationBarCubit>().navigateTo(NavigationBarState.cart);
+                context.read<NavigationBarCubit>().navigateTo(NavigationBarState.wishList);
                 break;
               case 3:
+                context.read<NavigationBarCubit>().navigateTo(NavigationBarState.cart);
+                break;
+              case 4:
                 context.read<NavigationBarCubit>().navigateTo(NavigationBarState.settings);
                 break;
             }
           },
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Home"),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
             BottomNavigationBarItem(icon: Icon(Icons.favorite_border_outlined), label: "Favorite"),
             BottomNavigationBarItem(icon: CartIconWidget(), label: "Cart"),
             BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Settings"),

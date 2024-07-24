@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:shopera/features/search/search_page.dart';
 import '../../features/main/pages/main_page.dart';
 import '../../features/settings/pages/settings_page.dart';
 import '../../features/cart/persentation/pages/cart_page.dart';
@@ -22,5 +23,6 @@ Map<String, WidgetBuilder> appRoutes() {
     StartupPage.routeName: (context) => const StartupPage(),
     // 'products': (context) => const ProductsPage(),
     // 'orders': (context) => const OrdersPage(),
+    SearchPage.routeName: (context) => const SearchPage(),
   };
 }

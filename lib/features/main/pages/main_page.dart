@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/features/search/search_page.dart';
 import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../cart/persentation/pages/cart_page.dart';
@@ -34,6 +35,8 @@ class _MainPageState extends State<MainPage> {
           switch (state) {
             case NavigationBarState.home:
               return const HomePage();
+            case NavigationBarState.search:
+              return const SearchPage();
             case NavigationBarState.wishList:
               return const FavoritePage();
             case NavigationBarState.cart:

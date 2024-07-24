@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-
 import '../../../../core/constants/colors.dart';
 import '../../domin/entities/category_entity.dart';
 
 class CategorySelector extends StatefulWidget {
-  const CategorySelector({super.key, required this.categories});
+  const CategorySelector({super.key, required this.categories, required this.selectedValue});
   final List<CategoryEntity> categories;
+  final Function (String value) selectedValue;
   @override
-  State createState() => _CategorySelectorState();
+   State createState() => _CategorySelectorState();
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
   int selectedIndex = 0;
+@override
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +28,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                 onTap: () {
                   setState(() {
                     selectedIndex = index;
+                    widget.selectedValue(widget.categories[index].name);
                   });
                 },
                 child: Container(

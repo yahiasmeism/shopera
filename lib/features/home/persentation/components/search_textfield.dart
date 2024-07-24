@@ -31,12 +31,6 @@ class _SearchTextFieldState extends State<SearchTextField> {
     });
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
 
   void _unfocus() {
     if (_focusNode.hasFocus) {

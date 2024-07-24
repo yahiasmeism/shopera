@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
+import 'package:shopera/features/home/data/models/category_model.dart';
 
 import '../../../../core/usecases/usecase.dart';
 import '../../domin/entities/category_entity.dart';
@@ -69,7 +70,10 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await getCategoriesUsecase(NoParams());
       result.fold(
         (failure) => emit(state.copyWith(message: failure.message)),
-        (categories) => emit(state.copyWith(categoris: categories)),
+        (categories) {
+          categories.insert(0,CategoryModel(name: 'All'));
+          emit(state.copyWith(categoris: categories));
+        },
       );
     }
   }

@@ -1,3 +1,5 @@
+import 'package:shopera/core/constants/app_constants.dart';
+import 'package:shopera/core/widgets/rounded_category.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
 
@@ -5,7 +7,6 @@ import '../cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import '../components/top_swiper.dart';
 import '../components/tiled_title.dart';
-import '../components/category_selector.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/constants/colors.dart';
 import '../components/dynamic_product_card.dart';
@@ -14,7 +15,7 @@ import '../../../../core/widgets/button_primary.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-  static const routeName = 'home';
+  static const routeName = 'home page';
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -122,7 +123,22 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
-        SliverToBoxAdapter(child: CategorySelector(categories: state.categoris)),
+        //Categories Grid View
+        SliverToBoxAdapter(
+          child: GridView.count(
+            crossAxisCount: 4,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: List.generate(
+              AppConstants.appCategories.length,
+              (index) => RoundedCategory(
+                  imagePath: AppConstants.appCategories[index].image,
+                  categoryName: AppConstants.appCategories[index].name),
+            ),
+          ),
+        ),
+
+        // SliverToBoxAdapter(child: CategorySelector(categories: state.categoris)),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
@@ -133,12 +149,13 @@ class _HomePageState extends State<HomePage> {
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverGrid.builder(
-          itemCount: state.products.length,
+          // itemCount: state.products.length,
+          itemCount: 5,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+            crossAxisCount: 1,
             mainAxisSpacing: 7,
             crossAxisSpacing: 7,
-            childAspectRatio: 0.60,
+            childAspectRatio: 2.2,
           ),
           itemBuilder: (context, index) {
             return buildProductItem(state.products[index]);
@@ -149,7 +166,7 @@ class _HomePageState extends State<HomePage> {
             child: Center(
               child: Padding(
                 padding: EdgeInsets.all(8),
-                child: Text('No more data to products'),
+                child: Text('end of the list'),
               ),
             ),
           ),
@@ -171,7 +188,7 @@ class _HomePageState extends State<HomePage> {
             }
           },
           toggleFavorite: () {},
-          type: 'typeA',
+          type: 'typeB',
           product: product,
         );
       },

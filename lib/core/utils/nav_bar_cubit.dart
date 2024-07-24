@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 
 
-enum NavigationBarState { home, wishList, cart, settings }
+enum NavigationBarState { home,search, wishList, cart, settings }
 
 class NavigationBarCubit extends Cubit<NavigationBarState> {
   NavigationBarCubit() : super(NavigationBarState.home);

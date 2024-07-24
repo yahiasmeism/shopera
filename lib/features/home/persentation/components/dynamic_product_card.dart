@@ -85,7 +85,7 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               width: widget.height,
@@ -102,7 +102,7 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const SizedBox(height: 4),
                   Text(
@@ -117,12 +117,13 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
                   ),
                   const SizedBox(height: 4),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         '\$${widget.product.price}',
                         style: const TextStyle(
                           fontSize: 18,
-                          color: Colors.teal,
+                          color: AppColors.priceColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -148,7 +149,7 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
                   ElevatedButton(
                     onPressed: widget.toggleCart,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: widget.isAddedToCart ? Colors.grey : Colors.teal,
+                      backgroundColor: widget.isAddedToCart ? Colors.grey : AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
