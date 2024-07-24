@@ -73,7 +73,6 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
         BlocProvider(create: (context) => AppDep.sl<SettingsCubit>()),
         BlocProvider(create: (context) => AppDep.sl<NavigationBarCubit>()),
-        BlocProvider(create: (context) => AppDep.sl<CartCubit>()),
         BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
         BlocProvider(create: (context) => AppDep.sl<HomeCubit>()),
       ],

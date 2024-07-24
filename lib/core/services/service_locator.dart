@@ -104,6 +104,7 @@ class AppDep {
     sl.registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(
         local: sl(),
+        sharedPreferences: sl(),
         remote: sl(),
       ),
     );

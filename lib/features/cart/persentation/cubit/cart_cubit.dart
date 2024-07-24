@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../data/dtos/cart_dto.dart';
@@ -23,32 +25,38 @@ class CartCubit extends Cubit<CartState> {
   }) : super(CartInitial());
 
   // The current cart entity
-  CartEntity? _cart;
+  CartEntity? cart;
 
-  // Method to delete an item from the cart by index
-  void deleteItem(int index) {
-    if (state is CartLoaded) {
-      final stateLoaded = state as CartLoaded;
-      final updatedItems = List<CartItemEntity>.from(stateLoaded.cart.items);
-      final updatedCart = stateLoaded.cart.copyWith(items: updatedItems);
-      updatedItems.removeAt(index);
-      _updateCart(id: updatedCart.id, cartDto: CartDto.fromEntity(updatedCart));
+  // Method to delete an item from the cart by id
+  Future<bool> deleteItem(int itemId) async {
+    bool isSucessOperation = false;
+
+    if (cart != null) {
+      final updatedItems = List<CartItemEntity>.from(cart!.items);
+      final itemIndex = updatedItems.indexWhere((item) => item.id == itemId);
+
+      if (itemIndex != -1) {
+        updatedItems.removeAt(itemIndex);
+        final updatedCart = cart!.copyWith(items: updatedItems);
+        return await _updateCart(id: updatedCart.id, items: CartDto.fromEntity(updatedCart).items);
+      }
     }
+    return isSucessOperation;
+  }
+
+  bool continItem(int itemId) {
+    final result = cart?.items.any((item) => item.id == itemId) ?? false;
+    return result;
   }
 
   // Method to add an item to the cart
-  addItem({required int userId, required int productId}) {
-    if (_cart == null) {
+  Future<bool> addItem(int productId) {
+    if (cart == null) {
       // Create a new cart if it doesn't exist
-      final cartDto = CartDto(
-        userId: userId,
-        items: [CartItemDto(id: productId, quantity: 1)],
-      );
-      _createCart(cartDto: cartDto);
+      return _createCart(items: [CartItemDto(id: productId, quantity: 1)]);
     } else {
       // Update the existing cart
-      final updatedItems = List<CartItemDto>.from(
-          _cart!.items.map((e) => CartItemDto.fromEntity(e)));
+      final updatedItems = List<CartItemDto>.from(cart!.items.map((e) => CartItemDto.fromEntity(e)));
       final index = updatedItems.indexWhere((item) => item.id == productId);
 
       if (index != -1) {
@@ -60,65 +68,70 @@ class CartCubit extends Cubit<CartState> {
         updatedItems.add(CartItemDto(id: productId, quantity: 1));
       }
 
-      final cartDto = CartDto(
-        items: updatedItems,
-      );
-      _updateCart(id: _cart!.id, cartDto: cartDto);
+      return _updateCart(id: cart!.id, items: updatedItems);
     }
   }
 
   // Method to create a new cart
-  Future<void> _createCart({required CartDto cartDto}) async {
-    final cartResult = await createCartUsecase(cartDto);
+  Future<bool> _createCart({required List<CartItemDto> items}) async {
+    bool isSucessOperation = false;
+    log(state.runtimeType.toString());
+    final cartResult = await createCartUsecase(items);
     cartResult.fold(
       (failure) => emit(CartFailure(message: failure.message)),
       (cart) {
-        _cart = cart;
+        this.cart = cart;
         emit(CartLoaded(cart: cart));
+        isSucessOperation = true;
       },
     );
+    return isSucessOperation;
   }
 
   // Method to update an existing cart
-  _updateCart({required int id, required CartDto cartDto}) async {
+  Future<bool> _updateCart({required int id, required List<CartItemDto> items}) async {
+    bool isSucessOperation = false;
     if (state is CartLoaded) {
       final updateResult = await updateCartUsecase(
-        UpdateParam(cartId: id, cartDto: cartDto),
+        UpdateParam(cartId: id, items: items),
       );
       updateResult.fold(
-        (failure) => emit(CartFailure(message: failure.message)),
+        (failure) {
+          emit(CartFailure(message: failure.message));
+        },
         (cart) {
-          _cart = cart;
+          this.cart = cart;
           final loadedState = state as CartLoaded;
           emit(loadedState.copyWith(cart: cart));
+          isSucessOperation = true;
         },
       );
     }
+    return isSucessOperation;
   }
 
   // Method to change the quantity of an item in the cart
   void onChangeQuantitiesOfItem(int quantity, int itemId) {
-    if (_cart != null) {
+    if (cart != null) {
       // Get the index of the item in the cart
-      final itemIndex = _cart!.items.indexWhere((item) => item.id == itemId);
+      final itemIndex = cart!.items.indexWhere((item) => item.id == itemId);
 
       if (itemIndex != -1) {
         // Update the quantity of the item
-        final updatedItem =
-            _cart!.items[itemIndex].copyWith(quantity: quantity);
+        final updatedItem = cart!.items[itemIndex].copyWith(quantity: quantity);
 
         // Create a new list of items with the updated item
-        final updatedItems = List<CartItemEntity>.from(_cart!.items);
+        final updatedItems = List<CartItemEntity>.from(cart!.items);
         updatedItems[itemIndex] = updatedItem;
 
         // Create a new cart with the updated list of items
-        final updatedCart = _cart!.copyWith(items: updatedItems);
+        final updatedCart = cart!.copyWith(items: updatedItems);
 
-        // Create a DTO for the updated cart (assuming you have a DTO class)
+        // Create a DTO for the updated cart
         final cartDto = CartDto.fromEntity(updatedCart);
 
         // Call the updateCart method with the necessary parameters
-        _updateCart(id: _cart!.id, cartDto: cartDto);
+        _updateCart(id: cart!.id, items: cartDto.items);
       }
     }
   }

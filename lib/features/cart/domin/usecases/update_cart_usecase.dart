@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:shopera/features/cart/data/dtos/cart_item_dto.dart';
 
 import '../../../../core/errors/failures.dart';
 import '../../../../core/usecases/usecase.dart';
-import '../../data/dtos/cart_dto.dart';
 import '../entities/cart_entity.dart';
 import '../repositories/cart_repositories.dart';
 
@@ -13,13 +13,13 @@ class UpdateCartUsecase implements UseCase<CartEntity, UpdateParam> {
 
   @override
   Future<Either<Failure, CartEntity>> call(UpdateParam params) {
-    return _repository.update(params.cartId, params.cartDto);
+    return _repository.update(params.cartId, params.items);
   }
 }
 
 class UpdateParam {
   final int cartId;
-  final CartDto cartDto;
+  final List<CartItemDto> items;
 
-  UpdateParam({required this.cartId, required this.cartDto});
+  UpdateParam({required this.cartId, required this.items});
 }

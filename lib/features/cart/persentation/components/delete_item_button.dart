@@ -10,7 +10,7 @@ class DeleteItemButton extends StatelessWidget {
     return SlidableAction(
       foregroundColor: const Color(0xffE90101),
       padding: EdgeInsets.zero,
-      backgroundColor: const Color(0xffEBEBEB),
+      backgroundColor: Theme.of(context).highlightColor,
       borderRadius: BorderRadius.circular(12),
       icon: Icons.delete_outline,
       spacing: 10,

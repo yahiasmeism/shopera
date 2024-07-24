@@ -1,15 +1,18 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
+
 import '../../../../core/usecases/usecase.dart';
 import '../../domin/entities/category_entity.dart';
+import '../../domin/entities/product_entity.dart';
 import '../../domin/usecases/get_categories_usecase.dart';
 import '../../domin/usecases/get_products_by_category_usecase.dart';
 import '../../domin/usecases/get_products_usecase.dart';
 import '../../domin/usecases/search_products_usecase.dart';
-
-import '../../domin/entities/product_entity.dart';
 
 part 'home_state.dart';
 
@@ -93,4 +96,15 @@ class HomeCubit extends Cubit<HomeState> {
       );
     }
   }
+
+
+  // productToggleCart({required ProductEntity product, required bool added}) async {
+  //   final SharedPreferences sharedPref = AppDep.sl();
+  //   if (!sharedPref.containsKey(K_U_ID) || sharedPref.getInt(K_U_ID) == null) return;
+  //   if (added) {
+  //     cartCubit.addItem(productId: product.id);
+  //   } else {
+  //     cartCubit.deleteItem(product.id);
+  //   }
+  // }
 }

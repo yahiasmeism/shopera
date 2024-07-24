@@ -1,3 +1,6 @@
+import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
+import 'package:shopera/features/home/domin/entities/product_entity.dart';
+
 import '../cubit/home_cubit.dart';
 import 'package:flutter/material.dart';
 import '../components/top_swiper.dart';
@@ -138,10 +141,7 @@ class _HomePageState extends State<HomePage> {
             childAspectRatio: 0.60,
           ),
           itemBuilder: (context, index) {
-            return DynamicProductCard(
-              type: 'typeA',
-              product: state.products[index],
-            );
+            return buildProductItem(state.products[index]);
           },
         ),
         if (!state.hasMoreProductsWithPagenation)
@@ -154,6 +154,27 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
       ],
+    );
+  }
+
+  Widget buildProductItem(ProductEntity product) {
+    final cartCubit = context.read<CartCubit>();
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        return DynamicProductCard(
+          isAddedToCart: cartCubit.continItem(product.id),
+          toggleCart: () {
+            if (!cartCubit.continItem(product.id)) {
+              cartCubit.addItem(product.id);
+            } else {
+              cartCubit.deleteItem(product.id);
+            }
+          },
+          toggleFavorite: () {},
+          type: 'typeA',
+          product: product,
+        );
+      },
     );
   }
 }

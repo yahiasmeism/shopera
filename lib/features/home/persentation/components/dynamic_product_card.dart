@@ -1,28 +1,39 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/colors.dart';
 import '../../../../core/widgets/app_cached_image.dart';
 import '../../domin/entities/product_entity.dart';
-
-import '../../../../core/constants/colors.dart';
 import 'title_widget.dart';
 
-class DynamicProductCard extends StatelessWidget {
+class DynamicProductCard extends StatefulWidget {
   final ProductEntity product;
   final String type;
-  final double? height;
-
+  final double height;
+  final bool isFavorite;
+  final bool isAddedToCart;
+  final Function() toggleFavorite;
+  final Function() toggleCart;
   const DynamicProductCard({
     super.key,
     required this.product,
     required this.type,
     this.height = 100,
+    this.isFavorite = false,
+    this.isAddedToCart = false,
+    required this.toggleFavorite,
+    required this.toggleCart,
   });
 
+  @override
+  State createState() => _DynamicProductCardState();
+}
+
+class _DynamicProductCardState extends State<DynamicProductCard> {
   @override
   Widget build(BuildContext context) {
     Widget productCard;
 
-    switch (type) {
+    switch (widget.type) {
       case 'typeA':
         productCard = _buildTypeA();
         break;
@@ -33,7 +44,7 @@ class DynamicProductCard extends StatelessWidget {
         productCard = _buildTypeC();
         break;
       default:
-        throw ArgumentError('Invalid product type: $type');
+        throw ArgumentError('Invalid product type: ${widget.type}');
     }
 
     return productCard;
@@ -54,7 +65,7 @@ class DynamicProductCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TitleWidget(label: product.title, fontSize: 16, maxLines: 2),
+                TitleWidget(label: widget.product.title, fontSize: 16, maxLines: 2),
                 const SizedBox(height: 7),
                 _buildPriceAndActions(),
               ],
@@ -77,12 +88,12 @@ class DynamicProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: height,
-              height: height,
+              width: widget.height,
+              height: widget.height,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 image: DecorationImage(
-                  image: NetworkImage(product.thumbnail),
+                  image: NetworkImage(widget.product.thumbnail),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -95,7 +106,7 @@ class DynamicProductCard extends StatelessWidget {
                 children: [
                   const SizedBox(height: 4),
                   Text(
-                    product.title,
+                    widget.product.title,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -108,7 +119,7 @@ class DynamicProductCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '\$${product.price}',
+                        '\$${widget.product.price}',
                         style: const TextStyle(
                           fontSize: 18,
                           color: Colors.teal,
@@ -117,24 +128,27 @@ class DynamicProductCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       IconButton(
-                        icon: const Icon(
-                          Icons.favorite_border,
-                          size: 20,
-                          color: Colors.teal,
+                        icon: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          transitionBuilder: (Widget child, Animation<double> animation) {
+                            return ScaleTransition(scale: animation, child: child);
+                          },
+                          child: Icon(
+                            widget.isFavorite ? Icons.favorite : Icons.favorite_border,
+                            key: ValueKey<bool>(widget.isFavorite),
+                            color: Colors.teal,
+                            size: 20,
+                          ),
                         ),
-                        onPressed: () {
-                          // Handle favorite button press
-                        },
+                        onPressed: widget.toggleFavorite,
                       ),
                     ],
                   ),
                   const SizedBox(height: 8),
                   ElevatedButton(
-                    onPressed: () {
-                      // Handle add to cart button press
-                    },
+                    onPressed: widget.toggleCart,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.teal,
+                      backgroundColor: widget.isAddedToCart ? Colors.grey : Colors.teal,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -143,12 +157,16 @@ class DynamicProductCard extends StatelessWidget {
                         vertical: 10,
                       ),
                     ),
-                    child: const Text(
-                      'ADD TO CART',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: Text(
+                        widget.isAddedToCart ? 'ADDED' : 'ADD TO CART',
+                        key: ValueKey<bool>(widget.isAddedToCart),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -169,14 +187,14 @@ class DynamicProductCard extends StatelessWidget {
       ),
       elevation: 2,
       child: SizedBox(
-        height: height,
+        height: widget.height,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(14.0),
-                child: AppCachedImage(imageUrl: product.thumbnail, height: 150),
+                child: AppCachedImage(imageUrl: widget.product.thumbnail, height: 150),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -185,11 +203,11 @@ class DynamicProductCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TitleWidget(
-                      label: product.title,
+                      label: widget.product.title,
                       fontSize: 16,
                     ),
                     Text(
-                      '\$${product.price}',
+                      '\$${widget.product.price}',
                       style: const TextStyle(
                         fontSize: 18,
                         color: AppColors.priceColor,
@@ -200,26 +218,33 @@ class DynamicProductCard extends StatelessWidget {
               ),
               Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.favorite_border,
-                      size: 20,
-                      color: AppColors.iconColor,
+                  GestureDetector(
+                    onTap: widget.toggleFavorite,
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      transitionBuilder: (Widget child, Animation<double> animation) {
+                        return ScaleTransition(scale: animation, child: child);
+                      },
+                      child: Icon(
+                        widget.isFavorite ? Icons.favorite : Icons.favorite_border,
+                        key: ValueKey<bool>(widget.isFavorite),
+                        color: widget.isFavorite ? Colors.red : AppColors.iconColor,
+                        size: 20,
+                      ),
                     ),
-                    onPressed: () {
-                      // Handle favorite button press
-                    },
                   ),
                   const SizedBox(width: 7),
                   IconButton(
-                    icon: const Icon(
-                      Icons.shopping_cart,
-                      size: 20,
-                      color: AppColors.iconColor,
+                    icon: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 300),
+                      child: Icon(
+                        widget.isAddedToCart ? Icons.check : Icons.shopping_cart,
+                        key: ValueKey<bool>(widget.isAddedToCart),
+                        color: widget.isAddedToCart ? Colors.green : AppColors.iconColor,
+                        size: 20,
+                      ),
                     ),
-                    onPressed: () {
-                      // Handle shopping cart button press
-                    },
+                    onPressed: widget.toggleCart,
                   ),
                 ],
               ),
@@ -234,7 +259,7 @@ class DynamicProductCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(14.0)),
       child: AppCachedImage(
-        imageUrl: product.thumbnail,
+        imageUrl: widget.product.thumbnail,
         height: 150,
         width: double.infinity,
         fit: BoxFit.cover,
@@ -247,7 +272,7 @@ class DynamicProductCard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '\$${product.price}',
+          '\$${widget.product.price}',
           style: const TextStyle(
             fontSize: 18,
             color: AppColors.priceColor,
@@ -255,37 +280,37 @@ class DynamicProductCard extends StatelessWidget {
         ),
         Row(
           children: [
-            InkWell(
-              onTap: () {},
-              child: const Icon(
-                Icons.favorite_border,
-                size: 20,
-                color: AppColors.iconColor,
+            GestureDetector(
+              onTap: widget.toggleFavorite,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return ScaleTransition(scale: animation, child: child);
+                },
+                child: Icon(
+                  widget.isFavorite ? Icons.favorite : Icons.favorite_border,
+                  key: ValueKey<bool>(widget.isFavorite),
+                  color: widget.isFavorite ? Colors.red : AppColors.iconColor,
+                  size: 25,
+                ),
               ),
             ),
-            const SizedBox(width: 8), // Add spacing between icons
-            InkWell(
-              onTap: () {},
-              child: const Icon(
-                Icons.shopping_cart,
-                size: 20,
-                color: AppColors.iconColor,
+            const SizedBox(width: 10),
+            GestureDetector(
+              onTap: widget.toggleCart,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: Icon(
+                  widget.isAddedToCart ? Icons.check : Icons.add_shopping_cart_sharp,
+                  key: ValueKey<bool>(widget.isAddedToCart),
+                  color: widget.isAddedToCart ? Colors.green : AppColors.iconColor,
+                  size: 25,
+                ),
               ),
             ),
           ],
         ),
       ],
-    );
-  }
-
-  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
-    return IconButton(
-      icon: Icon(
-        icon,
-        size: 20,
-        color: AppColors.iconColor,
-      ),
-      onPressed: onPressed,
     );
   }
 }

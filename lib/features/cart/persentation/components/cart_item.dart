@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/core/widgets/app_cached_image.dart';
 import '../../../../core/utils/image_cached_manager.dart';
 import '../../../../core/widgets/custom_fading_widget.dart';
 import 'cart_item_counter.dart';
@@ -18,15 +19,15 @@ class CartItemWidget extends StatelessWidget {
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color.fromARGB(10, 0, 0, 0),
-            offset: Offset(0, 1),
+            color: Theme.of(context).highlightColor,
+            offset: const Offset(0, 1),
             blurRadius: 3,
             spreadRadius: 2,
           )
         ],
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
       ),
       height: 120,
       child: Row(
@@ -65,47 +66,10 @@ class CartItemWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              ItemImage(item: item),
+              AppCachedImage(imageUrl: item.thumbnail),
             ],
           )
         ],
-      ),
-    );
-  }
-}
-
-class ItemImage extends StatelessWidget {
-  const ItemImage({
-    super.key,
-    required this.item,
-  });
-
-  final CartItemEntity item;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: FutureBuilder(
-        future: ImageCacheManager.getImagePath(item.thumbnail!),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return SizedBox(
-              height: 90,
-              width: 90,
-              child: Image.file(snapshot.data!),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return CustomFadingWidget(
-                child: Container(
-              height: 90,
-              width: 90,
-              color: Colors.grey,
-            ));
-          } else {
-            return const Icon(Icons.hide_image);
-          }
-        },
       ),
     );
   }

@@ -13,13 +13,13 @@ class CartBodyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<CartCubit>();
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         return CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            if (state is CartLoaded)
-              CartItemSliverListView(items: state.cart.items),
+            if (cubit.cart != null) CartItemSliverListView(items: cubit.cart!.items),
             SliverFillRemaining(
               hasScrollBody: false,
               child: Align(
@@ -34,10 +34,7 @@ class CartBodyWidget extends StatelessWidget {
                         labelText: 'Checkout',
                         margin: const EdgeInsets.symmetric(vertical: 14),
                         padding: const EdgeInsets.symmetric(horizontal: 14),
-                        onPressed:
-                            state is CartLoaded && state.cart.items.isNotEmpty
-                                ? () {}
-                                : null,
+                        onPressed: state is CartLoaded && state.cart.items.isNotEmpty ? () {} : null,
                       ),
                     ],
                   )),

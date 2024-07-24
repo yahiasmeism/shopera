@@ -50,7 +50,7 @@ class _CartItemSliverListViewState extends State<CartItemSliverListView> {
 
   _deleteProduct(int index, CartCubit cubit) async {
     final removedItem = widget.items[index];
-    cubit.deleteItem(index);
+    cubit.deleteItem(removedItem.id);
 
     _listKey.currentState?.removeItem(
       index,
