@@ -4,7 +4,7 @@ import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../cart/persentation/pages/cart_page.dart';
 import '../../home/persentation/pages/home_page.dart';
-import '../../wish_list/presentation/pages/wish_list.dart';
+import '../../favorite/presentation/pages/favorite_page.dart';
 import 'package:shopera/features/settings/pages/settings_page.dart';
 import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> {
             case NavigationBarState.home:
               return const HomePage();
             case NavigationBarState.wishList:
-              return const WishListPage();
+              return const FavoritePage();
             case NavigationBarState.cart:
               return const CartPage();
             case NavigationBarState.settings:
