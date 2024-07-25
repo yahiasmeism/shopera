@@ -1,4 +1,5 @@
 import 'package:shopera/core/constants/app_constants.dart';
+import 'package:shopera/core/utils/nav_bar_cubit.dart';
 import 'package:shopera/core/widgets/rounded_category.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
@@ -22,30 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late final ScrollController _scrollController;
-  late HomeCubit cubit;
-  bool isLoading = false;
-  int nextPage = 1;
-  @override
-  void initState() {
-    cubit = context.read<HomeCubit>();
-    _scrollController = ScrollController();
-    _scrollController.addListener(_scrollListener);
-    super.initState();
-  }
-
-  _scrollListener() async {
-    var cureentPosition = _scrollController.position.pixels;
-    var maxScrollLength = _scrollController.position.maxScrollExtent;
-    if (cureentPosition >= (0.7 * maxScrollLength)) {
-      if (!isLoading) {
-        isLoading = true;
-        await cubit.getProducts(pageNumber: nextPage);
-        isLoading = false;
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +43,7 @@ class _HomePageState extends State<HomePage> {
               } else {
                 return RefreshIndicator(
                   onRefresh: () async {
-                    retry();
+                    retry(context);
                   },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 14.0),
@@ -85,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                       width: 200,
                       child: PrimaryButton(
                         onPressed: () {
-                          retry();
+                          retry(context);
                         },
                         labelText: 'Retry',
                       ),
@@ -100,18 +77,11 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  void retry() {
-    nextPage = 1;
-    cubit.loadData();
-  }
-
   Widget buildHomeBody(HomeStateLoaded state) {
-    if (state.hasMoreProductsWithPagenation) nextPage++;
     Size size = MediaQuery.of(context).size;
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
-      controller: _scrollController,
       slivers: [
         SliverToBoxAdapter(child: HomePageTopSwiper(size: size)),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
@@ -132,24 +102,22 @@ class _HomePageState extends State<HomePage> {
             children: List.generate(
               AppConstants.appCategories.length,
               (index) => RoundedCategory(
-                  imagePath: AppConstants.appCategories[index].image,
-                  categoryName: AppConstants.appCategories[index].name),
+                  imagePath: AppConstants.appCategories[index].image, categoryName: AppConstants.appCategories[index].name),
             ),
           ),
         ),
-
-        // SliverToBoxAdapter(child: CategorySelector(categories: state.categoris)),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
             title: 'Popular products for you',
             tileText: 'See All',
-            onTap: () {},
+            onTap: () {
+              context.read<NavigationBarCubit>().navigateTo(NavigationBarState.search);
+            },
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverGrid.builder(
-          // itemCount: state.products.length,
           itemCount: 5,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
@@ -161,15 +129,6 @@ class _HomePageState extends State<HomePage> {
             return buildProductItem(state.products[index]);
           },
         ),
-        if (!state.hasMoreProductsWithPagenation)
-          const SliverToBoxAdapter(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: Text('end of the list'),
-              ),
-            ),
-          ),
       ],
     );
   }
@@ -193,5 +152,9 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void retry(BuildContext context) {
+    context.read<HomeCubit>().loadData();
   }
 }

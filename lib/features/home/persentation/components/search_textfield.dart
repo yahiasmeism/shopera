@@ -31,7 +31,6 @@ class _SearchTextFieldState extends State<SearchTextField> {
     });
   }
 
-
   void _unfocus() {
     if (_focusNode.hasFocus) {
       _focusNode.unfocus();
@@ -58,7 +57,6 @@ class _SearchTextFieldState extends State<SearchTextField> {
               )
             : null,
         filled: true,
-        fillColor: Colors.white,
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(7.0)),
           borderSide: BorderSide.none,

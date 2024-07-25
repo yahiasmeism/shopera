@@ -21,44 +21,44 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-   String selectedCategory ='';
+  String selectedCategory = '';
   late final ScrollController _scrollController;
   late HomeCubit cubit;
   bool isLoading = false;
   int nextPage = 1;
 
-   final _searchTextController = TextEditingController();
+  final _searchTextController = TextEditingController();
   String _searchQuery = '';
 
   @override
-  @override  
-void initState() {  
-  cubit = context.read<HomeCubit>();  
-  _scrollController = ScrollController();  
-  _scrollController.addListener(_scrollListener);  
-  super.initState();  
-}  
+  @override
+  void initState() {
+    cubit = context.read<HomeCubit>();
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
 
-// void dispose() {  
-//   _scrollController.removeListener(_scrollListener);  
-//   _scrollController.dispose();  
-//   // _searchTextController.dispose();  
-//   super.dispose();  
-// }  
+// void dispose() {
+//   _scrollController.removeListener(_scrollListener);
+//   _scrollController.dispose();
+//   // _searchTextController.dispose();
+//   super.dispose();
+// }
 
-// Your scroll listener could also use mounted check  
-_scrollListener() async {  
-  if (!mounted) return; // Check if the widget is still in the tree  
-  var currentPosition = _scrollController.position.pixels;  
-  var maxScrollLength = _scrollController.position.maxScrollExtent;  
-  if (currentPosition >= (0.7 * maxScrollLength)) {  
-    if (!isLoading) {  
-      isLoading = true;  
-      await cubit.getProducts(pageNumber: nextPage);  
-      isLoading = false;  
-    }  
-  }  
-}
+// Your scroll listener could also use mounted check
+  _scrollListener() async {
+    if (!mounted) return; // Check if the widget is still in the tree
+    var currentPosition = _scrollController.position.pixels;
+    var maxScrollLength = _scrollController.position.maxScrollExtent;
+    if (currentPosition >= (0.7 * maxScrollLength)) {
+      if (!isLoading) {
+        isLoading = true;
+        await cubit.getProducts(pageNumber: nextPage);
+        isLoading = false;
+      }
+    }
+  }
 
   void clearSearch() {
     setState(() {
@@ -67,7 +67,6 @@ _scrollListener() async {
     });
     // Implement logic to reset displayed products if needed
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -128,79 +127,82 @@ _scrollListener() async {
     cubit.loadData();
   }
 
-  Widget buildSearchBody(HomeStateLoaded state) {  
-  if (state.hasMoreProductsWithPagenation) nextPage++;  
+  Widget buildSearchBody(HomeStateLoaded state) {
+    if (state.hasMoreProductsWithPagenation) nextPage++;
 
-  // Filter products based on search query  
-  final filteredProducts = state.products.where((product) {  
-    return product.title.toLowerCase().contains(_searchQuery.toLowerCase());  
-  }).toList();  
+    // Filter products based on search query
+    final filteredProducts = state.products.where((product) {
+      return product.title.toLowerCase().contains(_searchQuery.toLowerCase());
+    }).toList();
 
-  return CustomScrollView(  
-    physics: const BouncingScrollPhysics(),  
-    controller: _scrollController,  
-    slivers: [  
-      SliverToBoxAdapter(  
-        child: SearchTextField(  
-          controller: _searchTextController,  
-          onChanged: (value) {  
-            setState(() {  
-              _searchQuery = value;  
-            });  
-          },  
-          onClear: clearSearch,  
-        ),  
-      ),  
-      const SliverToBoxAdapter(child: SizedBox(height: 28)),  
-      SliverToBoxAdapter(  
-        child: TiledTitle(  
-          title: 'Categories',  
-          tileText: 'See All',  
-          onTap: () {},  
-        ),  
-      ),  
-      const SliverToBoxAdapter(child: SizedBox(height: 14)),  
-      SliverToBoxAdapter(child: CategorySelector(categories: state.categories, selectedValue: (value) {
-      setState(() {
-        selectedCategory = value;
-      });
-    },)),  
-      const SliverToBoxAdapter(child: SizedBox(height: 28)),  
-      SliverToBoxAdapter(  
-        child: TiledTitle(  
-          title: 'Popular products for you',  
-          tileText: 'See All',  
-          onTap: () {},  
-        ),  
-      ),  
-      const SliverToBoxAdapter(child: SizedBox(height: 28)),  
-      SliverGrid.builder(  
-        itemCount: filteredProducts.length,  
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(  
-          crossAxisCount: 2,  
-          mainAxisSpacing: 7,  
-          crossAxisSpacing: 7,  
-          childAspectRatio: 0.67,  
-        ),  
-        itemBuilder: (context, index) {  
-          return buildProductItem(filteredProducts[index]);  
-        },  
-      ),  
-      if(!state.hasMoreProductsWithPagenation)  
-        const SliverToBoxAdapter(  
-          child: Center(  
-            child: Padding(  
-              padding: EdgeInsets.all(8),  
-              child: Text('No more data to products'),  
-            ),  
-          ),  
-      ),  
-    ],  
-  );  
-}
+    return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
+      controller: _scrollController,
+      slivers: [
+        SliverToBoxAdapter(
+          child: SearchTextField(
+            controller: _searchTextController,
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+            onClear: clearSearch,
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 28)),
+        SliverToBoxAdapter(
+          child: TiledTitle(
+            title: 'Categories',
+            tileText: 'See All',
+            onTap: () {},
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 14)),
+        SliverToBoxAdapter(
+            child: CategorySelector(
+          categories: state.categories,
+          selectedValue: (value) {
+            setState(() {
+              selectedCategory = value;
+            });
+          },
+        )),
+        const SliverToBoxAdapter(child: SizedBox(height: 28)),
+        SliverToBoxAdapter(
+          child: TiledTitle(
+            title: 'Popular products for you',
+            tileText: 'See All',
+            onTap: () {},
+          ),
+        ),
+        const SliverToBoxAdapter(child: SizedBox(height: 28)),
+        SliverGrid.builder(
+          itemCount: filteredProducts.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 7,
+            crossAxisSpacing: 7,
+            childAspectRatio: 0.67,
+          ),
+          itemBuilder: (context, index) {
+            return buildProductItem(filteredProducts[index]);
+          },
+        ),
+        if (!state.hasMoreProductsWithPagenation)
+          const SliverToBoxAdapter(
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.all(8),
+                child: Text('No more data to products'),
+              ),
+            ),
+          ),
+      ],
+    );
+  }
 
   Widget buildProductItem(ProductEntity product) {
-   
     final cartCubit = context.read<CartCubit>();
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {

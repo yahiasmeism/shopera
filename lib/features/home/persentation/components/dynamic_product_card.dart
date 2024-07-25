@@ -87,15 +87,12 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               width: widget.height,
               height: widget.height,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  image: NetworkImage(widget.product.thumbnail),
-                  fit: BoxFit.cover,
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: AppCachedImage(imageUrl: widget.product.thumbnail),
               ),
             ),
             const SizedBox(width: 14),
