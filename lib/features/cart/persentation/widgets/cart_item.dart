@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/image_cached_manager.dart';
-import '../../../../core/widgets/custom_fading_widget.dart';
+import 'package:shopera/core/widgets/app_cached_image.dart';
 import 'cart_item_counter.dart';
 
 import '../../../../core/constants/colors.dart';
@@ -61,47 +60,15 @@ class CartItemWidget extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              ItemImage(item: item),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: const AppCachedImage(
+                    height: 90,
+                    width: 90,
+                  ))
             ],
           )
         ],
-      ),
-    );
-  }
-}
-
-class ItemImage extends StatelessWidget {
-  const ItemImage({
-    super.key,
-    required this.item,
-  });
-
-  final CartItemEntity item;
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
-      child: FutureBuilder(
-        future: ImageCacheManager.getImagePath(item.thumbnail!),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return SizedBox(
-              height: 90,
-              width: 90,
-              child: Image.file(snapshot.data!),
-            );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return CustomFadingWidget(
-                child: Container(
-              height: 90,
-              width: 90,
-              color: Colors.grey,
-            ));
-          } else {
-            return const Icon(Icons.hide_image);
-          }
-        },
       ),
     );
   }

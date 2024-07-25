@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/app_cached_image.dart';
-import '../../../../core/utils/image_cached_manager.dart';
-import '../../../../core/widgets/custom_fading_widget.dart';
 import 'cart_item_counter.dart';
 
 import '../../../../core/constants/colors.dart';
