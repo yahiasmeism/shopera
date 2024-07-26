@@ -38,8 +38,11 @@ class _CategorySelectorState extends State<CategorySelector> {
   }
 
   void _scrollToSelectedIndex() {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    const double itemWidth = 100.0; // تقدير العرض بناءً على العرض التقديري لكل عنصر
+    final double scrollPosition = (selectedIndex * itemWidth) - (screenWidth / 2) + (itemWidth / 2);
     _scrollController.animateTo(
-      selectedIndex * 100.0, // تقدير العرض بناءً على العرض التقديري لكل عنصر
+      scrollPosition,
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
     );

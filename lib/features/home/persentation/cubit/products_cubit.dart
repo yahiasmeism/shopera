@@ -68,7 +68,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   void changeCategory(String category) {
-    emit((state as ProductsStateLoaded).copyWith(selectedCategory: category));
+    emit((state as ProductsStateLoaded).copyWith(selectedCategory: category.toLowerCase()));
     getProductsByCategory(pageNumber: 0);
   }
 

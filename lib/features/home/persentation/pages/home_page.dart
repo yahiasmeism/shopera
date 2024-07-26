@@ -4,6 +4,8 @@ import 'package:shopera/core/widgets/rounded_category.dart';
 import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
+import 'package:shopera/features/home/persentation/components/category_selector.dart';
+import 'package:shopera/features/search/search_page.dart';
 
 import '../cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late ProductsCubit cubit;
+  @override
+  void initState() {
+    cubit = context.read<ProductsCubit>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,17 +109,14 @@ class _HomePageState extends State<HomePage> {
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
         //Categories Grid View
         SliverToBoxAdapter(
-          child: GridView.count(
-            crossAxisCount: 4,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: List.generate(
-              AppConstants.appCategories.length,
-              (index) => RoundedCategory(
-                  imagePath: AppConstants.appCategories[index].image, categoryName: AppConstants.appCategories[index].name),
-            ),
-          ),
-        ),
+            child: CategorySelector(
+          initialCategory: state.selectedCategory,
+          categories: state.categories,
+          selectedValue: (value) {
+            Navigator.pushNamed(context, SearchPage.routeName);
+            cubit.changeCategory(value);
+          },
+        )),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
