@@ -4,6 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shopera/features/search/cubit/search_cubit.dart';
 
 import '../../../core/constants/colors.dart';
+import '../../cart/persentation/cubit/cart_cubit.dart';
+import '../../home/domin/entities/product_entity.dart';
 import '../../home/persentation/components/dynamic_product_card.dart';
 
 class ProductSearchResults extends StatefulWidget {
@@ -71,16 +73,16 @@ class _ProductSearchResultsState extends State<ProductSearchResults> {
           return const Center(child: Text('No Results Found'));
         }
         final productSearch = state.products;
-        return ListView.builder(
-          controller: _scrollController,
+        return SliverGrid.builder(
           itemCount: productSearch.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 7,
+            crossAxisSpacing: 7,
+            childAspectRatio: 0.67,
+          ),
           itemBuilder: (context, index) {
-            return DynamicProductCard(
-              product: productSearch[index],
-              type: 'typeA',
-              toggleFavorite: () {},
-              toggleCart: () {},
-            );
+            return buildProductItem(productSearch[index]);
           },
         );
       } else if (state is SearchFailure) {
@@ -103,5 +105,26 @@ class _ProductSearchResultsState extends State<ProductSearchResults> {
         return const SizedBox();
       }
     });
+  }
+
+  Widget buildProductItem(ProductEntity product) {
+    final cartCubit = context.read<CartCubit>();
+    return BlocBuilder<CartCubit, CartState>(
+      builder: (context, state) {
+        return DynamicProductCard(
+          isAddedToCart: cartCubit.continItem(product.id),
+          toggleCart: () {
+            if (!cartCubit.continItem(product.id)) {
+              cartCubit.addItem(product.id);
+            } else {
+              cartCubit.deleteItem(product.id);
+            }
+          },
+          toggleFavorite: () {},
+          type: 'typeA',
+          product: product,
+        );
+      },
+    );
   }
 }
