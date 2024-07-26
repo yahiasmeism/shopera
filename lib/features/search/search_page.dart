@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shopera/core/constants/colors.dart';
+import 'package:shopera/features/home/persentation/components/products_grid_view.dart';
 
 import '../../core/widgets/button_primary.dart';
 import '../../core/widgets/snackbar_global.dart';
@@ -134,8 +135,6 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   Widget buildBody(ProductsStateLoaded state) {
-    final filteredProducts = state.products;
-
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       controller: _scrollController,
@@ -170,18 +169,7 @@ class _SearchPageState extends State<SearchPage> {
         if (state.loadingData)
           const SliverToBoxAdapter(child: Center(child: SpinKitWaveSpinner(color: AppColors.primaryColor)))
         else
-          SliverGrid.builder(
-            itemCount: filteredProducts.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 7,
-              crossAxisSpacing: 7,
-              childAspectRatio: 0.67,
-            ),
-            itemBuilder: (context, index) {
-              return buildProductItem(filteredProducts[index]);
-            },
-          ),
+          ProductGridView(products: state.products)
       ],
     );
   }
