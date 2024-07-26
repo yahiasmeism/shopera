@@ -1,11 +1,8 @@
-import 'package:shopera/core/constants/app_constants.dart';
 import 'package:shopera/core/utils/nav_bar_cubit.dart';
-import 'package:shopera/core/widgets/rounded_category.dart';
 import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
 import 'package:shopera/features/home/persentation/components/category_selector.dart';
-import 'package:shopera/features/search/search_page.dart';
 
 import '../cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
