@@ -90,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
           }
         },
         builder: (context, state) {
-          if (state is ProductsStateLoading || state is ProductsStateLoaded && state.loadingData) {
+          if (state is ProductsStateLoading) {
             return const Center(
               child: SpinKitWaveSpinner(
                 color: AppColors.primaryColor,
@@ -103,7 +103,7 @@ class _SearchPageState extends State<SearchPage> {
               },
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                child: buildSearchBody(state),
+                child: buildBody(state),
               ),
             );
           } else if (state is ProductsStateFailure) {
@@ -133,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget buildSearchBody(ProductsStateLoaded state) {
+  Widget buildBody(ProductsStateLoaded state) {
     final filteredProducts = state.products;
 
     return CustomScrollView(
@@ -167,26 +167,20 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
-        SliverGrid.builder(
-          itemCount: filteredProducts.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisSpacing: 7,
-            crossAxisSpacing: 7,
-            childAspectRatio: 0.67,
-          ),
-          itemBuilder: (context, index) {
-            return buildProductItem(filteredProducts[index]);
-          },
-        ),
-        if (!state.hasMoreProductsWithPagenation)
-          const SliverToBoxAdapter(
-            child: Center(
-              child: Padding(
-                padding: EdgeInsets.all(8),
-                child: Text('No more data to products'),
-              ),
+        if (state.loadingData)
+          const SliverToBoxAdapter(child: Center(child: SpinKitWaveSpinner(color: AppColors.primaryColor)))
+        else
+          SliverGrid.builder(
+            itemCount: filteredProducts.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 7,
+              crossAxisSpacing: 7,
+              childAspectRatio: 0.67,
             ),
+            itemBuilder: (context, index) {
+              return buildProductItem(filteredProducts[index]);
+            },
           ),
       ],
     );

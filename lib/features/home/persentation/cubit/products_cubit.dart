@@ -81,18 +81,18 @@ class ProductsCubit extends Cubit<ProductsState> {
       result.fold(
         (failure) {
           if (pageNumber > 0) {
-            emit(state.copyWith(hasMoreProductsWithPagination: false));
+            emit(state.copyWith(hasMoreProductsWithPagination: false, loadingData: false));
           } else {
             emit(ProductsStateFailure(message: failure.message));
           }
         },
         (newProducts) {
           if (newProducts.isEmpty) {
-            emit(state.copyWith(hasMoreProductsWithPagination: false));
+            emit(state.copyWith(hasMoreProductsWithPagination: false, loadingData: false));
           } else {
             final products = pageNumber == 0 ? newProducts : state.products + newProducts;
 
-            emit(state.copyWith(products: products, hasMoreProductsWithPagination: true));
+            emit(state.copyWith(products: products, hasMoreProductsWithPagination: true, loadingData: false));
           }
         },
       );
@@ -118,6 +118,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> getProductsByCategory({int pageNumber = 0}) async {
     if (state is ProductsStateLoaded) {
       final state = this.state as ProductsStateLoaded;
+      if (pageNumber == 0) emit(state.copyWith(loadingData: true));
       if (state.selectedCategory == 'all') {
         await getAllProducts(pageNumber: pageNumber);
       } else {
@@ -127,11 +128,11 @@ class ProductsCubit extends Cubit<ProductsState> {
           (failure) {},
           (newProducts) {
             if (newProducts.isEmpty) {
-              emit(state.copyWith(hasMoreProductsWithPagination: false));
+              emit(state.copyWith(hasMoreProductsWithPagination: false, loadingData: false));
             } else {
               final products = pageNumber == 0 ? newProducts : state.products + newProducts;
 
-              emit(state.copyWith(products: products, hasMoreProductsWithPagination: true));
+              emit(state.copyWith(products: products, hasMoreProductsWithPagination: true, loadingData: false));
             }
           },
         );
