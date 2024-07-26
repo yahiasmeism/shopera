@@ -5,8 +5,8 @@ import '../../../cart/persentation/cubit/cart_cubit.dart';
 import '../../domin/entities/product_entity.dart';
 import 'dynamic_product_card.dart';
 
-class ProductGridView extends StatelessWidget {
-  const ProductGridView({super.key, required this.products});
+class ProductSliverGridView extends StatelessWidget {
+  const ProductSliverGridView({super.key, required this.products});
   final List<ProductEntity> products;
   @override
   Widget build(BuildContext context) {

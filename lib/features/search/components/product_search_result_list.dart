@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:shopera/features/home/persentation/components/products_grid_view.dart';
+import 'package:shopera/features/home/persentation/components/products_sliver_grid_view.dart';
 import 'package:shopera/features/search/cubit/search_cubit.dart';
 
 import '../../../core/constants/colors.dart';
@@ -70,7 +70,10 @@ class _ProductSearchResultsState extends State<ProductSearchResults> {
         if (state.products.isEmpty) {
           return const Center(child: Text('No Results Found'));
         }
-        return ProductGridView(products: state.products);
+        return Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: CustomScrollView(slivers: [ProductSliverGridView(products: state.products)]),
+        );
       } else if (state is SearchFailure) {
         return Center(
           child: Column(

@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shopera/core/constants/colors.dart';
-import 'package:shopera/features/home/persentation/components/products_grid_view.dart';
+import 'package:shopera/features/home/persentation/components/products_sliver_grid_view.dart';
 
 import '../../core/widgets/button_primary.dart';
 import '../../core/widgets/snackbar_global.dart';
-import '../cart/persentation/cubit/cart_cubit.dart';
-import '../home/domin/entities/product_entity.dart';
 import '../home/persentation/components/category_selector.dart';
-import '../home/persentation/components/dynamic_product_card.dart';
 import '../home/persentation/components/tiled_title.dart';
 import '../home/persentation/cubit/products_cubit.dart';
 import 'components/search_delegate.dart';
@@ -169,29 +166,8 @@ class _SearchPageState extends State<SearchPage> {
         if (state.loadingData)
           const SliverToBoxAdapter(child: Center(child: SpinKitWaveSpinner(color: AppColors.primaryColor)))
         else
-          ProductGridView(products: state.products)
+          ProductSliverGridView(products: state.products)
       ],
-    );
-  }
-
-  Widget buildProductItem(ProductEntity product) {
-    final cartCubit = context.read<CartCubit>();
-    return BlocBuilder<CartCubit, CartState>(
-      builder: (context, state) {
-        return DynamicProductCard(
-          isAddedToCart: cartCubit.continItem(product.id),
-          toggleCart: () {
-            if (!cartCubit.continItem(product.id)) {
-              cartCubit.addItem(product.id);
-            } else {
-              cartCubit.deleteItem(product.id);
-            }
-          },
-          toggleFavorite: () {},
-          type: 'typeA',
-          product: product,
-        );
-      },
     );
   }
 }
