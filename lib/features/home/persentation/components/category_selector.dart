@@ -20,16 +20,35 @@ class CategorySelector extends StatefulWidget {
 
 class _CategorySelectorState extends State<CategorySelector> {
   int selectedIndex = 0;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController();
     if (widget.initialCategory != null) {
       selectedIndex = widget.categories.indexWhere((category) => category.name == widget.initialCategory);
       if (selectedIndex == -1) {
         selectedIndex = 0; // fallback to the first category if not found
       }
     }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedIndex();
+    });
+  }
+
+  void _scrollToSelectedIndex() {
+    _scrollController.animateTo(
+      selectedIndex * 100.0, // تقدير العرض بناءً على العرض التقديري لكل عنصر
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -39,6 +58,7 @@ class _CategorySelectorState extends State<CategorySelector> {
         SizedBox(
           height: 40,
           child: ListView.builder(
+            controller: _scrollController,
             scrollDirection: Axis.horizontal,
             itemCount: widget.categories.length,
             itemBuilder: (context, index) {
@@ -48,6 +68,7 @@ class _CategorySelectorState extends State<CategorySelector> {
                     selectedIndex = index;
                     widget.selectedValue(widget.categories[index].name);
                   });
+                  _scrollToSelectedIndex();
                 },
                 child: Container(
                   margin: const EdgeInsets.only(right: 10),

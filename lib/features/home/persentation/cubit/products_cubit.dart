@@ -27,13 +27,23 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   /// Load initial data for products, categories, and popular products.
   Future<void> loadData() async {
-    emit(const ProductsStateLoaded(loadingData: true));
+    var currentState = state;
+
+    if (currentState is ProductsStateLoaded) {
+      currentState = currentState.copyWith(loadingData: true);
+    } else {
+      currentState = const ProductsStateLoaded(loadingData: true);
+    }
+
+    emit(currentState);
+
     await getCategories();
     await getPopularProducts();
     await getProductsByCategory();
+
     if (state is ProductsStateLoaded) {
-      final state = this.state as ProductsStateLoaded;
-      emit(state.copyWith(loadingData: false));
+      final loadedState = state as ProductsStateLoaded;
+      emit(loadedState.copyWith(loadingData: false));
     }
   }
 
