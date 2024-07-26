@@ -72,7 +72,10 @@ class _ProductSearchResultsState extends State<ProductSearchResults> {
         }
         return Padding(
           padding: const EdgeInsets.all(14.0),
-          child: CustomScrollView(slivers: [ProductSliverGridView(products: state.products)]),
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: [ProductSliverGridView(products: state.products)],
+          ),
         );
       } else if (state is SearchFailure) {
         return Center(

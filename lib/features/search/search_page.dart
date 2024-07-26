@@ -23,7 +23,7 @@ class _SearchPageState extends State<SearchPage> {
   late final ScrollController _scrollController;
   late ProductsCubit cubit;
   bool isLoading = false;
-  int pageNumber = 1;
+  int pageNumber = 0;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void retry() {
-    pageNumber = 1;
+    pageNumber = 0;
     cubit.loadData();
   }
 
@@ -152,6 +152,7 @@ class _SearchPageState extends State<SearchPage> {
             categories: state.categories,
             selectedValue: (value) {
               cubit.changeCategory(value);
+              pageNumber = 0;
             },
           ),
         ),

@@ -83,13 +83,12 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   Future<List<ProductModel>> searchProduct({required String keyword, required int pageNumber}) async {
     try {
       var box = Hive.box<ProductModel>(kProductsBox);
-      return _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => p.props.contains(keyword));
+      return _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => p.title.contains(keyword));
     } catch (e) {
       return [];
     }
   }
 
-  /// Retrieves a paginated list of items from the specified Hive box
   Future<List<T>> _getPaginatedItems<T>({
     required Box<T> box,
     required int pageNumber,
@@ -97,11 +96,21 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   }) async {
     int startIndex = pageNumber * 20;
     int endIndex = (pageNumber + 1) * 20;
-    int length = box.values.length;
+
+    // Apply filter
+    List<T> filteredList = box.values.where(filter).toList();
+    int length = filteredList.length;
 
     if (startIndex >= length) {
       return [];
     }
-    return box.values.where(filter).toList().sublist(startIndex, endIndex > length ? length : endIndex);
+
+    endIndex = endIndex > length ? length : endIndex;
+
+    // Ensure that startIndex and endIndex are within bounds of filteredList
+    startIndex = startIndex < 0 ? 0 : startIndex;
+    endIndex = endIndex > length ? length : endIndex;
+
+    return filteredList.sublist(startIndex, endIndex);
   }
 }

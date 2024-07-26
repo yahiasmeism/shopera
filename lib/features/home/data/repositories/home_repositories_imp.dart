@@ -54,12 +54,10 @@ class HomeRepositoryImpl implements HomeRepository {
 
   @override
   Future<Either<Failure, List<ProductEntity>>> searchProducts({required String keyword, required int pageNumber}) async {
-    if (!(await networkInfo.isConnected)) return left(ServerFailure(message: 'No Internet'));
-    try {
-      return right(await remote.searchProducts(keyword: keyword, pageNumber: pageNumber));
-    } on ServerException catch (e) {
-      return left(ServerFailure(message: e.message));
-    }
+    return executeRemoteOrLocal<List<ProductEntity>>(
+      localCall: () => local.searchProduct(keyword: keyword, pageNumber: pageNumber),
+      remoteCall: () => remote.searchProducts(keyword: keyword, pageNumber: pageNumber),
+    );
   }
 
   /// Executes a remote or local call based on network connectivity.
