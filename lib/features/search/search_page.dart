@@ -88,13 +88,14 @@ class _SearchPageState extends State<SearchPage> {
           }
         },
         builder: (context, state) {
-          if (state is ProductsStateLoading) {
-            return const Center(
-              child: SpinKitWaveSpinner(
-                color: AppColors.primaryColor,
-              ),
-            );
-          } else if (state is ProductsStateLoaded) {
+          if (state is ProductsStateLoaded) {
+            if (state.loadingData) {
+              return const Center(
+                child: SpinKitWaveSpinner(
+                  color: AppColors.primaryColor,
+                ),
+              );
+            }
             return RefreshIndicator(
               onRefresh: () async {
                 retry();
@@ -163,10 +164,7 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
-        if (state.loadingData)
-          const SliverToBoxAdapter(child: Center(child: SpinKitWaveSpinner(color: AppColors.primaryColor)))
-        else
-          ProductSliverGridView(products: state.products)
+        ProductSliverGridView(products: state.products)
       ],
     );
   }

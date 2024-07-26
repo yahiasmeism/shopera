@@ -81,7 +81,7 @@ class ProductsCubit extends Cubit<ProductsState> {
       result.fold(
         (failure) {
           if (pageNumber > 0) {
-            emit(state.copyWith(hasMoreProductsWithPagination: false, loadingData: false));
+            emit(state.copyWith(hasMoreProductsWithPagination: false));
           } else {
             emit(ProductsStateFailure(message: failure.message));
           }
@@ -92,7 +92,7 @@ class ProductsCubit extends Cubit<ProductsState> {
           } else {
             final products = pageNumber == 0 ? newProducts : state.products + newProducts;
 
-            emit(state.copyWith(products: products, hasMoreProductsWithPagination: true, loadingData: false));
+            emit(state.copyWith(products: products, hasMoreProductsWithPagination: true));
           }
         },
       );
@@ -118,7 +118,6 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> getProductsByCategory({int pageNumber = 0}) async {
     if (state is ProductsStateLoaded) {
       final state = this.state as ProductsStateLoaded;
-      if (pageNumber == 0) emit(state.copyWith(loadingData: true));
       if (state.selectedCategory == 'all') {
         await getAllProducts(pageNumber: pageNumber);
       } else {
@@ -128,11 +127,11 @@ class ProductsCubit extends Cubit<ProductsState> {
           (failure) {},
           (newProducts) {
             if (newProducts.isEmpty) {
-              emit(state.copyWith(hasMoreProductsWithPagination: false, loadingData: false));
+              emit(state.copyWith(hasMoreProductsWithPagination: false));
             } else {
               final products = pageNumber == 0 ? newProducts : state.products + newProducts;
 
-              emit(state.copyWith(products: products, hasMoreProductsWithPagination: true, loadingData: false));
+              emit(state.copyWith(products: products, hasMoreProductsWithPagination: true));
             }
           },
         );
@@ -144,11 +143,6 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> search({int pageNumber = 0, required String query}) async {
     if (state is ProductsStateLoaded) {
       final state = this.state as ProductsStateLoaded;
-      if (pageNumber == 0) {
-        emit(state.copyWith(loadingData: true));
-      } else {
-        emit(state.copyWith(loadingData: false));
-      }
       final result = await searchProductsUsecase(SearchParams(keyword: query, pageNumber: pageNumber));
       result.fold(
         (failure) => emit(state.copyWith(message: failure.message, hasMoreProductsSearchWithPagination: false)),
@@ -158,8 +152,7 @@ class ProductsCubit extends Cubit<ProductsState> {
                 hasMoreProductsSearchWithPagination: false, productsBySearch: pageNumber == 0 ? List.empty() : null));
           } else {
             final updatedProducts = pageNumber == 0 ? searchProducts : state.productsBySearch + searchProducts;
-            emit(
-                state.copyWith(productsBySearch: updatedProducts, loadingData: false, hasMoreProductsSearchWithPagination: true));
+            emit(state.copyWith(productsBySearch: updatedProducts, hasMoreProductsSearchWithPagination: true));
           }
         },
       );
