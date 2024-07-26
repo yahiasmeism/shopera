@@ -1,16 +1,16 @@
 import 'package:dio/dio.dart';
-import 'package:shopera/features/authentication/domain/usecases/get_current_user_usecase.dart';
-import 'package:shopera/features/search/cubit/search_cubit.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
 import '../utils/nav_bar_cubit.dart';
 import '../network/network_info.dart';
 import 'package:shopera/features/settings/cubit/cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../features/home/persentation/cubit/products_cubit.dart';
 import '../../features/cart/persentation/cubit/cart_cubit.dart';
+import 'package:shopera/features/search/cubit/search_cubit.dart';
+import '../../features/favorite/presentation/favorite_cubit.dart';
 import '../../features/authentication/domain/usecases/login.dart';
 import '../../features/authentication/domain/usecases/logout.dart';
+import '../../features/home/persentation/cubit/products_cubit.dart';
 import '../../features/home/domin/repositories/home_repository.dart';
 import '../../features/authentication/domain/usecases/register.dart';
 import '../../features/cart/domin/usecases/create_cart_usecase.dart';
@@ -33,6 +33,7 @@ import '../../features/home/domin/usecases/get_products_by_category_usecase.dart
 import '../../features/authentication/data/repositories/auth_repository_impl.dart';
 import '../../features/authentication/data/datasources/auth_local_data_source.dart';
 import '../../features/authentication/data/datasources/auth_remote_data_source.dart';
+import 'package:shopera/features/authentication/domain/usecases/get_current_user_usecase.dart';
 
 class AppDep {
   AppDep._();
@@ -56,8 +57,14 @@ class AppDep {
 
     // Data sources
 
-    //! ***************  Featurs - User ***************
 
+    //! ***************  Featurs - Favorite ***************
+
+    sl.registerFactory(() => FavoriteCubit());
+   
+
+
+    //! ***************  Featurs - User ***************
     //Bloc
     sl.registerFactory(
       () => UserCubit(getCurrentUserUsecase: sl(), getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),

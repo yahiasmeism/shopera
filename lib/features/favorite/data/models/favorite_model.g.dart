@@ -22,7 +22,7 @@ class FavoriteModelAdapter extends TypeAdapter<FavoriteModel> {
       description: fields[2] as String,
       price: fields[3] as double,
       discountPercentage: fields[4] as double,
-      images: (fields[5] as List).cast<String>(),
+      images: fields[5] as String,
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:flutter/material.dart';
 import '../cubits/user_cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/errors/exceptions.dart';
 import '../../../../core/constants/strings.dart';
 import '../../../../core/widgets/button_primary.dart';
 import '../../../../core/widgets/snackbar_global.dart';
@@ -15,7 +16,8 @@ class PrimaryButtonGoogle extends StatelessWidget {
     return PrimaryButton(
       borderSideColor: Theme.of(context).dividerColor,
       onPressed: () async {
-        await GoogleSignInApi.login().then((user) {
+        try{
+ await GoogleSignInApi.login().then((user) {
           if (user == null) {
             SnackBarGlobal.show(
               context,
@@ -31,6 +33,10 @@ class PrimaryButtonGoogle extends StatelessWidget {
                 );
           }
         });
+        } catch(e){
+           throw  OfflineException(e.toString());
+        }
+       
       },
       height: 55,
       bgColor: Theme.of(context).scaffoldBackgroundColor,

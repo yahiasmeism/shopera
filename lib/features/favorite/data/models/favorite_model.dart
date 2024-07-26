@@ -16,7 +16,7 @@ class FavoriteModel extends HiveObject{
   @HiveField(4)
   final double discountPercentage;
   @HiveField(5)
-  final List<String> images;
+  final String images;
 
   FavoriteModel({required this.id, required this.title, required this.description, required this.price, required this.discountPercentage, required this.images});
 }
