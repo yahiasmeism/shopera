@@ -30,7 +30,7 @@ class ProductsCubit extends Cubit<ProductsState> {
     emit(const ProductsStateLoaded(loadingData: true));
     await getCategories();
     await getPopularProducts();
-    await getProductsByCategory(category: 'All');
+    await getProductsByCategory();
     if (state is ProductsStateLoaded) {
       final state = this.state as ProductsStateLoaded;
       emit(state.copyWith(loadingData: false));
@@ -57,6 +57,11 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
   }
 
+  void changeCategory(String category) {
+    emit((state as ProductsStateLoaded).copyWith(selectedCategory: category));
+    getProductsByCategory(pageNumber: 0);
+  }
+
   /// Fetch products with pagination.
   Future<void> getAllProducts({int pageNumber = 0}) async {
     log('Fetching products for page number: $pageNumber');
@@ -75,7 +80,8 @@ class ProductsCubit extends Cubit<ProductsState> {
           if (newProducts.isEmpty) {
             emit(state.copyWith(hasMoreProductsWithPagination: false));
           } else {
-            final products = List<ProductEntity>.from(state.products)..addAll(newProducts);
+            final products = pageNumber == 0 ? newProducts : state.products + newProducts;
+
             emit(state.copyWith(products: products, hasMoreProductsWithPagination: true));
           }
         },
@@ -99,17 +105,25 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   /// Fetch products by category with pagination.
-  Future<void> getProductsByCategory({int pageNumber = 0, required String category}) async {
-    if (category == 'All') {
-      await getAllProducts(pageNumber: pageNumber);
-    } else {
-      if (state is ProductsStateLoaded) {
-        final state = this.state as ProductsStateLoaded;
-        final result =
-            await getProductsByCategoryUsecase(ProductsByCategoryParams(categoryName: category, pageNumber: pageNumber));
+  Future<void> getProductsByCategory({int pageNumber = 0}) async {
+    if (state is ProductsStateLoaded) {
+      final state = this.state as ProductsStateLoaded;
+      if (state.selectedCategory == 'All') {
+        await getAllProducts(pageNumber: pageNumber);
+      } else {
+        final result = await getProductsByCategoryUsecase(
+            ProductsByCategoryParams(categoryName: state.selectedCategory, pageNumber: pageNumber));
         result.fold(
-          (failure) => emit(ProductsStateFailure(message: failure.message)),
-          (products) => emit(state.copyWith(products: products)),
+          (failure) {},
+          (newProducts) {
+            if (newProducts.isEmpty) {
+              emit(state.copyWith(hasMoreProductsWithPagination: false));
+            } else {
+              final products = pageNumber == 0 ? newProducts : state.products + newProducts;
+
+              emit(state.copyWith(products: products, hasMoreProductsWithPagination: true));
+            }
+          },
         );
       }
     }

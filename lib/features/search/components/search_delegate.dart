@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/core/services/service_locator.dart';
+import 'package:shopera/features/search/cubit/search_cubit.dart';
 
-import '../home/persentation/cubit/products_cubit.dart';
-import 'components/product_search_result_list.dart';
+import '../../home/persentation/cubit/products_cubit.dart';
+import 'product_search_result_list.dart';
 
 class ProductSearchDelegate extends SearchDelegate {
   final ProductsCubit productsCubit;
@@ -40,9 +43,11 @@ class ProductSearchDelegate extends SearchDelegate {
       return const Center(child: Text('Please enter a search term.'));
     }
 
-    productsCubit.search(query: query);
 
-    return ProductSearchResults(query: query);
+    return BlocProvider(
+      create: (context) => SearchCubit(AppDep.sl())..search(query: query),
+      child: ProductSearchResults(query: query),
+    );
   }
 
   @override

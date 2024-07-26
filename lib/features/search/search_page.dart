@@ -11,7 +11,7 @@ import '../home/persentation/components/category_selector.dart';
 import '../home/persentation/components/dynamic_product_card.dart';
 import '../home/persentation/components/tiled_title.dart';
 import '../home/persentation/cubit/products_cubit.dart';
-import 'search_delegate.dart';
+import 'components/search_delegate.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -22,11 +22,10 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  String selectedCategory = '';
   late final ScrollController _scrollController;
   late ProductsCubit cubit;
   bool isLoading = false;
-  int nextPage = 1;
+  int pageNumber = 1;
 
   @override
   void initState() {
@@ -50,14 +49,14 @@ class _SearchPageState extends State<SearchPage> {
     if (currentPosition >= (0.7 * maxScrollLength)) {
       if (!isLoading) {
         isLoading = true;
-        await cubit.getProductsByCategory(category: selectedCategory, pageNumber: nextPage);
+        await cubit.getProductsByCategory(pageNumber: pageNumber);
         isLoading = false;
       }
     }
   }
 
   void retry() {
-    nextPage = 1;
+    pageNumber = 1;
     cubit.loadData();
   }
 
@@ -86,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
               SnackBarGlobal.show(context, state.message!);
             }
             if (state.hasMoreProductsWithPagenation) {
-              nextPage++;
+              pageNumber++;
             }
           }
         },
@@ -152,11 +151,10 @@ class _SearchPageState extends State<SearchPage> {
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
         SliverToBoxAdapter(
           child: CategorySelector(
+            initialCategory: state.selectedCategory,
             categories: state.categories,
             selectedValue: (value) {
-              setState(() {
-                cubit.getProductsByCategory(category: value, pageNumber: 0);
-              });
+              cubit.changeCategory(value);
             },
           ),
         ),

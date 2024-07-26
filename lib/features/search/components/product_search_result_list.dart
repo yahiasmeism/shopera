@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shopera/features/search/cubit/search_cubit.dart';
 
 import '../../../core/constants/colors.dart';
 import '../../home/persentation/components/dynamic_product_card.dart';
-import '../../home/persentation/cubit/products_cubit.dart';
 
 class ProductSearchResults extends StatefulWidget {
   final String query;
@@ -20,13 +20,13 @@ class ProductSearchResults extends StatefulWidget {
 
 class _ProductSearchResultsState extends State<ProductSearchResults> {
   late final ScrollController _scrollController;
-  late ProductsCubit cubit;
+  late SearchCubit cubit;
   bool isLoading = false;
   int nextPage = 1;
 
   @override
   void initState() {
-    cubit = context.read<ProductsCubit>();
+    cubit = context.read<SearchCubit>();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
@@ -54,23 +54,23 @@ class _ProductSearchResultsState extends State<ProductSearchResults> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ProductsCubit, ProductsState>(listener: (context, state) {
-      if (state is ProductsStateLoaded && state.hasMoreProductsSearchWithPagenation) {
+    return BlocConsumer<SearchCubit, SearchState>(listener: (context, state) {
+      if (state is SearchLoaded && state.hasMoreProducts) {
         nextPage++;
       }
     }, builder: (context, state) {
-      if (state is ProductsStateLoaded) {
-        if (state.loadingData) {
+      if (state is SearchLoaded) {
+        if (state.loading) {
           return const Center(
             child: SpinKitWaveSpinner(
               color: AppColors.primaryColor,
             ),
           );
         }
-        if (state.productsBySearch.isEmpty) {
+        if (state.products.isEmpty) {
           return const Center(child: Text('No Results Found'));
         }
-        final productSearch = state.productsBySearch;
+        final productSearch = state.products;
         return ListView.builder(
           controller: _scrollController,
           itemCount: productSearch.length,
@@ -83,7 +83,7 @@ class _ProductSearchResultsState extends State<ProductSearchResults> {
             );
           },
         );
-      } else if (state is ProductsStateFailure) {
+      } else if (state is SearchFailure) {
         return Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,

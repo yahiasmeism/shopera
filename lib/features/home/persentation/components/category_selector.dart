@@ -3,16 +3,34 @@ import '../../../../core/constants/colors.dart';
 import '../../domin/entities/category_entity.dart';
 
 class CategorySelector extends StatefulWidget {
-  const CategorySelector({super.key, required this.categories, required this.selectedValue});
+  const CategorySelector({
+    super.key,
+    required this.categories,
+    required this.selectedValue,
+    this.initialCategory,
+  });
+
   final List<CategoryEntity> categories;
-  final Function (String value) selectedValue;
+  final Function(String value) selectedValue;
+  final String? initialCategory;
+
   @override
-   State createState() => _CategorySelectorState();
+  State createState() => _CategorySelectorState();
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
   int selectedIndex = 0;
-@override
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialCategory != null) {
+      selectedIndex = widget.categories.indexWhere((category) => category.name == widget.initialCategory);
+      if (selectedIndex == -1) {
+        selectedIndex = 0; // fallback to the first category if not found
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

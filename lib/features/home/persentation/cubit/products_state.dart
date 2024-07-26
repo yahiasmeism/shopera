@@ -10,6 +10,7 @@ sealed class ProductsState extends Equatable {
 final class ProductsStateInitial extends ProductsState {}
 
 class ProductsStateLoaded extends ProductsState {
+  final String selectedCategory;
   final bool hasMoreProductsWithPagenation;
   final bool hasMoreProductsSearchWithPagenation;
   final bool loadingData;
@@ -19,6 +20,7 @@ class ProductsStateLoaded extends ProductsState {
   final List<CategoryEntity> categories;
   final String? message;
   const ProductsStateLoaded({
+    this.selectedCategory = 'All',
     this.hasMoreProductsWithPagenation = false,
     this.hasMoreProductsSearchWithPagenation = false,
     this.loadingData = false,
@@ -30,6 +32,7 @@ class ProductsStateLoaded extends ProductsState {
   });
   bool get hasMessage => message?.isNotEmpty ?? false;
   ProductsStateLoaded copyWith({
+    String? selectedCategory,
     bool? hasMoreProductsWithPagination,
     bool? hasMoreProductsSearchWithPagination,
     String? message,
@@ -40,6 +43,7 @@ class ProductsStateLoaded extends ProductsState {
     List<CategoryEntity>? categories,
   }) {
     return ProductsStateLoaded(
+      selectedCategory: selectedCategory ?? this.selectedCategory,
       popularProduct: popularProduct ?? this.popularProduct,
       hasMoreProductsWithPagenation: hasMoreProductsWithPagination ?? hasMoreProductsWithPagenation,
       hasMoreProductsSearchWithPagenation: hasMoreProductsSearchWithPagination ?? hasMoreProductsSearchWithPagenation,
@@ -54,6 +58,7 @@ class ProductsStateLoaded extends ProductsState {
   @override
   List<Object?> get props {
     return [
+      selectedCategory,
       hasMoreProductsWithPagenation,
       loadingData,
       popularProduct,

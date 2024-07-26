@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shopera/features/authentication/domain/usecases/get_current_user_usecase.dart';
+import 'package:shopera/features/search/cubit/search_cubit.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
 import '../utils/nav_bar_cubit.dart';
@@ -117,11 +118,12 @@ class AppDep {
     sl.registerLazySingleton<CartLocalDataSource>(
       () => CartLocalDataSourceImpl(),
     );
-    //! ***************  Featurs - Product-Home ***************
+    //! ***************  Featurs - Product-Home-Search ***************
 
     //Bloc
     sl.registerFactory(() => ProductsCubit(
         getProductsUsecase: sl(), getCategoriesUsecase: sl(), getProductsByCategoryUsecase: sl(), searchProductsUsecase: sl()));
+    sl.registerFactory(() => SearchCubit(sl()));
     //Use cases
     sl.registerLazySingleton(() => GetProductsUsecase(homeRepository: sl()));
     sl.registerLazySingleton(() => GetCategoriesUsecase(homeRepository: sl()));
