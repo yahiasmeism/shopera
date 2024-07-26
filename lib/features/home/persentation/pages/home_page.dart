@@ -1,10 +1,11 @@
 import 'package:shopera/core/constants/app_constants.dart';
 import 'package:shopera/core/utils/nav_bar_cubit.dart';
 import 'package:shopera/core/widgets/rounded_category.dart';
+import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
 
-import '../cubit/home_cubit.dart';
+import '../cubit/products_cubit.dart';
 import 'package:flutter/material.dart';
 import '../components/top_swiper.dart';
 import '../components/tiled_title.dart';
@@ -30,10 +31,14 @@ class _HomePageState extends State<HomePage> {
           title: const Text('Home'),
           centerTitle: true,
         ),
-        body: BlocConsumer<HomeCubit, HomeState>(
-          listener: (context, state) {},
+        body: BlocConsumer<ProductsCubit, ProductsState>(
+          listener: (context, state) {
+            if (state is ProductsStateLoaded && state.hasMessage) {
+              SnackBarGlobal.show(context, state.message!);
+            }
+          },
           builder: (context, state) {
-            if (state is HomeStateLoaded) {
+            if (state is ProductsStateLoaded) {
               if (state.loadingData) {
                 return const Center(
                   child: SpinKitWaveSpinner(
@@ -51,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               }
-            } else if (state is HomeStateFailure) {
+            } else if (state is ProductsStateFailure) {
               return Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -77,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
-  Widget buildHomeBody(HomeStateLoaded state) {
+  Widget buildHomeBody(ProductsStateLoaded state) {
     Size size = MediaQuery.of(context).size;
 
     return CustomScrollView(
@@ -118,7 +123,7 @@ class _HomePageState extends State<HomePage> {
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverGrid.builder(
-          itemCount: 5,
+          itemCount: state.popularProduct.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 1,
             mainAxisSpacing: 7,
@@ -126,7 +131,7 @@ class _HomePageState extends State<HomePage> {
             childAspectRatio: 2.2,
           ),
           itemBuilder: (context, index) {
-            return buildProductItem(state.products[index]);
+            return buildProductItem(state.popularProduct[index]);
           },
         ),
       ],
@@ -155,6 +160,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void retry(BuildContext context) {
-    context.read<HomeCubit>().loadData();
+    context.read<ProductsCubit>().loadData();
   }
 }

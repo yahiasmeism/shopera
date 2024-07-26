@@ -12,7 +12,7 @@ import 'core/services/service_locator.dart';
 import 'features/main/pages/main_page.dart';
 import 'features/settings/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/home/persentation/cubit/home_cubit.dart';
+import 'features/home/persentation/cubit/products_cubit.dart';
 import 'features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AppDep.sl<SettingsCubit>()),
         BlocProvider(create: (context) => AppDep.sl<NavigationBarCubit>()),
         BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
-        BlocProvider(create: (context) => AppDep.sl<HomeCubit>()),
+        BlocProvider(create: (context) => AppDep.sl<ProductsCubit>()),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {

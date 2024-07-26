@@ -6,7 +6,7 @@ import '../utils/nav_bar_cubit.dart';
 import '../network/network_info.dart';
 import 'package:shopera/features/settings/cubit/cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../features/home/persentation/cubit/home_cubit.dart';
+import '../../features/home/persentation/cubit/products_cubit.dart';
 import '../../features/cart/persentation/cubit/cart_cubit.dart';
 import '../../features/authentication/domain/usecases/login.dart';
 import '../../features/authentication/domain/usecases/logout.dart';
@@ -120,7 +120,7 @@ class AppDep {
     //! ***************  Featurs - Product-Home ***************
 
     //Bloc
-    sl.registerFactory(() => HomeCubit(
+    sl.registerFactory(() => ProductsCubit(
         getProductsUsecase: sl(), getCategoriesUsecase: sl(), getProductsByCategoryUsecase: sl(), searchProductsUsecase: sl()));
     //Use cases
     sl.registerLazySingleton(() => GetProductsUsecase(homeRepository: sl()));

@@ -7,7 +7,7 @@ import '../../cart/persentation/pages/cart_page.dart';
 import '../../home/persentation/pages/home_page.dart';
 import '../../favorite/presentation/pages/favorite_page.dart';
 import 'package:shopera/features/settings/pages/settings_page.dart';
-import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
+import 'package:shopera/features/home/persentation/cubit/products_cubit.dart';
 import 'package:shopera/features/authentication/presentation/cubits/user_cubit/cubit.dart';
 
 class MainPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     context.read<UserCubit>().getCurrentUser();
-    context.read<HomeCubit>().loadData();
+    context.read<ProductsCubit>().loadData();
   }
 
   @override

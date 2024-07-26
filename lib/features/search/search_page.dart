@@ -1,16 +1,17 @@
-import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
-import 'package:shopera/features/home/domin/entities/product_entity.dart';
-import 'package:shopera/features/home/persentation/components/category_selector.dart';
-import 'package:shopera/features/home/persentation/components/dynamic_product_card.dart';
-import 'package:shopera/features/home/persentation/components/search_textfield.dart';
-import 'package:shopera/features/home/persentation/components/tiled_title.dart';
-import 'package:shopera/features/home/persentation/cubit/home_cubit.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/constants/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import '../../../../core/widgets/button_primary.dart';
+import 'package:shopera/core/constants/colors.dart';
+
+import '../../core/widgets/button_primary.dart';
+import '../../core/widgets/snackbar_global.dart';
+import '../cart/persentation/cubit/cart_cubit.dart';
+import '../home/domin/entities/product_entity.dart';
+import '../home/persentation/components/category_selector.dart';
+import '../home/persentation/components/dynamic_product_card.dart';
+import '../home/persentation/components/tiled_title.dart';
+import '../home/persentation/cubit/products_cubit.dart';
+import 'search_delegate.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -23,103 +24,36 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   String selectedCategory = '';
   late final ScrollController _scrollController;
-  late HomeCubit cubit;
+  late ProductsCubit cubit;
   bool isLoading = false;
   int nextPage = 1;
 
-  final _searchTextController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
   @override
   void initState() {
-    cubit = context.read<HomeCubit>();
+    cubit = context.read<ProductsCubit>();
     _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
     super.initState();
   }
 
-// void dispose() {
-//   _scrollController.removeListener(_scrollListener);
-//   _scrollController.dispose();
-//   // _searchTextController.dispose();
-//   super.dispose();
-// }
+  @override
+  void dispose() {
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.dispose();
+    super.dispose();
+  }
 
-// Your scroll listener could also use mounted check
   _scrollListener() async {
-    if (!mounted) return; // Check if the widget is still in the tree
+    if (!mounted) return;
     var currentPosition = _scrollController.position.pixels;
     var maxScrollLength = _scrollController.position.maxScrollExtent;
     if (currentPosition >= (0.7 * maxScrollLength)) {
       if (!isLoading) {
         isLoading = true;
-        await cubit.getProducts(pageNumber: nextPage);
+        await cubit.getProductsByCategory(category: selectedCategory, pageNumber: nextPage);
         isLoading = false;
       }
     }
-  }
-
-  void clearSearch() {
-    setState(() {
-      _searchTextController.clear();
-      _searchQuery = '';
-    });
-    // Implement logic to reset displayed products if needed
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Search'),
-          centerTitle: true,
-        ),
-        body: BlocConsumer<HomeCubit, HomeState>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            if (state is HomeStateLoaded) {
-              if (state.loadingData) {
-                return const Center(
-                  child: SpinKitWaveSpinner(
-                    color: AppColors.primaryColor,
-                  ),
-                );
-              } else {
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    retry();
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14.0),
-                    child: buildSearchBody(state),
-                  ),
-                );
-              }
-            } else if (state is HomeStateFailure) {
-              return Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(state.message),
-                    const SizedBox(height: 14),
-                    SizedBox(
-                      width: 200,
-                      child: PrimaryButton(
-                        onPressed: () {
-                          retry();
-                        },
-                        labelText: 'Retry',
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        ));
   }
 
   void retry() {
@@ -127,29 +61,86 @@ class _SearchPageState extends State<SearchPage> {
     cubit.loadData();
   }
 
-  Widget buildSearchBody(HomeStateLoaded state) {
-    if (state.hasMoreProductsWithPagenation) nextPage++;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Search'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: ProductSearchDelegate(cubit),
+              );
+            },
+          ),
+        ],
+      ),
+      body: BlocConsumer<ProductsCubit, ProductsState>(
+        listener: (context, state) {
+          if (state is ProductsStateLoaded) {
+            if (state.hasMessage) {
+              SnackBarGlobal.show(context, state.message!);
+            }
+            if (state.hasMoreProductsWithPagenation) {
+              nextPage++;
+            }
+          }
+        },
+        builder: (context, state) {
+          if (state is ProductsStateLoading || state is ProductsStateLoaded && state.loadingData) {
+            return const Center(
+              child: SpinKitWaveSpinner(
+                color: AppColors.primaryColor,
+              ),
+            );
+          } else if (state is ProductsStateLoaded) {
+            return RefreshIndicator(
+              onRefresh: () async {
+                retry();
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                child: buildSearchBody(state),
+              ),
+            );
+          } else if (state is ProductsStateFailure) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(state.message),
+                  const SizedBox(height: 14),
+                  SizedBox(
+                    width: 200,
+                    child: PrimaryButton(
+                      onPressed: () {
+                        retry();
+                      },
+                      labelText: 'Retry',
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
+    );
+  }
 
-    // Filter products based on search query
-    final filteredProducts = state.products.where((product) {
-      return product.title.toLowerCase().contains(_searchQuery.toLowerCase());
-    }).toList();
+  Widget buildSearchBody(ProductsStateLoaded state) {
+    final filteredProducts = state.products;
 
     return CustomScrollView(
       physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       slivers: [
-        SliverToBoxAdapter(
-          child: SearchTextField(
-            controller: _searchTextController,
-            onChanged: (value) {
-              setState(() {
-                _searchQuery = value;
-              });
-            },
-            onClear: clearSearch,
-          ),
-        ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
@@ -160,18 +151,19 @@ class _SearchPageState extends State<SearchPage> {
         ),
         const SliverToBoxAdapter(child: SizedBox(height: 14)),
         SliverToBoxAdapter(
-            child: CategorySelector(
-          categories: state.categories,
-          selectedValue: (value) {
-            setState(() {
-              selectedCategory = value;
-            });
-          },
-        )),
+          child: CategorySelector(
+            categories: state.categories,
+            selectedValue: (value) {
+              setState(() {
+                cubit.getProductsByCategory(category: value, pageNumber: 0);
+              });
+            },
+          ),
+        ),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
         SliverToBoxAdapter(
           child: TiledTitle(
-            title: 'Popular products for you',
+            title: 'All products for you',
             tileText: 'See All',
             onTap: () {},
           ),
