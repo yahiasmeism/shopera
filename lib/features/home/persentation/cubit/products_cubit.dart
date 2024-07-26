@@ -118,7 +118,7 @@ class ProductsCubit extends Cubit<ProductsState> {
   Future<void> getProductsByCategory({int pageNumber = 0}) async {
     if (state is ProductsStateLoaded) {
       final state = this.state as ProductsStateLoaded;
-      if (state.selectedCategory == 'All') {
+      if (state.selectedCategory == 'all') {
         await getAllProducts(pageNumber: pageNumber);
       } else {
         final result = await getProductsByCategoryUsecase(

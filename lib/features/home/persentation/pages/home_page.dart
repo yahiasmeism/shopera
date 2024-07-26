@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           initialCategory: state.selectedCategory,
           categories: state.categories,
           selectedValue: (value) {
-            Navigator.pushNamed(context, SearchPage.routeName);
+            context.read<NavigationBarCubit>().navigateTo(NavigationBarState.search);
             cubit.changeCategory(value);
           },
         )),

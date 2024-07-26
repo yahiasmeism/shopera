@@ -20,7 +20,7 @@ class ProductsStateLoaded extends ProductsState {
   final List<CategoryEntity> categories;
   final String? message;
   const ProductsStateLoaded({
-    this.selectedCategory = 'All',
+    this.selectedCategory = 'all',
     this.hasMoreProductsWithPagenation = false,
     this.hasMoreProductsSearchWithPagenation = false,
     this.loadingData = false,
