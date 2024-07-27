@@ -18,20 +18,9 @@ Future<void> hiveInit() async {
   Hive.registerAdapter(OrderModelAdapter());
   Hive.registerAdapter(CartItemAdapter());
 
-  // Open the boxes if they are not already open
-  if (!Hive.isBoxOpen(User_Box)) {
     await Hive.openBox<UserModel>(User_Box);
-  }
-  if (!Hive.isBoxOpen(kProductsBox)) {
     await Hive.openBox<ProductModel>(kProductsBox);
-  }
-  if (!Hive.isBoxOpen(kCategoriesBox)) {
     await Hive.openBox<CategoryModel>(kCategoriesBox);
-  }
-  if (!Hive.isBoxOpen(kOrdersBox)) {
     await Hive.openBox<OrderModel>(kOrdersBox);
-  }
-  if (!Hive.isBoxOpen(kFavoriteBox)) {
     await Hive.openBox<ProductModel>(kFavoriteBox);
-  }
 }
