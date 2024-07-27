@@ -27,6 +27,7 @@ class ProductSliverGridView extends StatelessWidget {
           builder: (context, state) {
             final product = products[index];
             return DynamicProductCard(
+              isFavorite: favoriteCubit.isFavorite(product.id),
               isAddedToCart: cartCubit.containsItem(product.id),
               toggleCart: () => toggleCart(cartCubit, product.id),
               toggleFavorite: (value) => toggleFavorite(favoriteCubit, value, product),
