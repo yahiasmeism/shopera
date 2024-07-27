@@ -55,7 +55,6 @@ class CartItemWidget extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(width: 12),
                   AppCachedImage(imageUrl: item.thumbnail),
                 ],
               )

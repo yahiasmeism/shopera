@@ -9,9 +9,7 @@ import '../../home/persentation/pages/home_page.dart';
 import 'package:shopera/features/search/search_page.dart';
 import '../../favorite/presentation/pages/favorite_page.dart';
 import '../../home/persentation/cubit/products_cubit.dart';
-import '../../home/persentation/pages/home_page.dart';
 import '../../orders/presentation/cubit/orders_cubit.dart';
-import '../../search/search_page.dart';
 import '../../settings/pages/settings_page.dart';
 
 class MainPage extends StatefulWidget {

@@ -27,6 +27,7 @@ class _CartItemSliverListViewState extends State<CartItemSliverListView> {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 14),
             child: Slidable(
+              closeOnScroll: true,
               key: ValueKey(index),
               endActionPane: ActionPane(
                 extentRatio: .20,
