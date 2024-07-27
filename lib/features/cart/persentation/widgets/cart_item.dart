@@ -25,7 +25,7 @@ class CartItemWidget extends StatelessWidget {
             spreadRadius: 2,
           )
         ],
-        color: Colors.white,
+        color: Colors.black,
       ),
       height: 120,
       child: Row(

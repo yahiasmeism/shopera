@@ -24,20 +24,41 @@ class FavoritePage extends StatelessWidget {
               itemCount: favoriteProducts.length,
               itemBuilder: (context, index) {
                 final product = favoriteProducts[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Theme.of(context).highlightColor, width: 2), // Border color and width
-                    borderRadius: BorderRadius.circular(10), // Border radius
-                  ),
-                  child: ListTile(
-                    leading: AppCachedImage(imageUrl: product.thumbnail, height: 50),
-                    title: Text(product.title),
-                    subtitle: Text('\$ ${product.price}'),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        context.read<FavoriteCubit>().removeFavorite(product.id);
-                      },
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 2,
+                          blurRadius: 5,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: ListTile(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: AppCachedImage(imageUrl: product.thumbnail, height: 50, width: 50, fit: BoxFit.cover),
+                      ),
+                      title: Text(
+                        product.title,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        '\$${product.price}',
+                        style: const TextStyle(color: Colors.green),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          context.read<FavoriteCubit>().removeFavorite(product.id);
+                        },
+                      ),
                     ),
                   ),
                 );
