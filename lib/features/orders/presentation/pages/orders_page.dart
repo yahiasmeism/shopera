@@ -20,6 +20,9 @@ class OrdersPage extends StatelessWidget {
       body: BlocBuilder<OrdersCubit, OrdersState>(
         builder: (context, state) {
           if (state is OrderLoaded) {
+            if (state.orders.isEmpty) {
+              return const Center(child: Text('No Orders yet.'));
+            }
             if (state.loading) {
               return const Center(
                 child: SpinKitWaveSpinner(color: AppColors.primaryColor),

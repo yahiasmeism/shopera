@@ -19,7 +19,7 @@ class OrdersCubit extends Cubit<OrdersState> {
     emit(state.copyWith(orders: orders));
   }
 
-  getAllOrder() async {
+  loadAllOrder() async {
     final state = this.state as OrderLoaded;
     emit(state.copyWith(loading: true));
     await Future.delayed(const Duration(seconds: 4));

@@ -79,9 +79,6 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Unit> logout() async {
     await localDataSource.clearUserData();
-    sharedPreferences
-      ..remove(K_TOKEN)
-      ..remove(K_U_ID);
     return unit;
   }
 

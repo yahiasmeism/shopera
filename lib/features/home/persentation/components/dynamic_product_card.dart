@@ -11,7 +11,7 @@ class DynamicProductCard extends StatefulWidget {
   final double height;
   final bool isFavorite;
   final bool isAddedToCart;
-  final Function() toggleFavorite;
+  final Function(bool value) toggleFavorite;
   final Function() toggleCart;
   const DynamicProductCard({
     super.key,
@@ -29,6 +29,20 @@ class DynamicProductCard extends StatefulWidget {
 }
 
 class _DynamicProductCardState extends State<DynamicProductCard> {
+  late bool isFavorite;
+  @override
+  void initState() {
+    isFavorite = widget.isFavorite;
+    super.initState();
+  }
+
+  _toggleFavorite() {
+    setState(() {
+      isFavorite = !isFavorite;
+      widget.toggleFavorite(isFavorite);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget productCard;
@@ -131,13 +145,13 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
                             return ScaleTransition(scale: animation, child: child);
                           },
                           child: Icon(
-                            widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                            key: ValueKey<bool>(widget.isFavorite),
-                            color: Colors.teal,
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            key: ValueKey<bool>(isFavorite),
+                            color: isFavorite ? Colors.red : AppColors.iconColor,
                             size: 20,
                           ),
                         ),
-                        onPressed: widget.toggleFavorite,
+                        onPressed: _toggleFavorite,
                       ),
                     ],
                   ),
@@ -216,16 +230,16 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
               Row(
                 children: [
                   GestureDetector(
-                    onTap: widget.toggleFavorite,
+                    onTap: _toggleFavorite,
                     child: AnimatedSwitcher(
                       duration: const Duration(milliseconds: 300),
                       transitionBuilder: (Widget child, Animation<double> animation) {
                         return ScaleTransition(scale: animation, child: child);
                       },
                       child: Icon(
-                        widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                        key: ValueKey<bool>(widget.isFavorite),
-                        color: widget.isFavorite ? Colors.red : AppColors.iconColor,
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        key: ValueKey<bool>(isFavorite),
+                        color: isFavorite ? Colors.red : AppColors.iconColor,
                         size: 20,
                       ),
                     ),
@@ -278,16 +292,16 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
         Row(
           children: [
             GestureDetector(
-              onTap: widget.toggleFavorite,
+              onTap: _toggleFavorite,
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 300),
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return ScaleTransition(scale: animation, child: child);
                 },
                 child: Icon(
-                  widget.isFavorite ? Icons.favorite : Icons.favorite_border,
-                  key: ValueKey<bool>(widget.isFavorite),
-                  color: widget.isFavorite ? Colors.red : AppColors.iconColor,
+                  isFavorite ? Icons.favorite : Icons.favorite_border,
+                  key: ValueKey<bool>(isFavorite),
+                  color: isFavorite ? Colors.red : AppColors.iconColor,
                   size: 25,
                 ),
               ),

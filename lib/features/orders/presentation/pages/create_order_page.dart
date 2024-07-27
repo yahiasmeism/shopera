@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shopera/core/widgets/button_primary.dart';
 import 'package:shopera/features/orders/data/models/order_model.dart';
 import 'package:shopera/features/orders/presentation/cubit/orders_cubit.dart';
 import 'package:shopera/features/orders/presentation/pages/complated_page.dart';
 
+import '../../../../core/widgets/primary_loading_button.dart';
 import '../../../cart/persentation/cubit/cart_cubit.dart';
 import '../components/order_details_widget.dart';
 
@@ -36,7 +36,7 @@ class CreateOrderPage extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: PrimaryButton(
+                  child: PrimaryLoadingButton(
                     labelText: 'Submit Order',
                     onPressed: () async {
                       if (await context.read<CartCubit>().removeCart()) {

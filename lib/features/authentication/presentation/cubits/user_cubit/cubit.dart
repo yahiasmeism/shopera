@@ -100,7 +100,7 @@ class UserCubit extends Cubit<UserState> {
     });
   }
 
-  Future getCurrentUser() async {
+  Future loadCurrentUser() async {
     final result = await getCurrentUserUsecase(NoParams());
     result.fold(
       (failure) {},

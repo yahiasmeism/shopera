@@ -1,6 +1,7 @@
 import 'package:shopera/core/utils/nav_bar_cubit.dart';
 import 'package:shopera/core/widgets/snackbar_global.dart';
 import 'package:shopera/features/cart/persentation/cubit/cart_cubit.dart';
+import 'package:shopera/features/favorite/presentation/favorite_cubit.dart';
 import 'package:shopera/features/home/domin/entities/product_entity.dart';
 import 'package:shopera/features/home/persentation/components/category_selector.dart';
 
@@ -23,10 +24,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late ProductsCubit cubit;
+  late ProductsCubit prdouctsCubit;
+  late CartCubit cartCubit;
+  late FavoriteCubit favoriteCubit;
   @override
   void initState() {
-    cubit = context.read<ProductsCubit>();
+    cartCubit = context.read<CartCubit>();
+    prdouctsCubit = context.read<ProductsCubit>();
+    favoriteCubit = context.read<FavoriteCubit>();
     super.initState();
   }
 
@@ -111,7 +116,7 @@ class _HomePageState extends State<HomePage> {
           categories: state.categories,
           selectedValue: (value) {
             context.read<NavigationBarCubit>().navigateTo(NavigationBarState.search);
-            cubit.changeCategory(value);
+            prdouctsCubit.changeCategory(value);
           },
         )),
         const SliverToBoxAdapter(child: SizedBox(height: 28)),
@@ -142,24 +147,34 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget buildProductItem(ProductEntity product) {
-    final cartCubit = context.read<CartCubit>();
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         return DynamicProductCard(
+          isFavorite: favoriteCubit.isFavorite(product.id),
           isAddedToCart: cartCubit.containsItem(product.id),
-          toggleCart: () {
-            if (!cartCubit.containsItem(product.id)) {
-              cartCubit.addItem(product.id);
-            } else {
-              cartCubit.deleteItem(product.id);
-            }
-          },
-          toggleFavorite: () {},
+          toggleCart: () => toggleCart(product.id),
+          toggleFavorite: (value) => _togglefavorite(value, product),
           type: 'typeB',
           product: product,
         );
       },
     );
+  }
+
+  toggleCart(int id) {
+    if (!cartCubit.containsItem(id)) {
+      cartCubit.addItem(id);
+    } else {
+      cartCubit.deleteItem(id);
+    }
+  }
+
+  _togglefavorite(bool value, ProductEntity product) {
+    if (value) {
+      favoriteCubit.addFavorite(product);
+    } else {
+      favoriteCubit.removeFavorite(product.id);
+    }
   }
 
   void retry(BuildContext context) {

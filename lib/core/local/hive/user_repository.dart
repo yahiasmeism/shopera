@@ -10,7 +10,6 @@ class UserRepository {
   final Box<UserModel> _userBox = Hive.box<UserModel>(User_Box);
 
   Future<void> saveUser(UserModel user) async {
-    await _userBox.clear();
     await _userBox.put(K_User_Box, user);
   }
 

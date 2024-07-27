@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shopera/features/favorite/presentation/favorite_cubit.dart';
 
 import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
@@ -25,9 +26,11 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    context.read<UserCubit>().getCurrentUser();
+    context.read<NavigationBarCubit>().navigateTo(NavigationBarState.home);
+    context.read<UserCubit>().loadCurrentUser();
+    context.read<FavoriteCubit>().loadFavorites();
+    context.read<OrdersCubit>().loadAllOrder();
     context.read<ProductsCubit>().loadData();
-    context.read<OrdersCubit>().getAllOrder();
   }
 
   @override
@@ -41,7 +44,7 @@ class _MainPageState extends State<MainPage> {
             case NavigationBarState.search:
               return const SearchPage();
             case NavigationBarState.wishList:
-              return  const FavoritePage();
+              return const FavoritePage();
             case NavigationBarState.cart:
               return const CartPage();
             case NavigationBarState.settings:

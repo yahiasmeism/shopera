@@ -18,12 +18,17 @@ abstract class ProductsLocalDataSource {
 /// Implementation of the local data source for products
 class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   /// Retrieves a paginated list of products from local storage
+  late Box<ProductModel> productBox;
+  late Box<CategoryModel> categoryBox;
+  ProductsLocalDataSourceImpl() {
+    productBox = Hive.box<ProductModel>(kProductsBox);
+    categoryBox = Hive.box<CategoryModel>(kCategoriesBox);
+  }
   @override
   Future<List<ProductModel>> getProducts({required int pageNumber}) async {
     List<ProductModel> products;
     try {
-      var box = Hive.box<ProductModel>(kProductsBox);
-      products = await _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => true);
+      products = await _getPaginatedItems<ProductModel>(box: productBox, pageNumber: pageNumber, filter: (p) => true);
     } catch (e) {
       products = [];
     }
@@ -37,10 +42,9 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   /// Saves a list of products to local storage
   @override
   Future<void> saveProducts({required List<ProductModel> products}) async {
-    var box = Hive.box<ProductModel>(kProductsBox);
     for (var product in products) {
-      if (!box.containsKey(product.id)) {
-        await box.put(product.id, product);
+      if (!productBox.containsKey(product.id)) {
+        await productBox.put(product.id, product);
       }
     }
   }
@@ -49,8 +53,8 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   @override
   Future<List<CategoryModel>> getCategories() async {
     try {
-      var box = Hive.box<CategoryModel>(kCategoriesBox);
-      return box.values.toList();
+    
+      return categoryBox.values.toList();
     } catch (e) {
       return [];
     }
@@ -59,10 +63,10 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   /// Saves a list of categories to local storage
   @override
   Future<void> saveCategories({required List<CategoryModel> categories}) async {
-    var box = Hive.box<CategoryModel>(kCategoriesBox);
+  
     for (var category in categories) {
-      if (!box.containsKey(category.name)) {
-        await box.put(category.name, category);
+      if (!categoryBox.containsKey(category.name)) {
+        await categoryBox.put(category.name, category);
       }
     }
   }
@@ -71,8 +75,8 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   @override
   Future<List<ProductModel>> getProductByCategory({required String categoryName, required int pageNumber}) async {
     try {
-      var box = Hive.box<ProductModel>(kProductsBox);
-      return _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => p.category.name == categoryName);
+      return _getPaginatedItems<ProductModel>(
+          box: productBox, pageNumber: pageNumber, filter: (p) => p.category.name == categoryName);
     } catch (e) {
       return [];
     }
@@ -82,8 +86,7 @@ class ProductsLocalDataSourceImpl implements ProductsLocalDataSource {
   @override
   Future<List<ProductModel>> searchProduct({required String keyword, required int pageNumber}) async {
     try {
-      var box = Hive.box<ProductModel>(kProductsBox);
-      return _getPaginatedItems<ProductModel>(box: box, pageNumber: pageNumber, filter: (p) => p.title.contains(keyword));
+      return _getPaginatedItems<ProductModel>(box: productBox, pageNumber: pageNumber, filter: (p) => p.title.contains(keyword));
     } catch (e) {
       return [];
     }

@@ -1,7 +1,7 @@
 import 'package:shopera/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:shopera/core/utils/hive_init.dart';
+import 'package:shopera/core/local/hive/hive_init.dart';
 import 'package:shopera/core/services/service_locator.dart';
 
 

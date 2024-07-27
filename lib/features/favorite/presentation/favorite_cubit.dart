@@ -1,23 +1,35 @@
+import 'package:shopera/features/home/data/models/product_model.dart';
+import 'package:shopera/features/home/domin/entities/product_entity.dart';
+
 import 'favorite_state.dart';
 import 'package:hive/hive.dart';
-import '../data/models/favorite_model.dart';
 import '../../../core/constants/strings.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class FavoriteCubit extends Cubit<FavoriteState> {
-
-  late Box<FavoriteModel> _box;
-  FavoriteCubit() : super(FavoriteInitial()){
-    _box =Hive.box(kFavoriteBox);
+  late Box<ProductModel> _box;
+  FavoriteCubit() : super(FavoriteInitial()) {
+    _box = Hive.box(kFavoriteBox);
   }
-  
+
   void loadFavorites() {
     emit(FavoritesLoaded(_box.values.toList()));
   }
 
-  void addFavorite(FavoriteModel product) {
-    _box.put(product.id, product);
+  void addFavorite(ProductEntity productEntity) {
+    final productModel = ProductModel(
+      id: productEntity.id,
+      title: productEntity.title,
+      description: productEntity.description,
+      category: productEntity.category,
+      price: productEntity.price,
+      discountPercentage: productEntity.discountPercentage,
+      rating: productEntity.rating,
+      brand: productEntity.brand,
+      thumbnail: productEntity.thumbnail,
+      images: productEntity.images,
+    );
+    _box.put(productEntity.id, productModel);
     emit(FavoritesLoaded(_box.values.toList()));
   }
 
@@ -30,21 +42,3 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     return _box.containsKey(productId);
   }
 }
-
-
-// class FavoriteCubit extends Cubit<FavoriteState> {
-//   final Box<FavoriteModel> favoriteBox;
-
-//   FavoriteCubit() : favoriteBox = Hive.box<FavoriteModel>(kFavoriteBox), super(FavoriteInitial());
-
-//   void toggleFavorite(FavoriteModel product) {
-//     if (favoriteBox.containsKey(product.id)) {
-//       favoriteBox.delete(product.id);
-//     } else {
-//       favoriteBox.put(product.id, product);
-//     }
-//     emit(FavoriteUpdated(favoriteBox.values.toList()));
-//   }
-
-//   List<FavoriteModel> get favorites => favoriteBox.values.toList();
-// }

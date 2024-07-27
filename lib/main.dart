@@ -1,7 +1,7 @@
 import 'package:shopera/features/orders/presentation/cubit/orders_cubit.dart';
 
 import 'core/theme/app_theme.dart';
-import 'core/utils/hive_init.dart';
+import 'core/local/hive/hive_init.dart';
 import 'core/constants/strings.dart';
 import 'core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
