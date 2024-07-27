@@ -62,6 +62,7 @@ class AppDep {
 
     sl.registerFactory(() => FavoriteCubit());
 
+
     //! ***************  Featurs - Favorite ***************
 
     sl.registerFactory(() => FavoriteCubit());

@@ -5,6 +5,8 @@ import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../authentication/presentation/cubits/user_cubit/cubit.dart';
 import '../../cart/persentation/pages/cart_page.dart';
+import '../../home/persentation/pages/home_page.dart';
+import 'package:shopera/features/search/search_page.dart';
 import '../../favorite/presentation/pages/favorite_page.dart';
 import '../../home/persentation/cubit/products_cubit.dart';
 import '../../home/persentation/pages/home_page.dart';
