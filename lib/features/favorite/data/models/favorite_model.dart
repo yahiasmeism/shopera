@@ -1,10 +1,9 @@
 import 'package:hive/hive.dart';
 
-
 part 'favorite_model.g.dart';
 
-@HiveType(typeId: 1)
-class FavoriteModel extends HiveObject{
+@HiveType(typeId: 13)
+class FavoriteModel extends HiveObject {
   @HiveField(0)
   final int id;
   @HiveField(1)
@@ -16,7 +15,13 @@ class FavoriteModel extends HiveObject{
   @HiveField(4)
   final double discountPercentage;
   @HiveField(5)
-  final List<String> images;
+  final String images;
 
-  FavoriteModel({required this.id, required this.title, required this.description, required this.price, required this.discountPercentage, required this.images});
+  FavoriteModel(
+      {required this.id,
+      required this.title,
+      required this.description,
+      required this.price,
+      required this.discountPercentage,
+      required this.images});
 }

@@ -146,9 +146,9 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         return DynamicProductCard(
-          isAddedToCart: cartCubit.continItem(product.id),
+          isAddedToCart: cartCubit.containsItem(product.id),
           toggleCart: () {
-            if (!cartCubit.continItem(product.id)) {
+            if (!cartCubit.containsItem(product.id)) {
               cartCubit.addItem(product.id);
             } else {
               cartCubit.deleteItem(product.id);

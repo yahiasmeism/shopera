@@ -10,10 +10,10 @@ sealed class CartState extends Equatable {
 final class CartInitial extends CartState {}
 
 final class CartLoaded extends CartState {
-  final CartEntity cart;
+  final Cart cart;
 
   const CartLoaded({required this.cart});
-  CartLoaded copyWith({CartEntity? cart}) {
+  CartLoaded copyWith({Cart? cart}) {
     return CartLoaded(cart: cart ?? this.cart);
   }
 

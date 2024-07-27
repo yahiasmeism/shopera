@@ -1,17 +1,18 @@
 import 'package:equatable/equatable.dart';
 
-import 'cart_item_entity.dart';
+import 'cart_item.dart';
 
-class CartEntity extends Equatable {
+
+class Cart extends Equatable {
   final int id;
-  final List<CartItemEntity> items;
+  final List<CartItem> items;
   final double total;
   final double discountedTotal;
   final int userId;
   final int totalProducts;
   final int totalQuantity;
 
-  const CartEntity({
+  const Cart({
     required this.id,
     required this.items,
     required this.total,
@@ -35,16 +36,16 @@ class CartEntity extends Equatable {
 
   get merge => null;
 
-  CartEntity copyWith({
+  Cart copyWith({
     int? id,
-    List<CartItemEntity>? items,
+    List<CartItem>? items,
     double? total,
     double? discountedTotal,
     int? userId,
     int? totalProducts,
     int? totalQuantity,
   }) {
-    return CartEntity(
+    return Cart(
       id: id ?? this.id,
       items: items ?? this.items,
       total: total ?? this.total,

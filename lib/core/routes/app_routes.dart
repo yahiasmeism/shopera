@@ -1,6 +1,10 @@
 import 'package:flutter/widgets.dart';
+import 'package:shopera/features/orders/presentation/pages/create_order_page.dart';
 import 'package:shopera/features/search/search_page.dart';
 import '../../features/main/pages/main_page.dart';
+import '../../features/orders/presentation/pages/complated_page.dart';
+import '../../features/orders/presentation/pages/order_details_page.dart';
+import '../../features/orders/presentation/pages/orders_page.dart';
 import '../../features/settings/pages/settings_page.dart';
 import '../../features/cart/persentation/pages/cart_page.dart';
 import '../../features/home/persentation/pages/home_page.dart';
@@ -21,8 +25,10 @@ Map<String, WidgetBuilder> appRoutes() {
     SignUpPage.routeName: (context) => SignUpPage(),
     OnBoardingPage.routeName: (context) => OnBoardingPage(),
     StartupPage.routeName: (context) => const StartupPage(),
-    // 'products': (context) => const ProductsPage(),
-    // 'orders': (context) => const OrdersPage(),
+    CreateOrderPage.routeName: (context) => const CreateOrderPage(),
     SearchPage.routeName: (context) => const SearchPage(),
+    OrdersPage.routeName: (context) => const OrdersPage(),
+    OrderDetailsPage.routeName: (context) => const OrderDetailsPage(),
+    CompletedCreateOrderPage.routeName: (context) => const CompletedCreateOrderPage(),
   };
 }

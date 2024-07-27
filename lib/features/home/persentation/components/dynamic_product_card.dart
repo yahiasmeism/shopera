@@ -104,10 +104,9 @@ class _DynamicProductCardState extends State<DynamicProductCard> {
                   const SizedBox(height: 4),
                   Text(
                     widget.product.title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Colors.grey[800],
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,

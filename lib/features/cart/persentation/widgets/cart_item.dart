@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopera/core/widgets/app_cached_image.dart';
+import '../../domin/entities/cart_item.dart';
 import 'cart_item_counter.dart';
 
 import '../../../../core/constants/colors.dart';
-import '../../domin/entities/cart_item_entity.dart';
 import '../cubit/cart_cubit.dart';
 
 class CartItemWidget extends StatelessWidget {
   const CartItemWidget({super.key, required this.item});
-  final CartItemEntity item;
+  final CartItem item;
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<CartCubit>();

@@ -1,3 +1,5 @@
+import 'package:shopera/features/orders/presentation/cubit/orders_cubit.dart';
+
 import 'core/theme/app_theme.dart';
 import 'core/utils/hive_init.dart';
 import 'core/constants/strings.dart';
@@ -12,9 +14,9 @@ import 'core/services/service_locator.dart';
 import 'features/main/pages/main_page.dart';
 import 'features/settings/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'features/home/persentation/cubit/products_cubit.dart';
 import 'features/cart/persentation/cubit/cart_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'features/home/persentation/cubit/products_cubit.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'features/authentication/presentation/pages/on_boarding_page.dart';
 import 'features/authentication/presentation/cubits/user_cubit/cubit.dart';
@@ -75,11 +77,13 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AppDep.sl<NavigationBarCubit>()),
         BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
         BlocProvider(create: (context) => AppDep.sl<ProductsCubit>()),
+        BlocProvider(create: (context) => AppDep.sl<OrdersCubit>()),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
           final SharedPreferences sharedPref = AppDep.sl();
-          bool isDarkTheme = sharedPref.getBool(kIsDarkTheme) ?? false; // default value
+          bool isDarkTheme =
+              sharedPref.getBool(kIsDarkTheme) ?? false; // default value
           if (state is SettingsThemeChanged) {
             isDarkTheme = state.isDarkTheme;
             sharedPref.setBool(kIsDarkTheme, isDarkTheme);

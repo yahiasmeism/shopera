@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:shopera/features/home/domin/entities/category_entity.dart';
 part 'category_model.g.dart';
 
-@HiveType(typeId: 3)
+@HiveType(typeId: 9)
 class CategoryModel extends CategoryEntity {
   @HiveField(0)
   final String name;

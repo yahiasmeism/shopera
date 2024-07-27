@@ -1,5 +1,6 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shopera/core/services/service_locator.dart';
+import 'package:shopera/features/orders/presentation/pages/orders_page.dart';
 
 import '../../../core/constants/strings.dart';
 import '../cubit/cubit.dart';
@@ -28,7 +29,7 @@ class SettingsWidget extends StatelessWidget {
               icon: Icons.shopping_basket_sharp,
               backgroundColor: const Color(0xfff26427),
               onTap: () {
-                // Navigate to All Orders screen
+                Navigator.pushNamed(context, OrdersPage.routeName);
               },
             ),
             SettingItem(

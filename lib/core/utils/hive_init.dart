@@ -1,10 +1,12 @@
+import 'package:shopera/features/orders/data/models/order_model.dart';
+
+import '../../features/cart/domin/entities/cart_item.dart';
 import '../constants/strings.dart';
 import 'package:hive_flutter/adapters.dart';
 import '../../features/home/data/models/product_model.dart';
 import '../../features/home/data/models/category_model.dart';
 import '../../features/favorite/data/models/favorite_model.dart';
 import '../../features/authentication/data/models/user_model.dart';
-
 
 Future<void> hiveInit() async {
   await Hive.initFlutter();
@@ -17,12 +19,14 @@ Future<void> hiveInit() async {
   Hive.registerAdapter(CoordinatesAdapter());
   Hive.registerAdapter(ProductModelAdapter());
   Hive.registerAdapter(CategoryModelAdapter());
-    Hive.registerAdapter(FavoriteModelAdapter());
-  
+  Hive.registerAdapter(FavoriteModelAdapter());
+  Hive.registerAdapter(OrderModelAdapter());
+  Hive.registerAdapter(CartItemAdapter());
 
   await Hive.openBox<UserModel>(User_Box);
   await Hive.openBox(APP_BOX);
   await Hive.openBox<ProductModel>(kProductsBox);
   await Hive.openBox<CategoryModel>(kCategoriesBox);
+  await Hive.openBox<OrderModel>(kOrdersBox);
   // await Hive.openBox<FavoriteModel>(kFavoriteBox);
 }

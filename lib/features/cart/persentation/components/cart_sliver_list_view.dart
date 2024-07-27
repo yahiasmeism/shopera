@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import '../../domin/entities/cart_item_entity.dart';
+import '../../domin/entities/cart_item.dart';
 import '../cubit/cart_cubit.dart';
 import 'cart_item.dart';
 import 'delete_item_button.dart';
 
 class CartItemSliverListView extends StatefulWidget {
   const CartItemSliverListView({super.key, required this.items});
-  final List<CartItemEntity> items;
+  final List<CartItem> items;
   @override
   State<CartItemSliverListView> createState() => _CartItemSliverListViewState();
 }

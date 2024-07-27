@@ -1,5 +1,4 @@
-
-import '../../domin/entities/cart_entity.dart';
+import '../../domin/entities/cart.dart';
 import 'cart_item_dto.dart';
 
 class CartDto {
@@ -11,13 +10,10 @@ class CartDto {
   });
 
   Map<String, dynamic> toJson() {
-    return {
-      'userId': userId,
-      'products': items.map((e) => e.toJson()).toList()
-    };
+    return {'userId': userId, 'products': items.map((e) => e.toJson()).toList()};
   }
 
-  factory CartDto.fromEntity(CartEntity cart) {
+  factory CartDto.fromEntity(Cart cart) {
     return CartDto(
       userId: cart.userId,
       items: cart.items.map((item) => CartItemDto.fromEntity(item)).toList(),

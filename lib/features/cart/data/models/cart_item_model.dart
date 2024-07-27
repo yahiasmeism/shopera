@@ -1,7 +1,5 @@
-
-import '../../domin/entities/cart_item_entity.dart';
-
-class CartItemModel extends CartItemEntity {
+import '../../domin/entities/cart_item.dart';
+class CartItemModel extends CartItem {
   const CartItemModel({
     required super.id,
     required super.title,

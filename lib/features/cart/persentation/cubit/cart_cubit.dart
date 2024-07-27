@@ -4,9 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../data/dtos/cart_dto.dart';
 import '../../data/dtos/cart_item_dto.dart';
-import '../../domin/entities/cart_item_entity.dart';
-
-import '../../domin/entities/cart_entity.dart';
+import '../../domin/entities/cart_item.dart';
+import '../../domin/entities/cart.dart';
 import '../../domin/usecases/create_cart_usecase.dart';
 import '../../domin/usecases/delete_cart_usecase.dart';
 import '../../domin/usecases/update_cart_usecase.dart';
@@ -25,14 +24,14 @@ class CartCubit extends Cubit<CartState> {
   }) : super(CartInitial());
 
   // The current cart entity
-  CartEntity? cart;
+  Cart? cart;
 
   // Method to delete an item from the cart by id
   Future<bool> deleteItem(int itemId) async {
-    bool isSucessOperation = false;
+    bool isSuccessOperation = false;
 
     if (cart != null) {
-      final updatedItems = List<CartItemEntity>.from(cart!.items);
+      final updatedItems = List<CartItem>.from(cart!.items);
       final itemIndex = updatedItems.indexWhere((item) => item.id == itemId);
 
       if (itemIndex != -1) {
@@ -41,10 +40,10 @@ class CartCubit extends Cubit<CartState> {
         return await _updateCart(id: updatedCart.id, items: CartDto.fromEntity(updatedCart).items);
       }
     }
-    return isSucessOperation;
+    return isSuccessOperation;
   }
 
-  bool continItem(int itemId) {
+  bool containsItem(int itemId) {
     final result = cart?.items.any((item) => item.id == itemId) ?? false;
     return result;
   }
@@ -74,7 +73,7 @@ class CartCubit extends Cubit<CartState> {
 
   // Method to create a new cart
   Future<bool> _createCart({required List<CartItemDto> items}) async {
-    bool isSucessOperation = false;
+    bool isSuccessOperation = false;
     log(state.runtimeType.toString());
     final cartResult = await createCartUsecase(items);
     cartResult.fold(
@@ -82,15 +81,15 @@ class CartCubit extends Cubit<CartState> {
       (cart) {
         this.cart = cart;
         emit(CartLoaded(cart: cart));
-        isSucessOperation = true;
+        isSuccessOperation = true;
       },
     );
-    return isSucessOperation;
+    return isSuccessOperation;
   }
 
   // Method to update an existing cart
   Future<bool> _updateCart({required int id, required List<CartItemDto> items}) async {
-    bool isSucessOperation = false;
+    bool isSuccessOperation = false;
     if (state is CartLoaded) {
       final updateResult = await updateCartUsecase(
         UpdateParam(cartId: id, items: items),
@@ -103,11 +102,11 @@ class CartCubit extends Cubit<CartState> {
           this.cart = cart;
           final loadedState = state as CartLoaded;
           emit(loadedState.copyWith(cart: cart));
-          isSucessOperation = true;
+          isSuccessOperation = true;
         },
       );
     }
-    return isSucessOperation;
+    return isSuccessOperation;
   }
 
   // Method to change the quantity of an item in the cart
@@ -121,7 +120,7 @@ class CartCubit extends Cubit<CartState> {
         final updatedItem = cart!.items[itemIndex].copyWith(quantity: quantity);
 
         // Create a new list of items with the updated item
-        final updatedItems = List<CartItemEntity>.from(cart!.items);
+        final updatedItems = List<CartItem>.from(cart!.items);
         updatedItems[itemIndex] = updatedItem;
 
         // Create a new cart with the updated list of items
@@ -134,5 +133,24 @@ class CartCubit extends Cubit<CartState> {
         _updateCart(id: cart!.id, items: cartDto.items);
       }
     }
+  }
+
+  // Method to remove the cart
+  Future<bool> removeCart() async {
+    bool isSuccessOperation = false;
+    if (cart != null) {
+      final deleteResult = await deleteCartUsecase(cart!.id);
+      deleteResult.fold(
+        (failure) {
+          emit(CartFailure(message: failure.message));
+        },
+        (success) {
+          cart = null;
+          emit(CartInitial());
+          isSuccessOperation = true;
+        },
+      );
+    }
+    return isSuccessOperation;
   }
 }

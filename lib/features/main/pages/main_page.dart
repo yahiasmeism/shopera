@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+<<<<<<< HEAD
+import 'package:shopera/features/orders/presentation/cubit/orders_cubit.dart';
 import 'package:shopera/features/search/search_page.dart';
+=======
+>>>>>>> 8013ddcb1460065202ec422d9c70fe706afbfd18
 import '../../../core/utils/nav_bar_cubit.dart';
 import '../../../core/widgets/bottom_nav_bar.dart';
 import '../../cart/persentation/pages/cart_page.dart';
 import '../../home/persentation/pages/home_page.dart';
+import 'package:shopera/features/search/search_page.dart';
 import '../../favorite/presentation/pages/favorite_page.dart';
 import 'package:shopera/features/settings/pages/settings_page.dart';
 import 'package:shopera/features/home/persentation/cubit/products_cubit.dart';
@@ -25,6 +30,7 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     context.read<UserCubit>().getCurrentUser();
     context.read<ProductsCubit>().loadData();
+    context.read<OrdersCubit>().getAllOrder();
   }
 
   @override
@@ -38,7 +44,7 @@ class _MainPageState extends State<MainPage> {
             case NavigationBarState.search:
               return const SearchPage();
             case NavigationBarState.wishList:
-              return const FavoritePage();
+              return  const FavoritePage();
             case NavigationBarState.cart:
               return const CartPage();
             case NavigationBarState.settings:

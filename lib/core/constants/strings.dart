@@ -2,6 +2,7 @@
 const String kProductsBox = 'products_box';
 const String kCategoriesBox = 'categorie_box';
 const String kFavoriteBox = 'favorite_box';
+const String kOrdersBox = 'orders_box';
 const String APP_BOX = 'APP_BOX';
 const String BASE_URL = 'https://dummyjson.com/';
 const String User_Box = 'User_Box';

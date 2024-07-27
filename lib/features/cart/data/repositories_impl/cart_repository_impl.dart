@@ -6,16 +6,14 @@ import '../../../../core/errors/exceptions.dart';
 import '../../../../core/errors/failures.dart';
 import '../data_sources/cart_remote_data_source.dart';
 import '../dtos/cart_dto.dart';
-import '../../domin/entities/cart_entity.dart';
+import '../../domin/entities/cart.dart';
 import '../../domin/repositories/cart_repositories.dart';
 
-import '../data_sources/cart_local_data_source.dart';
 
 class CartRepositoryImpl implements CartRepository {
   final CartRemoteDataSource remote;
-  final CartLocalDataSource local;
   final SharedPreferences sharedPreferences;
-  CartRepositoryImpl({required this.sharedPreferences, required this.remote, required this.local});
+  CartRepositoryImpl({required this.sharedPreferences, required this.remote});
   int? get userID {
     if (sharedPreferences.containsKey(K_U_ID)) {
       return sharedPreferences.getInt(K_U_ID);
@@ -24,7 +22,7 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Either<Failure, CartEntity>> create(List<CartItemDto> items) async {
+  Future<Either<Failure, Cart>> create(List<CartItemDto> items) async {
     try {
       final cartModel = await remote.create(CartDto(items: items, userId: userID));
       return right(cartModel);
@@ -44,7 +42,7 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<Either<Failure, CartEntity>> update(int id, List<CartItemDto> items) async {
+  Future<Either<Failure, Cart>> update(int id, List<CartItemDto> items) async {
     try {
       final cartModel = await remote.update(id, CartDto(items: items, userId: userID));
       return right(cartModel);

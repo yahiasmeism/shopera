@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:shopera/features/authentication/domain/usecases/get_current_user_usecase.dart';
+import 'package:shopera/features/orders/data/repository/orders_repository.dart';
+import 'package:shopera/features/orders/presentation/cubit/orders_cubit.dart';
 import 'package:shopera/features/search/cubit/search_cubit.dart';
 import '../api/api_consumer.dart';
 import 'package:get_it/get_it.dart';
@@ -7,10 +9,11 @@ import '../utils/nav_bar_cubit.dart';
 import '../network/network_info.dart';
 import 'package:shopera/features/settings/cubit/cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../features/home/persentation/cubit/products_cubit.dart';
 import '../../features/cart/persentation/cubit/cart_cubit.dart';
+import '../../features/favorite/presentation/favorite_cubit.dart';
 import '../../features/authentication/domain/usecases/login.dart';
 import '../../features/authentication/domain/usecases/logout.dart';
+import '../../features/home/persentation/cubit/products_cubit.dart';
 import '../../features/home/domin/repositories/home_repository.dart';
 import '../../features/authentication/domain/usecases/register.dart';
 import '../../features/cart/domin/usecases/create_cart_usecase.dart';
@@ -22,7 +25,6 @@ import '../../features/home/domin/usecases/get_categories_usecase.dart';
 import '../../features/authentication/domain/usecases/update_user.dart';
 import '../../features/home/domin/usecases/search_products_usecase.dart';
 import '../../features/home/data/repositories/home_repositories_imp.dart';
-import '../../features/cart/data/data_sources/cart_local_data_source.dart';
 import '../../features/cart/data/data_sources/cart_remote_data_source.dart';
 import '../../features/cart/data/repositories_impl/cart_repository_impl.dart';
 import '../../features/home/data/data_sources/products_local_data_source.dart';
@@ -56,8 +58,11 @@ class AppDep {
 
     // Data sources
 
-    //! ***************  Featurs - User ***************
+    //! ***************  Featurs - Favorite ***************
 
+    sl.registerFactory(() => FavoriteCubit());
+
+    //! ***************  Featurs - User ***************
     //Bloc
     sl.registerFactory(
       () => UserCubit(getCurrentUserUsecase: sl(), getLogin: sl(), getRegister: sl(), putUser: sl(), logout: sl()),
@@ -104,7 +109,6 @@ class AppDep {
     // Repository
     sl.registerLazySingleton<CartRepository>(
       () => CartRepositoryImpl(
-        local: sl(),
         sharedPreferences: sl(),
         remote: sl(),
       ),
@@ -115,9 +119,7 @@ class AppDep {
         api: sl(),
       ),
     );
-    sl.registerLazySingleton<CartLocalDataSource>(
-      () => CartLocalDataSourceImpl(),
-    );
+
     //! ***************  Featurs - Product-Home-Search ***************
 
     //Bloc
@@ -137,12 +139,10 @@ class AppDep {
     //! ***************  Featurs - Orders ***************
 
     //Bloc
-
-    //Use cases
+    sl.registerFactory(() => OrdersCubit(repository: sl()));
 
     // Repository
-
-    // Data sources
+    sl.registerLazySingleton<OrdersRepository>(() => OrdersRepositoryImpl());
 
     ///****************************************************
     ///! Core

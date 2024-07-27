@@ -22,7 +22,7 @@ class CartRemoteDataSourceImpl implements CartRemoteDataSource {
 
   @override
   Future<void> delete(int id) async {
-    await api.delete('carts/$id');
+    await api.delete('carts/1');
   }
 
   @override

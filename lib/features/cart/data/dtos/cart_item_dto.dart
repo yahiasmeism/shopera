@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domin/entities/cart_item_entity.dart';
+import '../../domin/entities/cart_item.dart';
+
 
 class CartItemDto extends Equatable {
   final int? id;
@@ -18,7 +19,7 @@ class CartItemDto extends Equatable {
     };
   }
 
-  factory CartItemDto.fromEntity(CartItemEntity cartItem) {
+  factory CartItemDto.fromEntity(CartItem cartItem) {
     return CartItemDto(
       id: cartItem.id,
       quantity: cartItem.quantity,

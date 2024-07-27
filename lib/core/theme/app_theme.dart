@@ -3,7 +3,7 @@ import 'package:shopera/core/constants/colors.dart';
 
 ThemeData appLightTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor, brightness: Brightness.light),
-  cardTheme: const CardTheme(color: AppColors.backgroundColor),
+  cardTheme: const CardTheme(elevation: 2, color: AppColors.backgroundColor, shadowColor: Colors.black),
   appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.backgroundColor,
     centerTitle: true,
@@ -25,6 +25,7 @@ ThemeData appDarkTheme = ThemeData(
     elevation: 0,
   ),
   colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor, brightness: Brightness.dark),
+  cardTheme: CardTheme(elevation: 2, color: const Color.fromARGB(255, 43, 43, 43), shadowColor: Colors.white.withOpacity(.1)),
 
   // Define other dark theme properties
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
