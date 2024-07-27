@@ -29,4 +29,5 @@ Future<void> hiveInit() async {
   await Hive.openBox<CategoryModel>(kCategoriesBox);
   await Hive.openBox<OrderModel>(kOrdersBox);
   // await Hive.openBox<FavoriteModel>(kFavoriteBox);
+  await Hive.openBox<FavoriteModel>(kFavoriteBox);
 }

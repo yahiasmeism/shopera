@@ -15,6 +15,7 @@ import 'features/main/pages/main_page.dart';
 import 'features/settings/cubit/cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/cart/persentation/cubit/cart_cubit.dart';
+import 'features/favorite/presentation/favorite_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/home/persentation/cubit/products_cubit.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => AppDep.sl<UserCubit>()),
         BlocProvider(create: (context) => AppDep.sl<ProductsCubit>()),
         BlocProvider(create: (context) => AppDep.sl<OrdersCubit>()),
+        BlocProvider(create: (_) => AppDep.sl<FavoriteCubit>()),
       ],
       child: BlocBuilder<SettingsCubit, SettingsState>(
         builder: (context, state) {
