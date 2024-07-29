@@ -1,4 +1,4 @@
-# shopera
+# 🛍️ shopera
 
 A new Flutter project.
 
