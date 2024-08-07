@@ -2,4 +2,4 @@
 
 ## Implemented advanced search functionality and optimized product filtering for a smooth shopping experience.
 
-![Uploading 353128103-dfe0aa84-08e2-4263-a882-cf0232721c33.png…]()
+![preview](https://github.com/user-attachments/assets/5a086b6c-62f8-4af7-88b5-40f47d100b34)
