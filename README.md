@@ -1,16 +1,5 @@
-# 🛍️ shopera
+# 🛍️ shopera: E-Commerce Application
 
-A new Flutter project.
+## Implemented advanced search functionality and optimized product filtering for a smooth shopping experience.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Uploading 353128103-dfe0aa84-08e2-4263-a882-cf0232721c33.png…]()
